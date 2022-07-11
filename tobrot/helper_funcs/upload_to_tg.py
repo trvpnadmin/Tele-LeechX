@@ -428,6 +428,7 @@ async def upload_single_file(
                     ),
                 )
                 LOGGER.info("UserBot Upload : Completed")
+            asyncio.sleep(3) #Required for MessageNotFound Error !! SMOOTH FUNCTION
             prm_id = sent_msg.id
             sent_message = bot.copy_message(
                 chat_id=message.chat.id,
