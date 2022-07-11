@@ -22,7 +22,7 @@ from pyrogram import Client, filters, idle
 from pyrogram.raw import functions, types
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 
-from tobrot import app, bot, dispatcher, userBot
+from tobrot import app, bot, dispatcher
 from tobrot import (
     OWNER_ID,
     AUTH_CHANNEL,
@@ -61,6 +61,8 @@ from tobrot import (
     SERVER_HOST,
     STRING_SESSION
 )
+if STRING_SESSION:
+    from tobrot import userBot
 from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.helper_funcs.direct_link_generator import url_link_generate
 from tobrot.plugins import *
