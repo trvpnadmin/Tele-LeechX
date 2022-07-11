@@ -51,10 +51,11 @@ from tobrot import (
     BOT_PM,
     TG_PRM_FILE_SIZE,
     PRM_USERS,
-    userBot,
     PRM_LOG,
     STRING_SESSION
 )
+if STRING_SESSION:
+    from tobrot import userBot
 from tobrot.helper_funcs.copy_similar_file import copy_file
 from tobrot.helper_funcs.display_progress import humanbytes, Progress
 from tobrot.helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
