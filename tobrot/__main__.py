@@ -58,7 +58,8 @@ from tobrot import (
     TSEARCH_COMMAND,
     MEDIAINFO_CMD,
     UPDATES_CHANNEL,
-    SERVER_HOST
+    SERVER_HOST,
+    STRING_SESSION
 )
 from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.helper_funcs.direct_link_generator import url_link_generate
@@ -183,7 +184,8 @@ if __name__ == "__main__":
     bot.set_my_commands(botcmds)
 
     # Starting The Bot
-    userBot.start()
+    if STRING_SESSION:
+        userBot.start()
     app.start()
     
     ##############################################################################
@@ -436,17 +438,20 @@ if __name__ == "__main__":
         #\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|
 
     logging.info('''
-______                 ______ ____  __
-___  / ___________________  /___  |/ /
-__  /  _  _ \  _ \  ___/_  __ \_    / 
-_  /___/  __/  __/ /__ _  / / /    |  
-/_____/\___/\___/\___/ /_/ /_//_/|_|  
 
+________    ______           ______                 ______ ____  __
+___  __/_______  /____       ___  / ___________________  /___  |/ /
+__  /  _  _ \_  /_  _ \________  /  _  _ \  _ \  ___/_  __ \_    / 
+_  /   /  __/  / /  __//_____/  /___/  __/  __/ /__ _  / / /    |  
+/_/    \___//_/  \___/       /_____/\___/\___/\___/ /_/ /_//_/|_|  
+                                                                   
     ''')
     logging.info(f"{(app.get_me()).first_name} [@{(app.get_me()).username}] Has Started Running...🏃💨💨")
-    logging.info(f"User : {(userBot.get_me()).first_name} Has Started Revolving...♾️⚡️")
+    if STRING_SESSION:
+        logging.info(f"User : {(userBot.get_me()).first_name} Has Started Revolving...♾️⚡️")
 
     idle()
     
     app.stop()
-    userBot.stop()
+    if STRING_SESSION:
+        userBot.stop()
