@@ -418,7 +418,7 @@ async def upload_single_file(
                     chat_id=int(PRM_LOG),
                     document=local_file_name,
                     thumb=thumb,
-                    caption=f"<code>{os.path.basename(local_file_name)}</code>",
+                    caption=caption_str,
                     parse_mode=enums.ParseMode.HTML,
                     disable_notification=True,
                     progress=prog.progress_for_pyrogram,
