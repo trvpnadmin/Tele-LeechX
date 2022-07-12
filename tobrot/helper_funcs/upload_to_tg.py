@@ -150,7 +150,7 @@ async def upload_to_tg(
             if sent_message is not None:
                 dict_contatining_uploaded_files[
                     os.path.basename(local_file_name)
-                ] = sent_message.message_id
+                ] = sent_message.id
             else:
                 return
         elif os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
@@ -428,15 +428,16 @@ async def upload_single_file(
                     ),
                 )
                 LOGGER.info("UserBot Upload : Completed")
-            prm_id = sent_msg.id
-            sent_message = bot.copy_message(
-                chat_id=message.chat.id,
-                from_chat_id=int(PRM_LOG),
-                message_id=prm_id,
-                caption=caption_str,
-                parse_mode=ParseMode.HTML,
-                reply_to_message_id=message.id
-            )
+            #prm_id = sent_msg.id
+            #sent_message = bot.copy_message(
+                #chat_id=message.chat.id,
+                #from_chat_id=int(PRM_LOG),
+                #message_id=prm_id,
+                #caption=caption_str,
+                #parse_mode=ParseMode.HTML,
+                #reply_to_message_id=message.id
+            #)
+            sent_message = sent_msg.copy(chat_id = message.chat.id)
             
         else:
             sent_message = await bot.send_document(
