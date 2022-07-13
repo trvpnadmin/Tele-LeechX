@@ -52,7 +52,8 @@ from tobrot import (
     TG_PRM_FILE_SIZE,
     PRM_USERS,
     PRM_LOG,
-    STRING_SESSION
+    STRING_SESSION, 
+    app
 )
 if STRING_SESSION:
     from tobrot import userBot
@@ -428,7 +429,8 @@ async def upload_single_file(
                     ),
                 )
                 LOGGER.info("UserBot Upload : Completed")
-            sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
+            with app:
+                sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
             #prm_id = sent_msg.id
             #sent_message = bot.copy_message(
                 #chat_id=message.chat.id,
