@@ -437,7 +437,7 @@ async def upload_single_file(
                 #parse_mode=ParseMode.HTML,
                 #reply_to_message_id=message.id
             #)
-            sent_message = sent_msg.copy(chat_id = message.chat.id)
+            sent_message = sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
             
         else:
             sent_message = await bot.send_document(
