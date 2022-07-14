@@ -44,7 +44,7 @@ logging.getLogger("PIL").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 user_specific_config=dict()
-
+__version__ = "2.5.15"
 def getConfig(name: str):
     return os.environ[name]
 CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL')
@@ -159,6 +159,7 @@ UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
 LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
 
 #Bot Command [Custom Bot Cmd Name]  >>>>>>>>>>>
+SET_BOT_COMMANDS = os.environ.get("SET_BOT_COMMANDS", True)
 UPLOAD_COMMAND = os.environ.get("UPLOAD_COMMAND", "upload")
 RENEWME_COMMAND = os.environ.get("RENEWME_COMMAND", "renewme")
 RENAME_COMMAND = os.environ.get("RENAME_COMMAND", "rename")
