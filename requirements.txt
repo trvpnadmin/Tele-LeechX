@@ -6,6 +6,7 @@ cfscrape
 cloudscraper 
 feedparser
 hachoir
+heroku3
 html-telegraph-poster
 hurry.filesize
 imdbpy
