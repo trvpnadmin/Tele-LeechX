@@ -229,37 +229,43 @@ user_settings = defaultdict(lambda: {})
 gid_dict = defaultdict(lambda: [])
 _lock = asyncio.Lock()
 
-# Rclone Config Via Any Raw URL
-###########################################################################
-try:                                                                      #
-    RCLONE_CONF_URL = os.environ.get('RCLONE_CONF_URL', "")               #
-    if len(RCLONE_CONF_URL) == 0:                                         #
-        RCLONE_CONF_URL = None                                            #
-    else:                                                                 #
-        urllib.request.urlretrieve(RCLONE_CONF_URL, '/app/rclone.conf')   #
-except KeyError:                                                          #
-    RCLONE_CONF_URL = None                                                #
-###########################################################################
+# Rclone Config Via Raw Gist URL & BackUp >>>>>>>>
+try:                                                                      
+    RCLONE_CONF_URL = os.environ.get('RCLONE_CONF_URL', "")              
+    if len(RCLONE_CONF_URL) == 0:                                        
+        RCLONE_CONF_URL = None                                           
+    else:                                                                
+        urllib.request.urlretrieve(RCLONE_CONF_URL, '/app/rclone.conf')  
+except KeyError:                                                       
+    RCLONE_CONF_URL = None                                              
 
-def multi_rclone_init():
-    if RCLONE_CONFIG:
-        LOGGER.warning("Don't use this var now, put your rclone.conf in root directory")
-    if not os.path.exists("rclone.conf"):
-        LOGGER.warning("Sed, No rclone.conf found in root directory")
-        return
-    if not os.path.exists("rclone_bak.conf"):  # backup rclone.conf file
-        with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
-            with open("rclone.conf", "r") as f:
-                fole.write(f.read())
-        LOGGER.info("rclone.conf backuped to rclone_bak.conf!")
+if RCLONE_CONFIG:
+    LOGGER.warning("[ATTENTION] Found RCLONE_CONFIG Var, Better Put your rclone.conf in Root Directory of Your Forked Repo")
+if not os.path.exists("rclone.conf"):
+    LOGGER.warning("No rclone.conf found in root directory")
+    return
+if not os.path.exists("rclone_bak.conf"):  # Remake and BackUp rclone.conf file
+    with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
+        with open("rclone.conf", "r") as f:
+            fole.write(f.read())
+    LOGGER.info("[SUCCESS] rclone.conf BackUped to rclone_bak.conf!")
 
-multi_rclone_init()
 
 # Pyrogram Client Intialization >>>>>>>>>>>
 app = Client("LeechBot", bot_token=TG_BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, workers=343)
-if STRING_SESSION:
+isUserPremium = False
+if len(STRING_SESSION) > 10:
     userBot = Client("Tele-UserBot", api_id=APP_ID, api_hash=API_HASH, session_string=STRING_SESSION)
-    LOGGER.info("[PRM] Initiated USERBOT") #Logging is Needed Very Much
+    if userBot:
+        userBot.start()
+        if (userBot.get_me()).is_premium:
+            isUserPremium = True
+            LOGGER.info("[SUCCESS] Initiated UserBot : Premium Mode") #Logging is Needed Very Much
+        else:
+            isUserPremium = False
+            LOGGER.info("[SUCCESS] Initiated UserBot : Non-Premium Mode. Add Premium Account StringSession to Use 4GB Upload. ")
+    else: LOGGER.warning("[FAILED] Userbot Not Started. ReCheck Your STRING_SESSION, and Other Vars")
+else: LOGGER.info("ReGenerate Your STRING_SESSION Var.")
 
 
 updater = tg.Updater(token=TG_BOT_TOKEN)
