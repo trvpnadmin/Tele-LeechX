@@ -14,15 +14,18 @@ import os
 import sys
 import traceback
 import datetime 
+import heroku3
 
 from telegram import ParseMode
 from pyrogram import enums
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram import Client, filters, idle
 from pyrogram.raw import functions, types
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
+from sys import executable
+from subprocess import run as srun, check_output
 
-from tobrot import app, bot, dispatcher
+from tobrot import HEROKU_API_KEY, HEROKU_APP_NAME, app, bot, dispatcher, __version__
 from tobrot import (
     OWNER_ID,
     AUTH_CHANNEL,
@@ -59,7 +62,8 @@ from tobrot import (
     MEDIAINFO_CMD,
     UPDATES_CHANNEL,
     SERVER_HOST,
-    STRING_SESSION
+    STRING_SESSION,
+    SET_BOT_COMMANDS
 )
 if STRING_SESSION:
     from tobrot import userBot
@@ -67,7 +71,6 @@ from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.helper_funcs.direct_link_generator import url_link_generate
 from tobrot.plugins import *
 from tobrot.plugins.call_back_button_handler import button
-# the logging things
 from tobrot.plugins.imdb import imdb_search, imdb_callback 
 from tobrot.plugins.torrent_search import searchhelp, sendMessage 
 from tobrot.plugins.custom_utils import prefix_set, caption_set, template_set
@@ -95,7 +98,8 @@ from tobrot.plugins.status_message_fn import (
     upload_as_video
 )
 
-botcmds = [
+if SET_BOT_COMMANDS:
+    botcmds = [
         (f'{BotCommands.LeechCommand}','📨 [Reply] Leech any Torrent/ Magnet/ Direct Link '),
         (f'{BotCommands.ExtractCommand}', '🔐 Unarchive items . .'),
         (f'{BotCommands.ArchiveCommand}','🗜 Archive as .tar.gz acrhive... '),
@@ -133,7 +137,7 @@ async def start(client, message):
     start_string = f'''
 ┏ <i>Dear {u_men}</i>,
 ┃
-┃ <i>If You Want To Use Me, You Have To Join @FXTorrentz</i>
+┃ <i>If You Want To Use Me, You Have To Join {UPDATES_CHANNEL}</i>
 ┃
 ┣ <b>NOTE:</b> <code>All The Uploaded Leeched Contents By You Will Be Sent Here In Your Private Chat From Now.</code>
 ┃
@@ -149,25 +153,54 @@ async def start(client, message):
     else:
         await message.reply_text(f"**I Am Alive and Working, Send /help to Know How to Use Me !** ✨", parse_mode=enums.ParseMode.MARKDOWN)
 
-
-def restart(client, message): 
-    restart_message = sendMessage("Restarting, Please wait!", message.tobrot, client)
-    with open(".restartmsg", "w") as f: 
-        f.truncate(0)       
-        f.write(f"{restart_message.chat.id}\n{restart_message.id}\n") 
-    clean_all()
-    os.execl(executable, executable, "-m", "bot")
-
+async def restart(_, message:Message):
+    ## Inspired from HuzunluArtemis Restart & HEROKU Utils
+    cmd = message.text.split(' ', 1)
+    dynoRestart = False
+    dynoKill = False
+    if len(cmd) == 2:
+        dynoRestart = (cmd[1].lower()).startswith('d')
+        dynoKill = (cmd[1].lower()).startswith('k')
+    if (not HEROKU_API_KEY) or (not HEROKU_APP_NAME):
+        LOGGER.info("[ATTENTION] Fill HEROKU_API_KEY & HEROKU_APP_NAME for Using this Feature.")
+        await sendMessage("HEROKU_API_KEY & HEROKU_APP_NAME Not Provided", message)
+        dynoRestart = False
+        dynoKill = False
+    if dynoRestart:
+        LOGGER.info("[HEROKU] Dyno Restarting...")
+        restart_message = await sendMessage("`Dyno Restarting...`", message)
+        app.stop()
+        userBot.stop()
+        heroku_conn = heroku3.from_key(HEROKU_API_KEY)
+        appx = heroku_conn.app(HEROKU_APP_NAME)
+        appx.restart()
+    elif dynoKill:
+        LOGGER.info("[HEROKU] Killing Dyno...")
+        await sendMessage("`Killed Dyno`", message)
+        heroku_conn = heroku3.from_key(HEROKU_API_KEY)
+        appx = heroku_conn.app(HEROKU_APP_NAME)
+        proclist = appx.process_formation()
+        for po in proclist:
+            appx.process_formation()[po.type].scale(0)
+    else:
+        LOGGER.info("[HEROKU] Normally Restarting...")
+        restart_message = await sendMessage("`Normally Restarting...`", message)
+        clean_all()
+        srun(["python3", "update.py"])
+        with open(".restartmsg", "w") as f:
+            f.truncate(0)
+            f.write(f"{restart_message.chat.id}\n{restart_message.id}\n")
+        os.execl(executable, executable, "-m", "bot")
 
 if __name__ == "__main__":
-    # create download directory, if not exist
+    # Generat Download Directory, if Not Exist !!
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
 
+    # Bot Restart & Restart Message >>>>>>>>
     utc_now = datetime.datetime.utcnow()
     ist_now = utc_now + datetime.timedelta(minutes=30, hours=5)
     ist = ist_now.strftime("<b>📆 𝘿𝙖𝙩𝙚 :</b> <code>%d/%m/%Y</code> \n<b>⏰ 𝙏𝙞𝙢𝙚 :</b> <code>%H:%M:%S (GMT+05:30)</code>")
-
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
@@ -175,19 +208,16 @@ if __name__ == "__main__":
         os.remove(".restartmsg")
     elif OWNER_ID:
         try:
-            text = f"<b>Bᴏᴛ Rᴇsᴛᴀʀᴛᴇᴅ !!</b>\n\n<b>📊 𝙃𝙤𝙨𝙩 :</b> <code>{SERVER_HOST}</code>\n{ist}\n\n<b>ℹ️ 𝙑𝙚𝙧𝙨𝙞𝙤𝙣 :</b> <code>3.2.15</code>"
-            #bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=enums.ParseMode.HTML)
+            text = f"<b>Bᴏᴛ Rᴇsᴛᴀʀᴛᴇᴅ !!</b>\n\n<b>📊 𝙃𝙤𝙨𝙩 :</b> <code>{SERVER_HOST}</code>\n{ist}\n\n<b>ℹ️ 𝙑𝙚𝙧𝙨𝙞𝙤𝙣 :</b> <code>{__version__}</code>"
             if AUTH_CHANNEL:
                 for i in AUTH_CHANNEL:
                     bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
         except Exception as e:
             LOGGER.warning(e)
+    if SET_BOT_COMMANDS:
+        bot.set_my_commands(botcmds)
 
-    bot.set_my_commands(botcmds)
-
-    # Starting The Bot
-    if STRING_SESSION:
-        userBot.start()
+    # Start The Bot >>>>>>>
     app.start()
     
     ##############################################################################
@@ -304,19 +334,6 @@ if __name__ == "__main__":
         filters=filters.command([f"{HELP_COMMAND}", f"{HELP_COMMAND}@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(help_text_handler)
-    ##############################################################################
-    '''
-    new_join_handler = MessageHandler(
-        new_join_f, filters=~filters.chat(chats=AUTH_CHANNEL)
-    )
-    app.add_handler(new_join_handler)
-    ##############################################################################
-    group_new_join_handler = MessageHandler(
-        help_message_f,
-        filters=filters.chat(chats=AUTH_CHANNEL) & filters.new_chat_members,
-    )
-    app.add_handler(group_new_join_handler)
-    '''
     ##############################################################################
     call_back_button_handler = CallbackQueryHandler(button)
     app.add_handler(call_back_button_handler)
