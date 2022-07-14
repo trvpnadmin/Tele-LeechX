@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) 5MysterySD | Anasty17 ( MLTB )
+# (c) 5MysterySD | Anasty17 ( MLTB ) | HuzunluArtemis
 #
 # Copyright 2022 - TeamTele-LeechX
 # 
@@ -21,7 +21,29 @@ basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     handlers=[FileHandler('FuZionXLogs.txt'), StreamHandler()],
                     level=INFO)
 
+CONFIG_FILE_URL = environ.get('CONFIG_FILE_URL')
+try:
+    if len(CONFIG_FILE_URL) == 0:
+        raise TypeError
+    try:
+        res = rget(CONFIG_FILE_URL)
+        if res.status_code == 200:
+            with open('config.env', 'wb+') as f:
+                f.write(res.content)
+        else:
+            log_error(f"Failed to download config.env {res.status_code}")
+    except Exception as e:
+        log_error(f"CONFIG_FILE_URL: {e}")
+except:
+    pass
+
 load_dotenv('config.env', override=True)
+
+## Update Packages ++++
+if environ.get('UPDATE_EVERYTHING_WHEN_RESTART', 'False').lower() == 'true':
+    packages = [dist.project_name for dist in pkg_resources.working_set]
+    scall("pip install --upgrade " + ' '.join(packages), shell=True)
+## Update Packages ----
 
 UPSTREAM_REPO = environ.get('UPSTREAM_REPO', "https://github.com/5MysterySD/Tele-LeechX")
 UPSTREAM_BRANCH = environ.get('UPSTREAM_BRANCH', "master")
@@ -39,10 +61,7 @@ except:
 if UPSTREAM_REPO is not None:
     if ospath.exists('.git'):
         srun(["rm", "-rf", ".git"])
-    #if ospath.exists('gautam/.wh.gclone.gz'):
-    #    srun(["rm", "-rf", "gautam/.wh.gclone.gz"])
-    # This Interrupt the GClone Things !!!
-
+        
     update = srun([f"git init -q \
                      && git config --global user.email mysterysd.sd@gmail.com \
                      && git config --global user.name tele-leechx \

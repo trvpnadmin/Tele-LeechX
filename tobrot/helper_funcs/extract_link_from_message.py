@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K
-
+# Shrimadhav U K | 5MysterySD | Other Contributors 
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 import logging
 
 import aiohttp
@@ -46,10 +50,6 @@ async def extract_link(message, type_o_request):
                 custom_file_name = url_parts[1]
                 youtube_dl_username = url_parts[2]
                 youtube_dl_password = url_parts[3]
-        elif "mdisk.me" in message.text.lower():
-            info_parsed = url_link_generate(message.text)
-            url = info_parsed['download']
-            custom_file_name = info_parsed['filename']
         elif message.entities is not None:
             url = extract_url_from_entity(message.entities, message.text)
 

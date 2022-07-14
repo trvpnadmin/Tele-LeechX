@@ -1,6 +1,11 @@
-# (c) gautamajay52 | MaxxRider
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# gautamajay52 | MaxxRider 
 #
-
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 
 import asyncio
 import os
@@ -26,13 +31,13 @@ async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
     except:
         pass
     cmd = [
-        "youtube-dl",
+        "yt-dlp",
         "-i",
         "-f",
         "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4",
         "-o",
         f"{fol_der}/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s",
-        f"{url}",
+        url,
     ]
     gau_tam = await asyncio.create_subprocess_exec(
         *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE

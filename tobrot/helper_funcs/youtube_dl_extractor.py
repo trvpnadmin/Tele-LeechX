@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K | MaxxRider
+# Shrimadhav U K | MaxxRider
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 
 import asyncio
 import json
@@ -16,7 +21,7 @@ async def extract_youtube_dl_formats(
     url, cf_name, yt_dl_user_name, yt_dl_pass_word, user_working_dir
 ):
     command_to_exec = [
-        "youtube-dl",
+        "yt-dlp",
         "--no-warnings",
         "--youtube-skip-dash-manifest",
         "--no-check-certificate",

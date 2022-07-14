@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K | gautamjay52 | MaxxRider
+# Shrimadhav U K | gautamajay52 | MaxxRider
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 
 import asyncio
 import json
@@ -96,7 +101,7 @@ async def youtube_dl_call_back(bot, update):
     thumb_image = response_json.get("thumbnail", thumb_image)
     if tg_send_type == "audio":
         command_to_exec = [
-            "youtube-dl",
+            "yt-dlp",
             "-c",
             "--prefer-ffmpeg",
             "--extract-audio",
@@ -118,7 +123,7 @@ async def youtube_dl_call_back(bot, update):
                 break
 
         command_to_exec = [
-            "youtube-dl",
+            "yt-dlp",
             "-c",
             "--embed-subs",
             "-f",
