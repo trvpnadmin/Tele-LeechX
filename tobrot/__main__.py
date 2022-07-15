@@ -153,7 +153,7 @@ async def start(client, message):
     else:
         await message.reply_text(f"**I Am Alive and Working, Send /help to Know How to Use Me !** ✨", parse_mode=enums.ParseMode.MARKDOWN)
 
-async def restart(_, message:Message):
+async def restart(client, message:Message):
     ## Inspired from HuzunluArtemis Restart & HEROKU Utils
     cmd = message.text.split(' ', 1)
     dynoRestart = False
@@ -163,12 +163,12 @@ async def restart(_, message:Message):
         dynoKill = (cmd[1].lower()).startswith('k')
     if (not HEROKU_API_KEY) or (not HEROKU_APP_NAME):
         LOGGER.info("[ATTENTION] Fill HEROKU_API_KEY & HEROKU_APP_NAME for Using this Feature.")
-        await bot.reply_text("HEROKU_API_KEY & HEROKU_APP_NAME Not Provided")
+        await message.reply_text("HEROKU_API_KEY & HEROKU_APP_NAME Not Provided")
         dynoRestart = False
         dynoKill = False
     if dynoRestart:
         LOGGER.info("[HEROKU] Dyno Restarting...")
-        restart_message = await bot.reply_text("`Dyno Restarting...`")
+        restart_message = await message.reply_text("`Dyno Restarting...`")
         app.stop()
         userBot.stop()
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
@@ -176,7 +176,7 @@ async def restart(_, message:Message):
         appx.restart()
     elif dynoKill:
         LOGGER.info("[HEROKU] Killing Dyno...")
-        await bot.reply_text("`Killed Dyno`")
+        await message.reply_text("`Killed Dyno`")
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
         appx = heroku_conn.app(HEROKU_APP_NAME)
         proclist = appx.process_formation()
@@ -184,7 +184,7 @@ async def restart(_, message:Message):
             appx.process_formation()[po.type].scale(0)
     else:
         LOGGER.info("[HEROKU] Normally Restarting...")
-        restart_message = await bot.reply_text("`Normally Restarting...`")
+        restart_message = await message.reply_text("`Normally Restarting...`")
         clean_all()
         srun(["python3", "update.py"])
         with open(".restartmsg", "w") as f:
