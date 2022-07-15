@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K | gautamajay52 | MaxxRider
+# (c) Shrimadhav U K | gautamajay52 | MaxxRider | 5MysterySD
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 
 import asyncio
 import logging
@@ -9,12 +14,12 @@ import sys
 import time
 import requests
 import re
-from re import search
 import subprocess
 import hashlib
 import math
-
 import aria2p
+
+from re import search
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from tobrot import (
@@ -52,8 +57,6 @@ async def aria_start():
     aria2_daemon_start_cmd.append("--allow-overwrite=true")
     aria2_daemon_start_cmd.append("--daemon=true")
     # aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
-    # TODO: this does not work, need to investigate this.
-    # but for now, https://t.me/TrollVoiceBot?start=858
     aria2_daemon_start_cmd.append("--enable-rpc")
     aria2_daemon_start_cmd.append("--disk-cache=0")
     aria2_daemon_start_cmd.append("--follow-torrent=mem")
@@ -67,9 +70,8 @@ async def aria_start():
     aria2_daemon_start_cmd.append("--max-overall-upload-limit=2M")
     aria2_daemon_start_cmd.append("--split=16")
     aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
-    #
     LOGGER.info(aria2_daemon_start_cmd)
-    #
+
     process = await asyncio.create_subprocess_exec(
         *aria2_daemon_start_cmd,
         stdout=asyncio.subprocess.PIPE,
@@ -85,10 +87,6 @@ async def aria_start():
 
 def add_magnet(aria_instance, magnetic_link, c_file_name):
     options = None
-    # if c_file_name is not None:
-    #     options = {
-    #         "dir": c_file_name
-    #     }
     try:
         download = aria_instance.add_magnet(magnetic_link, options=options)
     except Exception as e:
@@ -130,10 +128,6 @@ def add_torrent(aria_instance, torrent_file_path):
 def add_url(aria_instance, text_url, c_file_name):
     options = None
     uris = None
-    # if c_file_name is not None:
-    #     options = {
-    #         "dir": c_file_name
-    #     }
     if "zippyshare.com" in text_url \
         or "osdn.net" in text_url \
         or "mediafire.com" in text_url \
@@ -226,14 +220,11 @@ async def call_apropriate_function(
         if not sagtus:
             return sagtus, err_message
         LOGGER.info(err_message)
-        # https://stackoverflow.com/a/58213653/4723940
         await check_progress_for_dl(
             aria_instance, err_message, sent_message_to_update_tg_p, None
         )
         if incoming_link.startswith("magnet:"):
-            #
             err_message = await check_metadata(aria_instance, err_message)
-            #
             await asyncio.sleep(1)
             if err_message is not None:
                 await check_progress_for_dl(
@@ -255,13 +246,15 @@ async def call_apropriate_function(
         if not to_upload_file:
             return True, None
         com_g = True
+
     LOGGER.info(f" Zip : {is_zip}")
     LOGGER.info(f" UnZip : {is_unzip}")
+
     if is_zip:
         check_if_file = await create_archive(to_upload_file)
         if check_if_file is not None:
             to_upload_file = check_if_file
-    #
+
     if is_unzip:
         try:
             check_ifi_file = get_base_name(to_upload_file)
@@ -275,7 +268,6 @@ async def call_apropriate_function(
             )
 
     if to_upload_file:
-        
         prefix = PRE_DICT.get(user_message.from_user.id, "")
         CUSTOM_FILE_NAME = prefix
 
@@ -339,12 +331,9 @@ async def call_apropriate_function(
     return True, None
 
 
-#
-
-
 # https://github.com/jaskaranSM/UniBorg/blob/6d35cf452bce1204613929d4da7530058785b6b1/stdplugins/aria.py#L136-L164
-
 # todo- so much unwanted code, I will remove in future after some testing
+
 async def check_progress_for_dl(aria2, gid, event, previous_message):
     while True:
         try:
@@ -409,13 +398,10 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
 
 
 # https://github.com/jaskaranSM/UniBorg/blob/6d35cf452bce1204613929d4da7530058785b6b1/stdplugins/aria.py#L136-L164
-
-
 async def check_metadata(aria2, gid):
     file = aria2.get_download(gid)
 
     if not file.followed_by_ids:
-        # https://t.me/c/1213160642/496
         return None
     new_gid = file.followed_by_ids[0]
     LOGGER.info("Changing GID " + gid + " to " + new_gid)

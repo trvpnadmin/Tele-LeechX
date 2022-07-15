@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Akshay C / Shrimadhav U K / YK
+# (c) Akshay C | Shrimadhav U K | YK | 5MysterySD | Other Contributors 
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 
 import asyncio
 import logging
@@ -15,28 +20,24 @@ from tobrot import LOGGER, MAX_TG_SPLIT_FILE_SIZE, SP_LIT_ALGO_RITH_M
 async def split_large_files(input_file):
     working_directory = os.path.dirname(os.path.abspath(input_file))
     new_working_directory = os.path.join(working_directory, str(time.time()))
-    # create download directory, if not exist
+
     if not os.path.isdir(new_working_directory):
         os.makedirs(new_working_directory)
-    # if input_file.upper().endswith(("MKV", "MP4", "WEBM", "MP3", "M4A", "FLAC", "WAV")):
-    """The below logic is DERPed, so removing temporarily
-    """
-    if input_file.upper().endswith(("MKV", "MP4", "WEBM", "AVI", "MOV", "OGG", "WMV", "M4V", "TS", "MPG", "MTS", "M2TS", "3GP")):
-        # handle video / audio files here
+    VIDEO_SUFFIXES = ("MKV", "MP4", "MOV", "WMV", "3GP", "MPG", "WEBM", "AVI", "FLV", "M4V", "GIF")
+    if input_file.upper().endswith(VIDEO_SUFFIXES):
+
         metadata = extractMetadata(createParser(input_file))
         total_duration = 0
         if metadata.has("duration"):
             total_duration = metadata.get("duration").seconds
-        # proprietary logic to get the seconds to trim (at)
+
         LOGGER.info(total_duration)
         total_file_size = os.path.getsize(input_file)
         LOGGER.info(total_file_size)
         minimum_duration = (total_duration / total_file_size) * (MAX_TG_SPLIT_FILE_SIZE)
-        # casting to int cuz float Time Stamp can cause errors
         minimum_duration = int(minimum_duration)
 
         LOGGER.info(minimum_duration)
-        # END: proprietary
         start_time = 0
         end_time = minimum_duration
         base_name = os.path.basename(input_file)
@@ -48,7 +49,6 @@ async def split_large_files(input_file):
 
         while end_time <= total_duration:
             LOGGER.info(i)
-            # file name generate
             parted_file_name = "{}_PART_{}.{}".format(
                 str(base_name), str(i).zfill(5), str(input_extension)
             )
@@ -129,11 +129,10 @@ async def cult_small_video(video_file, out_put_file_name, start_time, end_time):
     ]
     process = await asyncio.create_subprocess_exec(
         *file_genertor_command,
-        # stdout must a pipe to be accessible as process.stdout
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
-    # Wait for the subprocess to finish
+
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
@@ -144,11 +143,10 @@ async def cult_small_video(video_file, out_put_file_name, start_time, end_time):
 async def run_comman_d(command_list):
     process = await asyncio.create_subprocess_exec(
         *command_list,
-        # stdout must a pipe to be accessible as process.stdout
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
-    # Wait for the subprocess to finish
+
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()

@@ -1,12 +1,12 @@
-# Copyright (C) 2019 The Raphielscape Company LLC.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# (c) Shrimadhav U K | gautamajay52 | MaxxRider | 5MysterySD | Other Contributors | Scripts | Anasty [MLTB]
 #
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
-# you may not use this file except in compliance with the License.
-#
-""" Helper Module containing various sites direct links generators. This module is copied and modified as per need
-from https://github.com/AvinashReddy3108/PaperplaneExtended . I hereby take no credit of the following code other
-than the modifications. See https://github.com/AvinashReddy3108/PaperplaneExtended/commits/master/userbot/modules/direct_links.py
-for original authorship. """
+# Copyright 2022 - TeamTele-LeechX | Copyright (C) 2019 The Raphielscape Company LLC.
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
+
 
 import json
 import math
@@ -151,7 +151,7 @@ def url_link_generate(text_url: str):
         return shorte_st(text_url)
     else:
         raise DirectDownloadLinkException(f'UnSupported URL : {text_url}')
-            ### Direct Links Generator ----
+        ### Direct Links Generator ----
 
 
 def zippy_share(url: str) -> str:

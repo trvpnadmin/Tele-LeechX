@@ -1,4 +1,11 @@
-"""ThumbNail utilities, © @AnyDLBot"""
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# (c) @AnyDLBot | Other Contributors 
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 
 
 import os

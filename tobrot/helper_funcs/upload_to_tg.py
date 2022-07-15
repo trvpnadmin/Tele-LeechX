@@ -52,10 +52,10 @@ from tobrot import (
     TG_PRM_FILE_SIZE,
     PRM_USERS,
     PRM_LOG,
-    STRING_SESSION, 
+    isUserPremium, 
     app
 )
-if STRING_SESSION:
+if isUserPremium:
     from tobrot import userBot
 from tobrot.helper_funcs.copy_similar_file import copy_file
 from tobrot.helper_funcs.display_progress import humanbytes, Progress
@@ -63,7 +63,6 @@ from tobrot.helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
 from tobrot.helper_funcs.split_large_files import split_large_files
 from tobrot.plugins.custom_utils import *
 
-# stackoverflow🤐
 def getFolderSize(p):
     prepend = partial(os.path.join, p)
     return sum(
@@ -109,6 +108,8 @@ async def upload_to_tg(
                     caption_str = caption_str.replace(args[0], args[1])
     else:
         caption_str = DEF_CAPTION_MSG
+    
+    
 
     if os.path.isdir(local_file_name):
         directory_contents = os.listdir(local_file_name)
@@ -134,7 +135,7 @@ async def upload_to_tg(
             )
     else:
         sizze = os.path.getsize(local_file_name)
-        if sizze < TG_PRM_FILE_SIZE and sizze > TG_MAX_FILE_SIZE and str(from_user) in str(PRM_USERS) and STRING_SESSION:
+        if sizze < TG_PRM_FILE_SIZE and sizze > TG_MAX_FILE_SIZE and str(from_user) in str(PRM_USERS) and isUserPremium:
             LOGGER.info(f"User Type : Premium ({from_user})")
             prm_atv = True
             sent_message = await upload_single_file(

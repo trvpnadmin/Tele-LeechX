@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K | gautamajay52
+# (c) Shrimadhav U K | gautamajay52 | 5MysterySD
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
 
 import asyncio
 import logging
@@ -16,12 +21,10 @@ async def create_archive(input_directory):
     if os.path.exists(input_directory):
         base_dir_name = os.path.basename(input_directory)
         compressed_file_name = f"{base_dir_name}.tar.gz"
-        # #BlameTelegram
         suffix_extention_length = 1 + 3 + 1 + 2
         if len(base_dir_name) > (64 - suffix_extention_length):
             compressed_file_name = base_dir_name[0 : (64 - suffix_extention_length)]
             compressed_file_name += ".tar.gz"
-        # fix for https://t.me/c/1434259219/13344
         file_genertor_command = [
             "tar",
             "-zcvf",
@@ -30,11 +33,9 @@ async def create_archive(input_directory):
         ]
         process = await asyncio.create_subprocess_exec(
             *file_genertor_command,
-            # stdout must a pipe to be accessible as process.stdout
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
-        # Wait for the subprocess to finish
         stdout, stderr = await process.communicate()
         LOGGER.error(stderr.decode().strip())
         if os.path.exists(compressed_file_name):
@@ -44,9 +45,6 @@ async def create_archive(input_directory):
                 pass
             return_name = compressed_file_name
     return return_name
-
-
-# @gautamajay52
 
 
 async def unzip_me(input_directory):
@@ -60,7 +58,6 @@ async def unzip_me(input_directory):
         ga_utam = await asyncio.create_subprocess_exec(
             *g_cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
-        # Wait for the subprocess to finish
         gau, tam = await ga_utam.communicate()
         LOGGER.info(gau.decode().strip())
         LOGGER.info(tam.decode().strip())
@@ -71,9 +68,6 @@ async def unzip_me(input_directory):
                 pass
             return_name = uncompressed_file_name
     return return_name
-
-
-#
 
 
 async def untar_me(input_directory):
@@ -96,7 +90,6 @@ async def untar_me(input_directory):
         bc_kanger = await asyncio.create_subprocess_exec(
             *g_cmd_t, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
-        # Wait for the subprocess to finish
         mc, kanger = await bc_kanger.communicate()
         LOGGER.info(mc)
         LOGGER.info(kanger)
@@ -110,9 +103,6 @@ async def untar_me(input_directory):
             return_name = uncompressed_file_name
             LOGGER.info(return_name)
     return return_name
-
-
-#
 
 
 async def unrar_me(input_directory):
@@ -129,7 +119,6 @@ async def unrar_me(input_directory):
         jai_hind = await asyncio.create_subprocess_exec(
             *gau_tam_r, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
-        # Wait for the subprocess to finish
         jai, hind = await jai_hind.communicate()
         LOGGER.info(jai)
         LOGGER.info(hind)

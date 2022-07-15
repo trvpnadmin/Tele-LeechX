@@ -1,5 +1,12 @@
-#!/bin/bash
-# property of python-aria-mirror-bot
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# (c) python-aria-mirror-bot | SlamMirrorBot | Other Contributors 
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
+
 
 if [ $# -lt 1 ]; then
   echo "Usage: $(basename $0) FILES"

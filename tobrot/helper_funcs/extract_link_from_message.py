@@ -6,6 +6,7 @@
 # 
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
+
 import logging
 
 import aiohttp
@@ -82,21 +83,16 @@ async def extract_link(message, type_o_request):
     elif message.entities is not None:
         url = message.text
 
-    # trim blank spaces from the URL
-    # might have some issues with #45
     if url is not None:
         url = url.strip()
     if custom_file_name is not None:
         custom_file_name = custom_file_name.strip()
-    # https://stackoverflow.com/a/761825/4723940
     if youtube_dl_username is not None:
         youtube_dl_username = youtube_dl_username.strip()
     if youtube_dl_password is not None:
         youtube_dl_password = youtube_dl_password.strip()
 
-    # additional conditional check,
-    # here to FILTER out BAD URLs
-    LOGGER.info(TG_OFFENSIVE_API)
+    LOGGER.info(f"TG_OFFENSIVE_API : {TG_OFFENSIVE_API}")
     if TG_OFFENSIVE_API is not None:
         try:
             async with aiohttp.ClientSession() as session:
@@ -111,8 +107,6 @@ async def extract_link(message, type_o_request):
                         url = None
                         custom_file_name = err
         except:
-            # this might occur in case of a BAD API URL,
-            # who knows? :\
             pass
 
     return url, custom_file_name, youtube_dl_username, youtube_dl_password

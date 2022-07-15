@@ -196,7 +196,8 @@ if __name__ == "__main__":
     # Generat Download Directory, if Not Exist !!
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
-
+    # Temporary Fix for Extract Issue >>>>>>>
+    srun(["chmod", "+x", "extract"])
     # Bot Restart & Restart Message >>>>>>>>
     utc_now = datetime.datetime.utcnow()
     ist_now = utc_now + datetime.timedelta(minutes=30, hours=5)
@@ -246,7 +247,7 @@ if __name__ == "__main__":
     ##############################################################################
     incoming_purge_message_handler = MessageHandler(
         incoming_purge_message_f,
-        filters=filters.command(["purge"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command(["purge", f"purge@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_purge_message_handler)
     ##############################################################################

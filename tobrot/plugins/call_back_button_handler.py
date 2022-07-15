@@ -91,7 +91,7 @@ async def button(bot, update: CallbackQuery):
         else:
             await bot.answer_callback_query(
                 callback_query_id=update.id,
-                text="who are you? 🤪🤔🤔🤔",
+                text="⚠️ Opps ⚠️ \n I Got a False Visitor 🚸 !! \n\n 📛 Stay At Your Limits !!📛",
                 show_alert=True,
                 cache_time=0,
             )
@@ -120,7 +120,7 @@ async def button(bot, update: CallbackQuery):
                 "start.sh",
                 "tobrot",
                 "gautam",
-                "FuZionXLogs.txt",
+                "FXLogs.txt",
                 "vendor",
                 "LeechBot.session",
                 "LeechBot.session-journal",

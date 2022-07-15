@@ -21,8 +21,10 @@ import telegram.ext as tg
 
 from pyrogram import Client
 
-if os.path.exists("FXLogs.txt"):
-    with open("FXLogs.txt", "r+") as f_d:
+LOG_FILE_NAME = f"{UPDATES_CHANNEL}Logs.txt"
+
+if os.path.exists(LOG_FILE_NAME):
+    with open(LOG_FILE_NAME, "r+") as f_d:
         f_d.truncate(0)
 
 # Logging Requirements >>>>>>>>>>>
@@ -32,7 +34,7 @@ logging.basicConfig(
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
         RotatingFileHandler(
-            "FuZionXLogs.txt", maxBytes=50000000, backupCount=10
+            LOG_FILE_NAME, maxBytes=50000000, backupCount=10
         ),
         logging.StreamHandler(),
     ],
@@ -220,12 +222,11 @@ PRM_USERS = os.environ.get("PRM_USERS", "1242011540 503170505")
 PRM_LOG = os.environ.get("PRM_LOG", "-1001620169370")
 
 # Bot Theme [ UI & Customization ] >>>>>>>>
-BOT_THEME = os.environ.get("BOT_THEME", "FX-Optimized")
+BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
 
 BOT_START_TIME = time.time()
-# dict to control uploading and downloading
+
 gDict = defaultdict(lambda: [])
-# user settings dict #ToDo
 user_settings = defaultdict(lambda: {})
 gid_dict = defaultdict(lambda: [])
 _lock = asyncio.Lock()

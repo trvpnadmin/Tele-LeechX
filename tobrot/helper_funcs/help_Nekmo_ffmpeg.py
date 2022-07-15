@@ -34,7 +34,7 @@ async def take_screen_shot(video_file, output_directory, ttl):
             "1",
             out_put_file_name,
         ]
-        # width = "90"
+        # Width = "90"
         process = await asyncio.create_subprocess_exec(
             *file_genertor_command,
             stdout=asyncio.subprocess.PIPE,

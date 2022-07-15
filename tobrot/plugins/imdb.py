@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) 5MysterySD | Other Contributors 
+# (c) 5MysterySD | Subin [EvaMaria] | Other Contributors 
 #
 # Copyright 2022 - TeamTele-LeechX
 # 
@@ -15,7 +15,6 @@ from tobrot.plugins.custom_utils import *
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery 
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
-# Callback Data
 
 imdb = IMDb() 
 
@@ -62,7 +61,6 @@ async def imdb_search(client, message):
 
 async def get_poster(query, bulk=False, id=False, file=None):
     if not id:
-        # https://t.me/GetTGLink/4183
         query = (query.strip()).lower()
         title = query
         year = re.findall(r'[1-2]\d{3}$', query, re.IGNORECASE)

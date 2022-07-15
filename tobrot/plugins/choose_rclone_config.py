@@ -1,7 +1,12 @@
-# This is code to switch which rclone config section to use. This setting affects the entire bot(And at this time, the cloneHelper only support gdrive, so you should only choose to use gdrive config section)
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) xiaoqi-beta | gautamajay52
+# (c) xiaoqi-beta | gautamajay52 | Other Contributors 
+#
+# Copyright 2022 - TeamTele-LeechX
+# 
+# This is Part of < https://github.com/5MysterySD/Tele-LeechX >
+# All Right Reserved
+
 
 import logging
 import os
@@ -14,6 +19,8 @@ from tobrot import LOGGER, OWNER_ID
 
 
 async def rclone_command_f(client, message):
+    # This is code to switch which rclone config section to use. This setting affects the entire bot
+    #(And at this time, the cloneHelper only support gdrive, so you should only choose to use gdrive config section)
     """/rclone command"""
     LOGGER.info(
         f"rclone command from chatid:{message.chat.id}, userid:{message.from_user.id}"

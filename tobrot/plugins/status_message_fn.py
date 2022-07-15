@@ -34,7 +34,8 @@ from tobrot import (
     FINISHED_PROGRESS_STR,
     UN_FINISHED_PROGRESS_STR,
     UPDATES_CHANNEL,
-    CANCEL_COMMAND_G
+    CANCEL_COMMAND_G,
+    LOG_FILE_NAME
     )
 # the logging things
 from tobrot.helper_funcs.display_progress import TimeFormatter, humanbytes
@@ -305,6 +306,7 @@ def up_time(time_taken):
 
 
 async def upload_log_file(client, message):
-    g = await AdminCheck(client, message.chat.id, message.from_user.id)
-    if g:
-        await message.reply_document("FuZionXLogs.txt")
+    logFile = await AdminCheck(client, message.chat.id, message.from_user.id)
+    if logFile:
+        await message.reply_document(LOG_FILE_NAME)
+    # ToDo Add Direct Printing Log Instead of Sending File

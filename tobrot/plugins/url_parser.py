@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) 5MysterySD
+# (c) 5MysterySD [Full Code Written By Me !! No Kang Please]
 #
 # Copyright 2022 - TeamTele-LeechX
 # 

@@ -6,19 +6,19 @@
 # 
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
-
+from tobrot import LOG_FILE_NAME
 from logging import FileHandler, StreamHandler, INFO, basicConfig, error as log_error, info as log_info
 from os import path as ospath, environ
 from subprocess import run as srun
 from requests import get as rget
 from dotenv import load_dotenv
 
-if ospath.exists('FuZionXLogs.txt'):
-    with open('FuZionXLogs.txt', 'r+') as f:
+if ospath.exists(LOG_FILE_NAME):
+    with open(LOG_FILE_NAME, 'r+') as f:
         f.truncate(0)
 
 basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    handlers=[FileHandler('FuZionXLogs.txt'), StreamHandler()],
+                    handlers=[FileHandler(LOG_FILE_NAME), StreamHandler()],
                     level=INFO)
 
 CONFIG_FILE_URL = environ.get('CONFIG_FILE_URL')
