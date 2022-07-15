@@ -50,7 +50,7 @@ async def stats(client, message):
         stats += f'<b>Commit Date:</b> {last_commit}\n\n'
     currentTime = TimeFormatter(time() - BOT_START_TIME)
     osUptime = TimeFormatter(time() - boot_time())
-    total, used, free, disk= await disk_usage('/')
+    total, used, free, disk= disk_usage('/')
     total = humanbytes(total)
     used = humanbytes(used)
     free = humanbytes(free)
