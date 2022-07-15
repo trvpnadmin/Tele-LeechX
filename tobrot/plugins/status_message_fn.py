@@ -317,14 +317,14 @@ async def upload_log_file(client, message):
             toDisplay = 25
         else:
             toDisplay = len(lines)
-        startLine = f"**Last {toDisplay} Lines : [On Display Telegram LOG]**\n\n---------------- START LOG -----------------\n\n"
+        startLine = f"Last {toDisplay} Lines : [On Display Telegram LOG]\n\n---------------- START LOG -----------------\n\n"
         endLine = "\n\n---------------- END LOG -----------------"
         try:
             Loglines = ""
             for l in range (toDisplay, 0, -1):
                 Loglines += logFileLines[-l]+"\n"
             textLog = startLine+Loglines+endLine
-            await message.reply_text(textLog, parse_mode=enums.ParseMode.MARKDOWN)
+            await message.reply_text(textLog)
         except Exception as err:
             LOGGER.info(f"Error Log Display : {err}")
             LOGGER.info(textLog)
