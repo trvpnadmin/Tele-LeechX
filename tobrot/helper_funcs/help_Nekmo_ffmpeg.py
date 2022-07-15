@@ -12,14 +12,18 @@ import logging
 import os
 import time
 
-from tobrot.helper_funcs.copy_similar_file import copy_file
+from shutil import copyfile
 from tobrot import LOGGER
 
+async def copy_file(input_file, output_dir): #Ref :https://stackoverflow.com/a/123212/4723940
+    output_file = os.path.join(output_dir, str(time.time()) + ".jpg")
+    copyfile(input_file, output_file)
+    return output_file
 
 async def take_screen_shot(video_file, output_directory, ttl):
-    # https://stackoverflow.com/a/13891070/4723940
     out_put_file_name = os.path.join(output_directory, str(time.time()) + ".jpg")
-    if video_file.upper().endswith(("MKV", "MP4", "WEBM", "AVI", "MOV", "OGG", "WMV", "M4V", "TS", "MPG", "MTS", "M2TS", "3GP")):
+    VIDEO_SUFFIXES = ("MKV", "MP4", "MOV", "WMV", "3GP", "MPG", "WEBM", "AVI", "FLV", "M4V", "GIF")
+    if video_file.upper().endswith(VIDEO_SUFFIXES):
         file_genertor_command = [
             "ffmpeg",
             "-ss",
@@ -33,15 +37,12 @@ async def take_screen_shot(video_file, output_directory, ttl):
         # width = "90"
         process = await asyncio.create_subprocess_exec(
             *file_genertor_command,
-            # stdout must a pipe to be accessible as process.stdout
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
-        # Wait for the subprocess to finish
         stdout, stderr = await process.communicate()
         e_response = stderr.decode().strip()
         t_response = stdout.decode().strip()
-    #
     if os.path.lexists(out_put_file_name):
         return out_put_file_name
     else:

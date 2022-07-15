@@ -35,9 +35,9 @@ from tobrot.plugins import is_appdrive_link, is_gdtot_link
 drive_list = ['driveapp.in', 'gdflix.pro', 'drivelinks.in', 'drivesharer.in', 'driveflix.in', 'drivebit.in', 'drivehub.in', 'driveace.in']
 
 def url_link_generate(text_url: str):
-    """ direct links generator """
+    ### Direct Links Generator ++++
     if not text_url:
-        raise DirectDownloadLinkException("`No links found!`")
+        raise DirectDownloadLinkException("`No Links Found!, Try Again` !!")
     elif 'zippyshare.com' in text_url:
         return zippy_share(text_url)
     elif 'yadi.sk' in text_url:
@@ -150,7 +150,8 @@ def url_link_generate(text_url: str):
     elif "corneey.com" in text_url or "sh.st" in text_url:
         return shorte_st(text_url)
     else:
-        raise DirectDownloadLinkException(f'No Direct link function found for {text_url}')
+        raise DirectDownloadLinkException(f'UnSupported URL : {text_url}')
+            ### Direct Links Generator ----
 
 
 def zippy_share(url: str) -> str:
@@ -280,6 +281,7 @@ def github(url: str) -> str:
     except KeyError:
         raise DirectDownloadLinkException("`Error: Can't extract the link`\n")
 
+
 def onedrive(link: str) -> str:
     """ Onedrive direct link generator
     Based on https://github.com/UsergeTeam/Userge """
@@ -294,6 +296,7 @@ def onedrive(link: str) -> str:
     resp2 = requests.head(dl_link)
     return dl_link
 
+
 def hxfile(url: str) -> str:
     """ Hxfile direct link generator
     Based on https://github.com/zevtyardt/lk21
@@ -301,6 +304,7 @@ def hxfile(url: str) -> str:
     bypasser = lk21.Bypass()
     dl_url=bypasser.bypass_filesIm(url)
     return dl_url
+
 
 def anonfiles(url: str) -> str:
     """ Anonfiles direct link generator
@@ -323,6 +327,7 @@ def letsupload(url: str) -> str:
     bypasser = lk21.Bypass()
     dl_url=bypasser.bypass_url(link)
     return dl_url
+
 
 def fembed(link: str) -> str:
     """ Fembed direct link generator
@@ -348,6 +353,7 @@ def sbembed(link: str) -> str:
     for i in dl_url:
         lst_link.append(dl_url[i])
     return lst_link[count-1]
+
 
 def pixeldrain(url: str) -> str:
     """ Based on https://github.com/yash-dk/TorToolkit-Telegram """
@@ -459,6 +465,7 @@ def fichier(link: str) -> str:
       else:
         raise DirectDownloadLinkException("ERROR: Error trying to generate Direct Link from 1fichier!")
 
+
 def solidfiles(url: str) -> str:
     """ Solidfiles direct links generator
     Based on https://github.com/Xonshiz/SolidFiles-Downloader
@@ -470,6 +477,7 @@ def solidfiles(url: str) -> str:
     mainOptions = str(re.search(r'viewerOptions\'\,\ (.*?)\)\;', pageSource).group(1))
     dl_url = json.loads(mainOptions)["downloadUrl"]
     return dl_url
+
 
 def krakenfiles(page_link: str) -> str:
     """ krakenfiles direct link generator
@@ -666,14 +674,7 @@ def appdrive_dl(url: str, is_direct) -> str:
         drive_link = etree.HTML(res.content).xpath("//a[contains(@class,'btn btn-primary')]/@href")[0]
         info_parsed['gdrive_link'] = drive_link
     info_parsed['src_url'] = url
-    #if info_parsed['error']:
-        #raise DirectDownloadLinkException(f"{info_parsed['error_message']}")
-    if is_direct:
-        linkx = urllib.parse.quote(info_parsed['name'])
-        INDEX_URL = f"https://covid.demonn.workers.dev/0:/FuZionXBot/{linkx}"
-        return INDEX_URL 
-    else:
-        return info_parsed
+    return info_parsed
 
 
 def linkvertise(url: str):
@@ -756,6 +757,7 @@ def gofile(url: str):
         'accountToken': data['token'],
         'files': content
     }
+
 
 ANCHOR_URL = 'https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lcr1ncUAAAAAH3cghg6cOTPGARa8adOf-y9zv2x&co=aHR0cHM6Ly9vdW8uaW86NDQz&hl=en&v=1B_yv3CBEV10KtI2HJ6eEXhJ&size=invisible&cb=4xnsug1vufyr'
 
@@ -1036,22 +1038,6 @@ def useragent():
 def wetransfer(url: str):
     """ Based on https://github.com/Chason610/Flameshot1/blob/bd90f4c9d677f972a4d2435c00614d0fc1330c67/scripts/upload_services/transferwee.py
     Given a wetransfer.com download URL download return the downloadable URL.
-    The URL should be of the form `https://we.tl/' or
-    `https://wetransfer.com/downloads/'. If it is a short URL (i.e. `we.tl')
-    the redirect is followed in order to retrieve the corresponding
-    `wetransfer.com/downloads/' URL.
-    The following type of URLs are supported:
-     - `https://we.tl/<short_url_id>`:
-        received via link upload, via email to the sender and printed by
-        `upload` action
-     - `https://wetransfer.com/<transfer_id>/<security_hash>`:
-        directly not shared in any ways but the short URLs actually redirect to
-        them
-     - `https://wetransfer.com/<transfer_id>/<recipient_id>/<security_hash>`:
-        received via email by recipients when the files are shared via email
-        upload
-    Return the download URL (AKA `direct_link') as a str or None if the URL
-    could not be parsed.
     """
     WETRANSFER_API_URL = 'https://wetransfer.com/api/v4/transfers'
     WETRANSFER_DOWNLOAD_URL = WETRANSFER_API_URL + '/{transfer_id}/download'
@@ -1109,6 +1095,7 @@ def shorte_st(url: str):
     res = client.get(final_url, params=params)
     dest_url = re.findall('"(.*?)"', res.text)[1].replace('\/','/')
     return dest_url
+
 
 def mdisk(url: str) -> str:
     """MDisk DDL link generator"""
@@ -1246,6 +1233,7 @@ def kolop_dl(url):
 
     return info_parsed
 
+
 def drivebuzz_dl(url):
 
     if DRIVEBUZZ_CRYPT is None:
@@ -1324,4 +1312,3 @@ def gadrive_dl(url):
     info_parsed['src_url'] = url
 
     return info_parsed
-

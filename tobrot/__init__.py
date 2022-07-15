@@ -244,7 +244,6 @@ if RCLONE_CONFIG:
     LOGGER.warning("[ATTENTION] Found RCLONE_CONFIG Var, Better Put your rclone.conf in Root Directory of Your Forked Repo")
 if not os.path.exists("rclone.conf"):
     LOGGER.warning("No rclone.conf found in root directory")
-    return
 if not os.path.exists("rclone_bak.conf"):  # Remake and BackUp rclone.conf file
     with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
         with open("rclone.conf", "r") as f:
