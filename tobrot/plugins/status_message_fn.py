@@ -306,7 +306,26 @@ def up_time(time_taken):
 
 
 async def upload_log_file(client, message):
+    ## No Kanged From Anywhere, Programmed By 5MysterySD >>>>>>>>
     logFile = await AdminCheck(client, message.chat.id, message.from_user.id)
-    if logFile:
-        await message.reply_document(LOG_FILE_NAME)
-    # ToDo Add Direct Printing Log Instead of Sending File
+    if logFile and os.path.exists(LOG_FILE_NAME):
+        logFileRead = open(LOG_FILE_NAME, "r")
+        LOGGER.info("Generating LOG Display...")
+        logFileLines = logFileRead.read().splitlines()
+        toDisplay = 0
+        if len(logFileLines) > 25:
+            toDisplay = 25
+        else:
+            toDisplay = len(lines)
+        startLine = f"**Last {toDisplay} Lines : [On Display Telegram LOG]**\n\n---------------- START LOG -----------------\n\n"
+        endLine = "\n\n---------------- END LOG -----------------"
+        textLog = startLine+lines[-l]+endLine
+        try:
+            for l in range (toDisplay, 0, -1):
+                await message.reply_text(textLog)
+        except Exception as err:
+            LOGGER.info(f"Error Log Display : {err}")
+            pass
+        h, m, s = up_time(time.time() - BOT_START_TIME)
+        await message.reply_document(LOG_FILE_NAME, caption=f"**Bot Uptime:** `{h}h, {m}m, {s}s`")
+
