@@ -21,6 +21,7 @@ import telegram.ext as tg
 
 from pyrogram import Client
 
+UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "@FuZionX")
 LOG_FILE_NAME = f"{UPDATES_CHANNEL}Logs.txt"
 
 if os.path.exists(LOG_FILE_NAME):
@@ -172,7 +173,6 @@ HELP_COMMAND = os.environ.get("HELP_COMMAND", "help")
 SPEEDTEST = os.environ.get("SPEEDTEST", "speedtest")
 TSEARCH_COMMAND = os.environ.get("TSEARCH_COMMAND", "tshelp")
 MEDIAINFO_CMD = os.environ.get("MEDIAINFO_CMD", "mediainfo")
-UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "@FuZionX")
 CAP_STYLE = os.environ.get("CAP_STYLE", "code")
 BOT_NO = os.environ.get("BOT_NO", "")
 
