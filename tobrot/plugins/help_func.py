@@ -81,7 +81,7 @@ async def stats(client, message):
             f'<b>Memory Total:</b> {mem_t}\n'\
             f'<b>Memory Free:</b> {mem_a}\n'\
             f'<b>Memory Used:</b> {mem_u}\n'
-    await message.reply_text(text = stats
+    await message.reply_text(text = stats,
         parse_mode = enums.ParseMode.HTML,
         disable_web_page_preview=True
     )
