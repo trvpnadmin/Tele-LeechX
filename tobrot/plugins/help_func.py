@@ -12,6 +12,7 @@ import pyrogram
 
 from tobrot import *
 from tobrot.helper_funcs.display_progress import humanbytes, TimeFormatter
+from time import time
 from subprocess import check_output
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, boot_time
 from pyrogram import enums
@@ -46,21 +47,21 @@ async def stats(client, message):
         last_commit = ''
     if last_commit:
         stats += f'<b>Commit Date:</b> {last_commit}\n\n'
-    currentTime = TimeFormatter(time() - botStartTime)
-    osUptime = TimeFormatter(time() - boot_time())
-    total, used, free, disk= disk_usage('/')
+    currentTime = TimeFormatter(time() - BOT_START_TIME)
+    osUptime = TimeFormatter(time() - await boot_time())
+    total, used, free, disk= await disk_usage('/')
     total = humanbytes(total)
     used = humanbytes(used)
     free = humanbytes(free)
-    sent = humanbytes(net_io_counters().bytes_sent)
-    recv = humanbytes(net_io_counters().bytes_recv)
-    cpuUsage = cpu_percent(interval=0.5)
-    p_core = cpu_count(logical=False)
-    t_core = cpu_count(logical=True)
-    swap = swap_memory()
+    sent = humanbytes((await net_io_counters()).bytes_sent)
+    recv = humanbytes((await net_io_counters()).bytes_recv)
+    cpuUsage = await cpu_percent(interval=0.5)
+    p_core = await cpu_count(logical=False)
+    t_core = await cpu_count(logical=True)
+    swap = await swap_memory()
     swap_p = swap.percent
     swap_t = humanbytes(swap.total)
-    memory = virtual_memory()
+    memory = await virtual_memory()
     mem_p = memory.percent
     mem_t = humanbytes(memory.total)
     mem_a = humanbytes(memory.available)
