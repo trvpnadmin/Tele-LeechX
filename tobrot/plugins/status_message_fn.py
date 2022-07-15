@@ -322,11 +322,12 @@ async def upload_log_file(client, message):
         try:
             Loglines = ""
             for l in range (toDisplay, 0, -1):
-                Loglines += logFileLines[-l]
+                Loglines += logFileLines[-l]+"\n"
             textLog = startLine+Loglines+endLine
-            await message.reply_text(textLog)
+            await message.reply_text(textLog, parse_mode=enums.ParseMode.MARKDOWN)
         except Exception as err:
             LOGGER.info(f"Error Log Display : {err}")
+            LOGGER.info(textLog)
             pass
         h, m, s = up_time(time.time() - BOT_START_TIME)
         await message.reply_document(LOG_FILE_NAME, caption=f"**Full Log**\n\n**Bot Uptime:** `{h}h, {m}m, {s}s`")
