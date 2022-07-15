@@ -9,6 +9,7 @@
 
 import logging
 import pyrogram
+import os
 
 from tobrot import *
 from tobrot.helper_funcs.display_progress import humanbytes, TimeFormatter
@@ -40,7 +41,7 @@ async def new_join_f(client, message):
 
 async def stats(client, message):
     stats = ''
-    if ospath.exists('.git'):
+    if os.path.exists('.git'):
         last_commit = check_output(["git log -1 --date=format:'%I:%M:%S %p %d %B, %Y' --pretty=format:'%cr ( %cd )'"], shell=True).decode()
     else:
         LOGGER.info("Stats : No UPSTREAM_REPO")
