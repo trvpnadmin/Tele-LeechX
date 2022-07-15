@@ -123,7 +123,6 @@ async def upload_to_tg(
                 # reply_to_message_id=message.id
             )
         for single_file in directory_contents:
-            # recursion: will this FAIL somewhere?
             await upload_to_tg(
                 new_m_esg,
                 os.path.join(local_file_name, single_file),
@@ -137,7 +136,6 @@ async def upload_to_tg(
         sizze = os.path.getsize(local_file_name)
         if sizze < TG_PRM_FILE_SIZE and sizze > TG_MAX_FILE_SIZE and str(from_user) in str(PRM_USERS) and isUserPremium:
             LOGGER.info(f"User Type : Premium ({from_user})")
-            prm_atv = True
             sent_message = await upload_single_file(
                 message,
                 local_file_name,
@@ -146,9 +144,8 @@ async def upload_to_tg(
                 client,
                 edit_media,
                 yt_thumb,
-                prm_atv
+                True
             )
-            #LOGGER.info("")
             if sent_message is not None:
                 dict_contatining_uploaded_files[
                     os.path.basename(local_file_name)
@@ -174,7 +171,6 @@ async def upload_to_tg(
                 "<i><b>📤Trying to upload to Telegram📤, Now...</b></i>"
             )
             for le_file in totlaa_sleif:
-                # recursion: will this FAIL somewhere?
                 await upload_to_tg(
                     message,
                     os.path.join(splitted_dir, le_file),
@@ -187,7 +183,6 @@ async def upload_to_tg(
         else:
             sizze = os.path.getsize(local_file_name)
             LOGGER.info("Files Less Than 2 GB")
-            prm_atv = False
             sent_message = await upload_single_file(
                 message,
                 local_file_name,
@@ -196,7 +191,7 @@ async def upload_to_tg(
                 client,
                 edit_media,
                 yt_thumb,
-                prm_atv
+                False
             )
             if sent_message is not None:
                 dict_contatining_uploaded_files[
