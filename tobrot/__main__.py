@@ -83,7 +83,7 @@ from tobrot.plugins.incoming_message_fn import (g_clonee, g_yt_playlist,
                                                 incoming_purge_message_f,
                                                 incoming_youtube_dl_f,
                                                 rename_tg_file)
-from tobrot.plugins.new_join_fn import help_message_f, new_join_f
+from tobrot.plugins.help_func import help_message_f, stats
 from tobrot.plugins.speedtest import get_speed
 from tobrot.plugins.mediainfo import mediainfo
 from tobrot.plugins.rclone_size import check_size_g, g_clearme
@@ -163,12 +163,12 @@ async def restart(_, message:Message):
         dynoKill = (cmd[1].lower()).startswith('k')
     if (not HEROKU_API_KEY) or (not HEROKU_APP_NAME):
         LOGGER.info("[ATTENTION] Fill HEROKU_API_KEY & HEROKU_APP_NAME for Using this Feature.")
-        await sendMessage("HEROKU_API_KEY & HEROKU_APP_NAME Not Provided", message)
+        await bot.reply_text("HEROKU_API_KEY & HEROKU_APP_NAME Not Provided")
         dynoRestart = False
         dynoKill = False
     if dynoRestart:
         LOGGER.info("[HEROKU] Dyno Restarting...")
-        restart_message = await sendMessage("`Dyno Restarting...`", message)
+        restart_message = await bot.reply_text("`Dyno Restarting...`")
         app.stop()
         userBot.stop()
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
@@ -176,7 +176,7 @@ async def restart(_, message:Message):
         appx.restart()
     elif dynoKill:
         LOGGER.info("[HEROKU] Killing Dyno...")
-        await sendMessage("`Killed Dyno`", message)
+        await bot.reply_text("`Killed Dyno`")
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
         appx = heroku_conn.app(HEROKU_APP_NAME)
         proclist = appx.process_formation()
@@ -184,7 +184,7 @@ async def restart(_, message:Message):
             appx.process_formation()[po.type].scale(0)
     else:
         LOGGER.info("[HEROKU] Normally Restarting...")
-        restart_message = await sendMessage("`Normally Restarting...`", message)
+        restart_message = await bot.reply_text("`Normally Restarting...`")
         clean_all()
         srun(["python3", "update.py"])
         with open(".restartmsg", "w") as f:
@@ -196,12 +196,14 @@ if __name__ == "__main__":
     # Generat Download Directory, if Not Exist !!
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
+
     # Temporary Fix for Extract Issue >>>>>>>
     srun(["chmod", "+x", "extract"])
+
     # Bot Restart & Restart Message >>>>>>>>
     utc_now = datetime.datetime.utcnow()
     ist_now = utc_now + datetime.timedelta(minutes=30, hours=5)
-    ist = ist_now.strftime("<b>📆 𝘿𝙖𝙩𝙚 :</b> <code>%d/%m/%Y</code> \n<b>⏰ 𝙏𝙞𝙢𝙚 :</b> <code>%H:%M:%S (GMT+05:30)</code>")
+    ist = ist_now.strftime("<b>📆 𝘿𝙖𝙩𝙚 :</b> <code>%d/%m/%Y</code> \n<b>⏰ 𝙏𝙞𝙢𝙚 :</b> <code>%I:%M:%S %p %d %B, %Y (GMT+05:30)</code>") #Will Fix to Time Zone Format
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
@@ -399,6 +401,13 @@ if __name__ == "__main__":
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(restart_handler)
+    ##############################################################################
+    stats_handler = MessageHandler(
+        stats,
+        filters=filters.command(["stats", f"stats@{bot.username}"])
+        & filters.chat(chats=AUTH_CHANNEL),
+    )
+    app.add_handler(stats_handler)
     ##############################################################################
     start_handler = MessageHandler(
         start,
