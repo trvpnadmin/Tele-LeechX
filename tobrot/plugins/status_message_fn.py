@@ -319,13 +319,15 @@ async def upload_log_file(client, message):
             toDisplay = len(lines)
         startLine = f"**Last {toDisplay} Lines : [On Display Telegram LOG]**\n\n---------------- START LOG -----------------\n\n"
         endLine = "\n\n---------------- END LOG -----------------"
-        textLog = startLine+lines[-l]+endLine
         try:
+            Loglines = ""
             for l in range (toDisplay, 0, -1):
-                await message.reply_text(textLog)
+                Loglines += logFileLines[-l]
+            textLog = startLine+Loglines+endLine
+            await message.reply_text(textLog)
         except Exception as err:
             LOGGER.info(f"Error Log Display : {err}")
             pass
         h, m, s = up_time(time.time() - BOT_START_TIME)
-        await message.reply_document(LOG_FILE_NAME, caption=f"**Bot Uptime:** `{h}h, {m}m, {s}s`")
+        await message.reply_document(LOG_FILE_NAME, caption=f"**Full Log**\n\n**Bot Uptime:** `{h}h, {m}m, {s}s`")
 
