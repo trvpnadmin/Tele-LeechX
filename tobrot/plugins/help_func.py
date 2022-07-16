@@ -40,16 +40,16 @@ async def new_join_f(client, message):
 
 
 async def stats(client, message):
-    stats = ''
+    stats = '┏━━━━ 📊 𝗕𝗼𝘁 𝗦𝘁𝗮𝘁𝘀 📊 ━━━━━╻\n'
     if os.path.exists('.git'):
         last_commit = check_output(["git log -1 --date=format:'%I:%M:%S %p %d %B, %Y' --pretty=format:'%cr ( %cd )'"], shell=True).decode()
     else:
         LOGGER.info("Stats : No UPSTREAM_REPO")
         last_commit = ''
     if last_commit:
-        stats += f'<b>Commit Date:</b> {last_commit}\n\n'
-    currentTime = TimeFormatter(time() - BOT_START_TIME)
-    osUptime = TimeFormatter(time() - boot_time())
+        stats += f'┣ 📝 <b>Commit Date:</b> {last_commit}\n┃\n'
+    currentTime = TimeFormatter((time() - BOT_START_TIME)*1000)
+    osUptime = TimeFormatter((time() - boot_time())*1000)
     total, used, free, disk= disk_usage('/')
     total = humanbytes(total)
     used = humanbytes(used)
@@ -67,21 +67,22 @@ async def stats(client, message):
     mem_t = humanbytes(memory.total)
     mem_a = humanbytes(memory.available)
     mem_u = humanbytes(memory.used)
-    stats +=f'<b>Bot Uptime:</b> {currentTime}\n'\
-            f'<b>OS Uptime:</b> {osUptime}\n\n'\
-            f'<b>Total Disk Space:</b> {total}\n'\
-            f'<b>Used:</b> {used} | <b>Free:</b> {free}\n\n'\
-            f'<b>Upload:</b> {sent}\n'\
-            f'<b>Download:</b> {recv}\n\n'\
-            f'<b>CPU:</b> {cpuUsage}%\n'\
-            f'<b>RAM:</b> {mem_p}%\n'\
-            f'<b>DISK:</b> {disk}%\n\n'\
-            f'<b>Physical Cores:</b> {p_core}\n'\
-            f'<b>Total Cores:</b> {t_core}\n\n'\
-            f'<b>SWAP:</b> {swap_t} | <b>Used:</b> {swap_p}%\n'\
-            f'<b>Memory Total:</b> {mem_t}\n'\
-            f'<b>Memory Free:</b> {mem_a}\n'\
-            f'<b>Memory Used:</b> {mem_u}\n'
+    stats +=f'┣ 🤖 <b>Bot Uptime:</b> {currentTime}\n'\
+            f'┣ 📶 <b>OS Uptime:</b> {osUptime}\n┃\n'\
+            f'┣ 🗄 <b>Total Disk Space:</b> {total}\n'\
+            f'┣ 📇 <b>Used:</b> {used} | 🛒 <b>Free:</b> {free}\n┃\n'\
+            f'┣ 📤 <b>Upload:</b> {sent}\n'\
+            f'┣ 📥 <b>Download:</b> {recv}\n┃\n'\
+            f'┣ 🚦 <b>CPU:</b> {cpuUsage}%\n'\
+            f'┣ 🧬 <b>RAM:</b> {mem_p}%\n'\
+            f'┣ 🗃 <b>DISK:</b> {disk}%\n┃\n'\
+            f'┣ 📄 <b>Physical Cores:</b> {p_core}\n'\
+            f'┣ 📑 <b>Total Cores:</b> {t_core}\n┃\n'\
+            f'┣ 🔁 <b>SWAP:</b> {swap_t} | 🔀 <b>Used:</b> {swap_p}%\n'\
+            f'┣ 📫 <b>Memory Total:</b> {mem_t}\n'\
+            f'┣ 📭 <b>Memory Free:</b> {mem_a}\n'\
+            f'┣ 📬 <b>Memory Used:</b> {mem_u}\n┃\n'\
+            f'┗━♦️ℙ𝕠𝕨𝕖𝕣𝕖𝕕 𝔹𝕪 {UPDATES_CHANNEL}♦️━╹'
     await message.reply_text(text = stats,
         parse_mode = enums.ParseMode.HTML,
         disable_web_page_preview=True
