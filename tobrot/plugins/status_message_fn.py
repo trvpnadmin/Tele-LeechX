@@ -325,7 +325,9 @@ async def upload_log_file(client, message):
                 Loglines += logFileLines[-l]+'\n'
             Loglines = Loglines.replace('"', '')
             textLog = startLine+Loglines+endLine
-            await message.reply_text(textLog)
+            await message.reply_text(textLog,
+                parse_mode=enums.ParseMode.DISABLED #tg Sucks
+            )
         except Exception as err:
             LOGGER.info(f"Error Log Display : {err}")
             LOGGER.info(textLog)
