@@ -12,8 +12,6 @@ import logging
 import aiohttp
 from pyrogram.types import MessageEntity
 from tobrot import TG_OFFENSIVE_API, LOGGER
-from tobrot.helper_funcs.direct_link_generator import url_link_generate
-
 
 def extract_url_from_entity(entities: MessageEntity, text: str):
     url = None
@@ -33,11 +31,8 @@ async def extract_link(message, type_o_request):
     youtube_dl_username = None
     youtube_dl_password = None
 
-    if message is None:
-        url = None
-        custom_file_name = None
-
-    elif message.text is not None:
+    if message.text is not None:
+        LOGGER.info("Extracting Link from Message !!")
         if message.text.lower().startswith("magnet:"):
             url = message.text.strip()
 
@@ -76,12 +71,14 @@ async def extract_link(message, type_o_request):
 
         elif message.caption_entities is not None:
             url = extract_url_from_entity(message.caption_entities, message.caption)
-
         else:
             url = message.caption.strip()
-
     elif message.entities is not None:
         url = message.text
+    else:
+        url = None
+        custom_file_name = None
+        LOGGER.warning("Can't Extract Link from Message ! Exiting !")
 
     if url is not None:
         url = url.strip()
