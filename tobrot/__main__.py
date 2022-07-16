@@ -12,6 +12,7 @@ import io
 import logging
 import os
 import sys
+import shutil
 import traceback
 import datetime 
 import heroku3
@@ -69,6 +70,7 @@ if STRING_SESSION:
     from tobrot import userBot
 from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.helper_funcs.direct_link_generator import url_link_generate
+from tobrot.helper_funcs.download_aria_p_n import aria2
 from tobrot.plugins import *
 from tobrot.plugins.call_back_button_handler import button
 from tobrot.plugins.imdb import imdb_search, imdb_callback 
@@ -113,6 +115,7 @@ if SET_BOT_COMMANDS:
         (f'{BotCommands.YtdlCommand}','🧲 [Reply] YT-DL Links for Uploading...'),
         (f'{BotCommands.PytdlCommand}','🧧 [Reply] YT-DL Playlists Links for Uploading...'),
         (f'gclone','♻️ [G-Drive] Clone Different Supported Sites !!'),
+        ('stats','📊 Show Bot Internal Statistics'),
         (f'{BotCommands.MediaInfoCommand}','🆔️ [Reply] Get Telegram Files Media Info'),
         (f'setpre','🔠 <Text> Save Custom Prefix for Uploads'),
         (f'setcap','🔣 <Text> Save Custom Caption for Uploads'),
@@ -152,6 +155,13 @@ async def start(client, message):
         )
     else:
         await message.reply_text(f"**I Am Alive and Working, Send /help to Know How to Use Me !** ✨", parse_mode=enums.ParseMode.MARKDOWN)
+
+def clean_all():
+    aria2.remove_all(True)
+    try:
+        shutil.rmtree(DOWNLOAD_LOCATION)
+    except FileNotFoundError:
+        pass
 
 async def restart(client, message:Message):
     ## Inspired from HuzunluArtemis Restart & HEROKU Utils
