@@ -24,7 +24,7 @@ async def handle_force_sub(client, cmd: Message):
     else:
         return 200
     try:
-        user = await bot.get_chat_member(chat_id=channel_chat_id, user_id=cmd.from_user.id)
+        user = bot.get_chat_member(chat_id=channel_chat_id, user_id=cmd.from_user.id)
         if user.status == "kicked":
             await bot.reply_text(
                 text="**Sorry, You are Banned to Use me.**",
