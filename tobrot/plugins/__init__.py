@@ -29,18 +29,6 @@ def start_cleanup():
     except FileNotFoundError:
         pass
 
-aria2 = aria2p.API(
-    aria2p.Client(host="http://localhost",
-                  port=ARIA_TWO_STARTED_PORT, secret="")
-)
-
-def clean_all():
-    aria2.remove_all(True)
-    try:
-        shutil.rmtree(DOWNLOAD_LOCATION)
-    except FileNotFoundError:
-        pass
-
 
 def is_gdtot_link(url: str): 
     url = re.match(r'https?://.+\.gdtot\.\S+', url) 
