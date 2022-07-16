@@ -35,7 +35,7 @@ async def handle_force_sub(client, cmd: Message):
                 chat_id=cmd.chat.id,
                 text="**Dear,\n__You haven't joined our Channel yet.__**\n`Join to Use Bots Without Restrictions.`",
                 reply_markup=InlineKeyboardMarkup([
-                        [InlineKeyboardButton("🤖 Join Channel", url=invite_link.invite_link)]
+                        [InlineKeyboardButton("Join Channel", url=invite_link.invite_link)]
                     ])
             )
             return 400
