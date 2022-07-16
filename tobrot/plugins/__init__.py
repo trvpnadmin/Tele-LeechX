@@ -5,8 +5,7 @@ import shutil
 import aria2p
 import re
 
-from tobrot import LOGGER, DOWNLOAD_LOCATION
-from tobrot.helper_funcs.download_aria_p_n import aria2
+from tobrot import LOGGER, DOWNLOAD_LOCATION, ARIA_TWO_STARTED_PORT
 from pyrogram import Client
 from typing import Tuple
 
@@ -30,6 +29,10 @@ def start_cleanup():
     except FileNotFoundError:
         pass
 
+aria2 = aria2p.API(
+    aria2p.Client(host="http://localhost",
+                  port=ARIA_TWO_STARTED_PORT, secret="")
+)
 
 def clean_all():
     aria2.remove_all(True)
