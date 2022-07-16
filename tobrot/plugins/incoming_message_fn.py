@@ -82,7 +82,7 @@ async def incoming_message_f(client, message):
         LOGGER.info("ForceSubscribe Start")
         try:
             msg1 = f'Leech Started !!\n'
-            send = await bot.send_message(message.from_user.id, text=msg1)
+            send = bot.send_message(message.from_user.id, text=msg1)
             send.delete()
         except Exception as e:
             LOGGER.warning(e)
