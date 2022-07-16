@@ -134,6 +134,6 @@ def TimeFormatter(milliseconds: int) -> str:
         + ((str(hours) + "h, ") if hours else "")
         + ((str(minutes) + "m, ") if minutes else "")
         + ((str(seconds) + "s, ") if seconds else "")
-        + ((str(milliseconds) + "ms,") if milliseconds else "")
+        + ((str(milliseconds) + "ms, ") if milliseconds else "")
     )
-    return tmp[:-1]
+    return tmp[:-2]
