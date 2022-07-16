@@ -85,9 +85,7 @@ async def upload_to_tg(
     file_size = os.path.getsize(local_file_name)
 
     caption_str = ""
-    DEF_CAPTION_MSG = f"<{CAP_STYLE}>"
-    DEF_CAPTION_MSG += base_file_name
-    DEF_CAPTION_MSG += f"</{CAP_STYLE}>"
+    DEF_CAPTION_MSG = f"<{CAP_STYLE}>{base_file_name}</{CAP_STYLE}>"
 
     caption = CAP_DICT.get(from_user, "") 
     CUSTOM_CAPTION = caption 
@@ -120,7 +118,6 @@ async def upload_to_tg(
             new_m_esg = await message.reply_text(
                 f"<b><i>🛠 Extracting : </i></b> <code>{len(directory_contents)}</code> <b>File(s)</b>",
                 quote=True
-                # reply_to_message_id=message.id
             )
         for single_file in directory_contents:
             await upload_to_tg(
@@ -368,7 +365,6 @@ async def upload_single_file(
     local_file_name = str(Path(local_file_name).resolve())
     sent_message = None
     start_time = time.time()
-    #
     thumbnail_location = os.path.join(
         DOWNLOAD_LOCATION, "thumbnails", str(from_user) + ".jpg"
     )
@@ -377,10 +373,9 @@ async def upload_single_file(
     for key in iter(user_specific_config):
         if key == from_user:
             dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
-            LOGGER.info(f'Found dyanamic config for user {from_user}')
+            LOGGER.info(f'Found Dyanamic Config for User : {from_user}')
     #
-    if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc: 
-    # todo
+    if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc:
         thumb = None
         thumb_image_path = None
         if os.path.exists(thumbnail_location):
@@ -425,17 +420,16 @@ async def upload_single_file(
                     ),
                 )
                 LOGGER.info("UserBot Upload : Completed")
-            with app:
-                sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
-            #prm_id = sent_msg.id
-            #sent_message = bot.copy_message(
-                #chat_id=message.chat.id,
-                #from_chat_id=int(PRM_LOG),
-                #message_id=prm_id,
-                #caption=caption_str,
-                #parse_mode=ParseMode.HTML,
-                #reply_to_message_id=message.id
-            #)            
+            sent_message = await bot.send_document(
+                chat_id=message.chat.id,
+                document=sent_msg.document.file_id,
+                thumb=thumb,
+                caption=caption_str,
+                parse_mode=enums.ParseMode.HTML,
+                disable_notification=True,
+                reply_to_message_id=message.id
+            )
+            LOGGER.info("Bot 4GB Upload : Completed")
         else:
             sent_message = await bot.send_document(
                 chat_id=int(LEECH_LOG),
