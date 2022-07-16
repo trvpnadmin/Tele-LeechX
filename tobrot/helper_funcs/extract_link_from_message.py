@@ -10,18 +10,21 @@
 import logging
 
 import aiohttp
+from pyrogram import enums
 from pyrogram.types import MessageEntity
 from tobrot import TG_OFFENSIVE_API, LOGGER
 
 def extract_url_from_entity(entities: MessageEntity, text: str):
     url = None
     for entity in entities:
-        if entity.type == "text_link":
+        if entity.type == enums.MessageEntityType.TEXT_LINK:
             url = entity.url
-        elif entity.type == "url":
+        elif entity.type == enums.MessageEntityType.URL:
             o = entity.offset
             l = entity.length
-            url = text[o : o + l]
+            url = text[o : o+l]
+        elif entity.type == enums.MessageEntityType.BOT_COMMAND:
+            url = text
     return url
 
 
