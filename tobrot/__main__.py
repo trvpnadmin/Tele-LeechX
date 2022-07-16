@@ -156,8 +156,8 @@ async def start(client, message):
     else:
         await message.reply_text(f"**I Am Alive and Working, Send /help to Know How to Use Me !** ✨", parse_mode=enums.ParseMode.MARKDOWN)
 
-def clean_all():
-    aria2 = aria_start()
+async def clean_all():
+    aria2 = await aria_start()
     aria2.remove_all(True)
     try:
         shutil.rmtree(DOWNLOAD_LOCATION)
@@ -195,7 +195,7 @@ async def restart(client, message:Message):
     else:
         LOGGER.info("[HEROKU] Normally Restarting...")
         restart_message = await message.reply_text("__Restarting...__")
-        clean_all()
+        await clean_all()
         await restart_message.delete()
         srun(["python3", "update.py"])
         with open(".restartmsg", "w") as f:
