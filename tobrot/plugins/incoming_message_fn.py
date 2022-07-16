@@ -81,7 +81,7 @@ async def incoming_message_f(client, message):
         LOGGER.info("ForceSubscribe Start")
         try:
             msg1 = f'Added your Requested link to Download\n'
-            send = await message.sent_message(message.from_user.id, text=msg1)
+            send = await client.sent_message(message.from_user.id, text=msg1)
             send.delete()
         except Exception as e:
             LOGGER.warning(e)
