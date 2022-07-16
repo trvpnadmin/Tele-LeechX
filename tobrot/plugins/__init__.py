@@ -6,6 +6,7 @@ import aria2p
 import re
 
 from tobrot import LOGGER, DOWNLOAD_LOCATION
+from tobrot.helper_funcs.download_aria_p_n import aria2
 from pyrogram import Client
 from typing import Tuple
 
@@ -37,13 +38,6 @@ def clean_all():
     except FileNotFoundError:
         pass
 
-aria2 = aria2p.API( 
-    aria2p.Client(
-        host="http://localhost",
-        port=6800,
-        secret="",
-    )
-)
 
 def is_gdtot_link(url: str): 
     url = re.match(r'https?://.+\.gdtot\.\S+', url) 
