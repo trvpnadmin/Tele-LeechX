@@ -27,14 +27,13 @@ async def handle_force_sub(client, cmd: Message):
         user = bot.get_chat_member(chat_id=channel_chat_id, user_id=cmd.from_user.id)
         if user.status not in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.MEMBER]:
             try:
-                invite_link = await get_invite_link(client, chat_id=channel_chat_id)
+                invite_link = await get_invite_link(client, chat_id=channel_chat_id, member_limit=1)
             except Exception as err:
                 LOGGER.info(f"Unable to Generate Invite Link of {FSUB_CHANNEL}\n\nError: {err}")
                 return 200
             bot.send_message(
                 chat_id=cmd.chat.id,
-                text="<b>Dear,\nYou haven't joined our Channel yet.\nJoin to <u>Use Bots Without Restrictions.</u></b>",
-                parse_mode = enums.ParseMode.HTML,
+                text="**Dear,\n__You haven't joined our Channel yet.__**\n`Join to Use Bots Without Restrictions.`",
                 reply_markup=InlineKeyboardMarkup([
                         [InlineKeyboardButton("🤖 Join Channel", url=invite_link.invite_link)]
                     ])
