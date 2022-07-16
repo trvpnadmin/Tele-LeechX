@@ -322,7 +322,7 @@ async def upload_log_file(client, message):
         try:
             Loglines = ''
             for l in range (toDisplay, 0, -1):
-                Loglines += logFileLines[-l]+'\n'
+                Loglines += logFileLines[-l]+'\n\n'
             Loglines = Loglines.replace('"', '')
             textLog = startLine+Loglines+endLine
             await message.reply_text(textLog,
