@@ -35,7 +35,8 @@ from tobrot import (
     LEECH_LOG,
     BOT_PM,
     EXCEP_CHATS,
-    bot
+    bot, 
+    FSUB_CHANNEL
 )
 from tobrot import bot
 from tobrot.helper_funcs.display_progress import humanbytes
@@ -51,6 +52,7 @@ from tobrot.helper_funcs.extract_link_from_message import extract_link
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 from tobrot.helper_funcs.youtube_dl_extractor import extract_youtube_dl_formats
 from tobrot.helper_funcs.ytplaylist import yt_playlist_downg
+from tobrot.plugins.force_sub_handler import handle_force_sub
 from pyrogram import enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -76,10 +78,15 @@ async def incoming_message_f(client, message):
     reply_to = message.reply_to_message
     txtCancel = False
     
-    ##Forsubscribe Soon  . .
+    if FSUB_CHANNEL:
+        LOGGER.info("[ForceSubscribe] Initiated")
+        backCode = await handle_force_sub(client, message)
+        if backCode == 400:
+            LOGGER.info(f"[ForceSubscribe] User Not In {FSUB_CHANNEL}")
+            return
 
     if BOT_PM and message.chat.type != enums.ChatType.PRIVATE and str(message.chat.id) not in str(EXCEP_CHATS):
-        LOGGER.info("ForceSubscribe Start")
+        LOGGER.info("[Bot PM] Initiated")
         try:
             msg1 = f'Leech Started !!\n'
             send = bot.send_message(message.from_user.id, text=msg1)
@@ -87,13 +94,9 @@ async def incoming_message_f(client, message):
         except Exception as e:
             LOGGER.warning(e)
             uname = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
-            button_markup = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("⚡️ Click Here to Start Me ⚡️", url=f"http://t.me/{bot.username}"),
-                    ]
-                ]
-            )
+            button_markup = InlineKeyboardMarkup([
+                    [InlineKeyboardButton("⚡️ Click Here to Start Me ⚡️", url=f"http://t.me/{bot.username}")]
+                ])
             startwarn = f"Dear {uname},\n\n<b>I found that you haven't Started me in PM (Private Chat) yet.</b>\n\n" \
                         f"From Now on, Links and Leeched Files in PM and Log Channel Only !!"
             message = await message.reply_text(text=startwarn, parse_mode=enums.ParseMode.HTML, quote=True, reply_markup=button_markup)
