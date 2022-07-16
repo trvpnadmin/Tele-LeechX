@@ -163,12 +163,11 @@ async def restart(client, message:Message):
         dynoKill = (cmd[1].lower()).startswith('k')
     if (not HEROKU_API_KEY) or (not HEROKU_APP_NAME):
         LOGGER.info("[ATTENTION] Fill HEROKU_API_KEY & HEROKU_APP_NAME for Using this Feature.")
-        await message.reply_text("HEROKU_API_KEY & HEROKU_APP_NAME Not Provided")
         dynoRestart = False
         dynoKill = False
     if dynoRestart:
         LOGGER.info("[HEROKU] Dyno Restarting...")
-        restart_message = await message.reply_text("`Dyno Restarting...`")
+        restart_message = await message.reply_text("__Dyno Restarting...__")
         app.stop()
         userBot.stop()
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
@@ -176,7 +175,7 @@ async def restart(client, message:Message):
         appx.restart()
     elif dynoKill:
         LOGGER.info("[HEROKU] Killing Dyno...")
-        await message.reply_text("`Killed Dyno`")
+        await message.reply_text("__Killed Dyno__")
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
         appx = heroku_conn.app(HEROKU_APP_NAME)
         proclist = appx.process_formation()
@@ -184,8 +183,9 @@ async def restart(client, message:Message):
             appx.process_formation()[po.type].scale(0)
     else:
         LOGGER.info("[HEROKU] Normally Restarting...")
-        restart_message = await message.reply_text("`Normally Restarting...`")
+        restart_message = await message.reply_text("__Restarting...__")
         clean_all()
+        restart_message.delete()
         srun(["python3", "update.py"])
         with open(".restartmsg", "w") as f:
             f.truncate(0)
@@ -458,7 +458,7 @@ if __name__ == "__main__":
         #\__$$  __|       $$ |                  $$ |                                   $$ |      $$ |  $$ |
         #   $$ | $$$$$$\  $$ | $$$$$$\          $$ |      $$$$$$\   $$$$$$\   $$$$$$$\ $$$$$$$\  \$$\ $$  |
         #   $$ |$$  __$$\ $$ |$$  __$$\ $$$$$$\ $$ |     $$  __$$\ $$  __$$\ $$  _____|$$  __$$\  \$$$$  / 
-        #   $$ |$$$$$$$$ |$$ |$$$$$$$$ |\______|$$ |     $$$$$$$$ |$$$$$$$$ |$$ /      $$ |  $$ | $$  $$<  
+        #   $$ |$$$$$$$$ |$$ |$$$$$$$$ |\______|$$ |     $$$$$$$$ |$$$$$$$$ |$$ /      $$ |  $$ | $$  $$
         #   $$ |$$   ____|$$ |$$   ____|        $$ |     $$   ____|$$   ____|$$ |      $$ |  $$ |$$  /\$$\ 
         #   $$ |\$$$$$$$\ $$ |\$$$$$$$\         $$$$$$$$\\$$$$$$$\ \$$$$$$$\ \$$$$$$$\ $$ |  $$ |$$ /  $$ |
         #   \__| \_______|\__| \_______|        \________|\_______| \_______| \_______|\__|  \__|\__|  \__|
@@ -467,13 +467,11 @@ if __name__ == "__main__":
         #\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|
 
     logging.info('''
-
 ________    ______           ______                 ______ ____  __
 ___  __/_______  /____       ___  / ___________________  /___  |/ /
 __  /  _  _ \_  /_  _ \________  /  _  _ \  _ \  ___/_  __ \_    / 
 _  /   /  __/  / /  __//_____/  /___/  __/  __/ /__ _  / / /    |  
-/_/    \___//_/  \___/       /_____/\___/\___/\___/ /_/ /_//_/|_|  
-                                                                   
+/_/    \___//_/  \___/       /_____/\___/\___/\___/ /_/ /_//_/|_|
     ''')
     logging.info(f"{(app.get_me()).first_name} [@{(app.get_me()).username}] Has Started Running...🏃💨💨")
     if STRING_SESSION:
