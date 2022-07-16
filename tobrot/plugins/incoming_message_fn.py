@@ -34,7 +34,8 @@ from tobrot import (
     UPDATES_CHANNEL,
     LEECH_LOG,
     BOT_PM,
-    EXCEP_CHATS
+    EXCEP_CHATS,
+    bot
 )
 from tobrot import bot
 from tobrot.helper_funcs.display_progress import humanbytes
@@ -80,8 +81,8 @@ async def incoming_message_f(client, message):
     if BOT_PM and message.chat.type != enums.ChatType.PRIVATE and str(message.chat.id) not in str(EXCEP_CHATS):
         LOGGER.info("ForceSubscribe Start")
         try:
-            msg1 = f'Added your Requested link to Download\n'
-            send = await client.sent_message(message.from_user.id, text=msg1)
+            msg1 = f'Leech Started !!\n'
+            send = await bot.send_message(message.from_user.id, text=msg1)
             send.delete()
         except Exception as e:
             LOGGER.warning(e)
