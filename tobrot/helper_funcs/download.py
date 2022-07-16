@@ -20,7 +20,7 @@ from pathlib import Path
 from pyrogram import Client, filters
 from tobrot import DOWNLOAD_LOCATION, LOGGER, TELEGRAM_LEECH_UNZIP_COMMAND
 from tobrot.helper_funcs.create_compressed_archive import unzip_me, get_base_name
-from tobrot.helper_funcs.display_progress import Progress
+from tobrot.helper_funcs.display_progress import Progress, TimeFormatter
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive
 
 
@@ -79,8 +79,9 @@ async def download_tg(client, message):
         LOGGER.info(the_real_download_location)
         await asyncio.sleep(2)
         if the_real_download_location:
+            base_file_name = os.path.basename(the_real_download_location)
             await mess_age.edit_text(
-                f"<b>🔰Status : <i>Downloaded ✅</i></b> \n\n🏷<b> Path Name</b>:  <code>{the_real_download_location}</code> \n\n♻️<b> Time Taken</b>:  <u>{ms}</u> Seconds"
+                f"<b>🔰Status : <i>Downloaded ✅</i></b> \n\n🗃<b> File Name</b>:  <code>{base_file_name}</code> \n\n♻️<b> Time Taken</b>:  <u>{TimeFormatter(ms*1000)}</u>"
             )
         else:
             await mess_age.edit_text("<b>⛔ Download Cancelled ⛔\n\n Some Error Happened Due to I am Hosted on Heroku, Try Again ⁉️</b>")
