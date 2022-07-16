@@ -185,7 +185,7 @@ async def restart(client, message:Message):
         LOGGER.info("[HEROKU] Normally Restarting...")
         restart_message = await message.reply_text("__Restarting...__")
         clean_all()
-        restart_message.delete()
+        await restart_message.delete()
         srun(["python3", "update.py"])
         with open(".restartmsg", "w") as f:
             f.truncate(0)
