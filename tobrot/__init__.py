@@ -224,6 +224,9 @@ PRM_LOG = os.environ.get("PRM_LOG", "-1001620169370")
 # Bot Theme [ UI & Customization ] >>>>>>>>
 BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
 
+# ForceSubscribe [ Channel ] >>>>>>>>
+FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "-1001677456289")
+
 BOT_START_TIME = time.time()
 
 gDict = defaultdict(lambda: [])
