@@ -318,7 +318,7 @@ async def upload_log_file(client, message):
         else:
             toDisplay = len(lines)
         startLine = f'Last {toDisplay} Lines : [On Display Telegram LOG]\n\n---------------- START LOG -----------------\n\n'
-        endLine = '\n\n---------------- END LOG -----------------'
+        endLine = '\n---------------- END LOG -----------------'
         try:
             Loglines = ''
             for l in range (toDisplay, 0, -1):
