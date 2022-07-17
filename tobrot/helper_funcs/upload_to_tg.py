@@ -421,15 +421,21 @@ async def upload_single_file(
                 )
                 LOGGER.info("UserBot Upload : Completed")
             LOGGER.info(sent_msg.document.file_id)
-            sent_message = await bot.send_document(
-                chat_id=message.chat.id,
-                document=str(sent_msg.document.file_id),
-                thumb=thumb,
-                caption=caption_str,
-                parse_mode=ParseMode.HTML,
-                disable_notification=True,
-                reply_to_message_id=message.id
-            )
+            findDocFileID = sent_msg.document.file_id
+            LOGGER.info(findDocFileID)
+            try:
+                sent_message = await bot.send_document(
+                    chat_id=message.chat.id,
+                    document=findDocFileID,
+                    thumb=thumb,
+                    caption=caption_str,
+                    parse_mode=ParseMode.HTML,
+                    disable_notification=True,
+                    reply_to_message_id=message.id
+                )
+            except Exception as e:
+                LOGGER.info(f"[4GB UPLOAD] : {e}")
+                sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
             LOGGER.info("Bot 4GB Upload : Completed")
         else:
             sent_message = await bot.send_document(
