@@ -423,7 +423,7 @@ async def upload_single_file(
             LOGGER.info(sent_msg.document.file_id)
             sent_message = await bot.send_document(
                 chat_id=message.chat.id,
-                document=sent_msg.document.file_id,
+                document=str(sent_msg.document.file_id),
                 thumb=thumb,
                 caption=caption_str,
                 parse_mode=ParseMode.HTML,
