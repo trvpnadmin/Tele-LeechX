@@ -47,7 +47,7 @@ async def handle_force_sub(client, cmd: Message):
                 ])
         )
         return 400
-    except Exception as err:
-        LOGGER.info(f"Force Subscribe Error: {err}")
-        return 200
+    #except Exception as err:
+        #LOGGER.info(f"Force Subscribe Error: {err}")
+        #return 200
     return 200
