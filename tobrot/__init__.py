@@ -225,7 +225,7 @@ PRM_LOG = os.environ.get("PRM_LOG", "-1001620169370")
 BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
 
 # ForceSubscribe [ Channel ] >>>>>>>>
-FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "-1001677456289")
+FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "")
 
 BOT_START_TIME = time.time()
 
