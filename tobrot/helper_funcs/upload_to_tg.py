@@ -420,11 +420,13 @@ async def upload_single_file(
                     ),
                 )
                 LOGGER.info("UserBot Upload : Completed")
+            LOGGER.info(sent_msg.document.file_id)
             sent_message = await bot.send_document(
                 chat_id=message.chat.id,
                 document=sent_msg.document.file_id,
                 thumb=thumb,
                 caption=caption_str,
+                parse_mode=ParseMode.HTML,
                 disable_notification=True,
                 reply_to_message_id=message.id
             )
@@ -435,7 +437,7 @@ async def upload_single_file(
                 document=local_file_name,
                 thumb=thumb,
                 caption=f"<code>{base_file_name}</code>\n\n♨️ 𝕌𝕡𝕝𝕠𝕒𝕕𝕖𝕕 𝔹𝕪 @FXTorrentz ♨️",
-                parse_mode=enums.ParseMode.HTML,
+                parse_mode=ParseMode.HTML,
                 disable_notification=True,
             )
             if BOT_PM:
