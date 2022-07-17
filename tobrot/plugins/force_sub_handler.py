@@ -31,7 +31,8 @@ async def handle_force_sub(client, cmd: Message):
                 disable_web_page_preview=True
             )
             return 400
-    except:
+    except Exception as err:
+        LOGGER.info(f"Force Subscribe Error: {err}")
         try:
             invite_link = await get_invite_link(bot, chat_id=channel_chat_id)
         except Exception as err:
@@ -47,7 +48,7 @@ async def handle_force_sub(client, cmd: Message):
                 ])
         )
         return 400
-    except Exception as err:
-        LOGGER.info(f"Force Subscribe Error: {err}")
-        return 200
+    #except Exception as err:
+        #LOGGER.info(f"Force Subscribe Error: {err}")
+        #return 200
     return 200
