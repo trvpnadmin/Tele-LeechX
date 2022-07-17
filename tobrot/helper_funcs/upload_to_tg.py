@@ -425,7 +425,6 @@ async def upload_single_file(
                 document=sent_msg.document.file_id,
                 thumb=thumb,
                 caption=caption_str,
-                parse_mode=ParseMode.HTML,
                 disable_notification=True,
                 reply_to_message_id=message.id
             )
