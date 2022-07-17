@@ -31,6 +31,8 @@ async def handle_force_sub(client, cmd: Message):
                 disable_web_page_preview=True
             )
             return 400
+        elif user.status == enums.ChatMemberStatus.LEFT:
+            raise Exception
     except Exception as err:
         LOGGER.info(f"Force Subscribe Error: {err}")
         try:
