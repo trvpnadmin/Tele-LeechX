@@ -217,7 +217,7 @@ if __name__ == "__main__":
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
+        bot.edit_message_text("__Restarted & Updated Successfully!__", chat_id, msg_id)
         os.remove(".restartmsg")
     elif OWNER_ID:
         try:
