@@ -12,14 +12,41 @@ import asyncio
 import logging
 import os
 import time
-from collections import defaultdict
-from logging.handlers import RotatingFileHandler
-from sys import exit
 import urllib.request
 import dotenv
 import telegram.ext as tg
 
+from subprocess import run
+from collections import defaultdict
+from logging.handlers import RotatingFileHandler
+from sys import exit
 from pyrogram import Client
+
+# Adding Files and Data >>>>>>>>
+run(["wget", "-O", "/app/tobrot/aria2/dht.dat", "https://github.com/P3TERX/aria2.conf/raw/master/dht.dat"])
+run(["wget", "-O", "/app/tobrot/aria2/dht6.dat", "https://github.com/P3TERX/aria2.conf/raw/master/dht6.dat"])
+
+# Temporary Fix for Extract Issue >>>>>>>
+run(["chmod", "+x", "extract"])
+
+CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL')
+try:
+    if len(CONFIG_FILE_URL) == 0:
+        raise TypeError
+    try:
+        res = requests.get(CONFIG_FILE_URL)
+        if res.status_code == 200:
+            with open('config.env', 'wb+') as f:
+                f.write(res.content)
+        else:
+            LOGGER.error(f"Failed to download config.env {res.status_code}")
+    except Exception as e:
+        LOGGER.error(f"CONFIG_FILE_URL: {e}")
+except:
+    pass
+
+def getConfig(name: str):
+    return os.environ[name]
 
 UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "@FuZionX")
 LOG_FILE_NAME = f"{UPDATES_CHANNEL}Logs.txt"
@@ -48,23 +75,6 @@ LOGGER = logging.getLogger(__name__)
 
 user_specific_config=dict()
 __version__ = "2.5.15"
-def getConfig(name: str):
-    return os.environ[name]
-CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL')
-try:
-    if len(CONFIG_FILE_URL) == 0:
-        raise TypeError
-    try:
-        res = requests.get(CONFIG_FILE_URL)
-        if res.status_code == 200:
-            with open('config.env', 'wb+') as f:
-                f.write(res.content)
-        else:
-            LOGGER.error(f"Failed to download config.env {res.status_code}")
-    except Exception as e:
-        LOGGER.error(f"CONFIG_FILE_URL: {e}")
-except:
-    pass
 
 try:
     HEROKU_API_KEY = getConfig('HEROKU_API_KEY')
@@ -84,17 +94,17 @@ for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
         if not value:
             raise KeyError
     except KeyError:
-        LOGGER.critical(f"Oh...{imp} is missing from config.env ... fill that")
+        LOGGER.critical(f"[ERROR] Variable : {imp} Missing from config.env. Fill Up and Retry")
         exit()
 
 # The Telegram API things >>>>>>>>>>>
-TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "5139162631:AAHGWHHbnbu7k5jOjXW-axcNuJcSRpBktr4")
-APP_ID = os.environ.get("APP_ID", "6878048")
-API_HASH = os.environ.get("API_HASH", "3833ae3a7415af46df46a83a3ba2c432")
-OWNER_ID = int(os.environ.get("OWNER_ID", "1242011540"))
+TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
+APP_ID = os.environ.get("APP_ID", "")
+API_HASH = os.environ.get("API_HASH", "")
+OWNER_ID = int(os.environ.get("OWNER_ID", ""))
 
 # Authorised Chat Functions >>>>>>>>>>>
-AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "-1001270496331 -1001508663868").split()]
+AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "").split()]
 SUDO_USERS = [int(sudos) if (' ' not in os.environ.get('SUDO_USERS', '')) else int(sudos) for sudos in os.environ.get('SUDO_USERS', '').split()]
 AUTH_CHANNEL.append(OWNER_ID)
 AUTH_CHANNEL += SUDO_USERS
@@ -225,7 +235,7 @@ PRM_LOG = os.environ.get("PRM_LOG", "-1001620169370")
 BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
 
 # ForceSubscribe [ Channel ] >>>>>>>>
-FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "")
+FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "") #Do Not Put this Now
 
 BOT_START_TIME = time.time()
 
