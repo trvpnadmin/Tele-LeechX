@@ -180,7 +180,8 @@ async def restart(client, message:Message):
         LOGGER.info("[HEROKU] Dyno Restarting...")
         restart_message = await message.reply_text("__Dyno Restarting...__")
         app.stop()
-        userBot.stop()
+        if STRING_SESSION:
+            userBot.stop()
         heroku_conn = heroku3.from_key(HEROKU_API_KEY)
         appx = heroku_conn.app(HEROKU_APP_NAME)
         appx.restart()
@@ -207,9 +208,6 @@ if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
 
-    # Temporary Fix for Extract Issue >>>>>>>
-    srun(["chmod", "+x", "extract"])
-
     # Bot Restart & Restart Message >>>>>>>>
     utc_now = datetime.datetime.utcnow()
     ist_now = utc_now + datetime.timedelta(minutes=30, hours=5)
@@ -217,7 +215,7 @@ if __name__ == "__main__":
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("__Restarted & Updated Successfully!__", chat_id, msg_id)
+        bot.edit_message_text("Restarted & Updated Successfully!", chat_id, msg_id) #Telegram Sucks ???
         os.remove(".restartmsg")
     elif OWNER_ID:
         try:
