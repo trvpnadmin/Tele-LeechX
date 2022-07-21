@@ -7,8 +7,6 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved 
 
-
-import uvloop
 import asyncio
 import logging
 import os
@@ -239,10 +237,6 @@ BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
 FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "") #Do Not Put this Now
 
 BOT_START_TIME = time.time()
-
-# Install uvloop for 2-4x Fast Asyncio 
-uvloop.install()
-LOGGER.info("[INIT] uvloop Install")
 
 gDict = defaultdict(lambda: [])
 user_settings = defaultdict(lambda: {})
