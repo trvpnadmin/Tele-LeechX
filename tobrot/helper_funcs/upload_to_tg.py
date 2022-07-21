@@ -378,8 +378,11 @@ async def upload_single_file(
             dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
             LOGGER.info(f'Found Dyanamic Config for User : {from_user}')
 
-    if (not PRM_LOG):
-        LOGGER.warning("Provide PRM_LOG Var to Upload 4GB Contents")
+    if (not PRM_LOG) and LEECH_LOG:
+        PRM_LOG = LEECH_LOG
+        LOGGER.info("[IDLE] Switching PRM_LOG to LEECH_LOG")
+    elif (not PRM_LOG) and (not LEECH_LOG):
+        LOGGER.warning("[ERROR] Provide PRM_LOG or LEECH_LOG Var to Upload 4GB Contents")
         prm_atv = False
 
     if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc:
@@ -615,7 +618,7 @@ async def upload_single_file(
                         try:
                             sent_message = await bot.send_video(
                                 chat_id=message.chat.id,
-                                video=sent_msg.document.file_id,
+                                video=sent_msg.video.file_id,
                                 thumb=thumb,
                                 duration=duration,
                                 width=width,
