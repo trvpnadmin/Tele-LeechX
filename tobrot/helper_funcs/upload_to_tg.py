@@ -107,7 +107,6 @@ async def upload_to_tg(
     else:
         caption_str = DEF_CAPTION_MSG
     
-    #global TG_PRM_FILE_SIZE
     IS_RETRT = False
     if PRM_USERS:
         if str(from_user) not in str(PRM_USERS):
@@ -378,7 +377,7 @@ async def upload_single_file(
         if key == from_user:
             dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
             LOGGER.info(f'Found Dyanamic Config for User : {from_user}')
-
+    global PRM_LOG
     if (not PRM_LOG) and LEECH_LOG:
         PRM_LOG = LEECH_LOG
         LOGGER.info("[IDLE] Switching PRM_LOG to LEECH_LOG")
