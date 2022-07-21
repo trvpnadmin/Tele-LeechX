@@ -133,6 +133,7 @@ async def upload_to_tg(
             )
     else:
         sizze = os.path.getsize(local_file_name)
+        global TG_PRM_FILE_SIZE
         if sizze < TG_PRM_FILE_SIZE and sizze > TG_MAX_FILE_SIZE and isUserPremium:
             LOGGER.info(f"User Type : Premium ({from_user})")
             sent_message = await upload_single_file(
