@@ -16,7 +16,6 @@ import shutil
 import traceback
 import datetime 
 import heroku3
-import uvloop 
 
 from telegram import ParseMode
 from pyrogram import enums
@@ -208,8 +207,6 @@ if __name__ == "__main__":
     # Generat Download Directory, if Not Exist !!
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
-
-    uvloop.install() #Reinstall [Huh]
 
     # Bot Restart & Restart Message >>>>>>>>
     utc_now = datetime.datetime.utcnow()
