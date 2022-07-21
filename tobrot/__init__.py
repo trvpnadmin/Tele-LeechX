@@ -242,8 +242,7 @@ BOT_START_TIME = time.time()
 
 # Install uvloop for 2-4x Fast Asyncio 
 uvloop.install()
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-LOGGER.info("[INIT] uvloop Started")
+LOGGER.info("[INIT] uvloop Install")
 
 gDict = defaultdict(lambda: [])
 user_settings = defaultdict(lambda: {})
