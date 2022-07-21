@@ -107,7 +107,9 @@ async def upload_to_tg(
     else:
         caption_str = DEF_CAPTION_MSG
     
-    
+    if PRM_USERS:
+        if str(from_user) not in str(PRM_USERS):
+            TG_PRM_FILE_SIZE = TG_MAX_FILE_SIZE
 
     if os.path.isdir(local_file_name):
         directory_contents = os.listdir(local_file_name)
@@ -131,7 +133,7 @@ async def upload_to_tg(
             )
     else:
         sizze = os.path.getsize(local_file_name)
-        if sizze < TG_PRM_FILE_SIZE and sizze > TG_MAX_FILE_SIZE and str(from_user) in str(PRM_USERS) and isUserPremium:
+        if sizze < TG_PRM_FILE_SIZE and sizze > TG_MAX_FILE_SIZE and isUserPremium:
             LOGGER.info(f"User Type : Premium ({from_user})")
             sent_message = await upload_single_file(
                 message,
@@ -374,7 +376,11 @@ async def upload_single_file(
         if key == from_user:
             dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
             LOGGER.info(f'Found Dyanamic Config for User : {from_user}')
-    #
+
+    if (not PRM_LOG):
+        LOGGER.warning("Provide PRM_LOG Var to Upload 4GB Contents")
+        prm_atv = False
+
     if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc:
         thumb = None
         thumb_image_path = None
@@ -420,13 +426,10 @@ async def upload_single_file(
                     ),
                 )
                 LOGGER.info("UserBot Upload : Completed")
-            LOGGER.info(sent_msg.document.file_id)
-            findDocFileID = sent_msg.document.file_id
-            LOGGER.info(findDocFileID)
             try:
                 sent_message = await bot.send_document(
                     chat_id=message.chat.id,
-                    document=findDocFileID,
+                    document=sent_msg.document.file_id,
                     thumb=thumb,
                     caption=caption_str,
                     parse_mode=ParseMode.HTML,
@@ -435,7 +438,18 @@ async def upload_single_file(
                 )
             except Exception as e:
                 LOGGER.info(f"[4GB UPLOAD] : {e}")
-                sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
+                try:
+                    sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
+                except Exception as er:
+                    LOGGER.info(f"[4GB UPLOAD USER] : {er}")
+                    sent_message = bot.copy_message(
+                        chat_id=message.chat.id,
+                        from_chat_id=int(PRM_LOG),
+                        message_id=sent_msg.id,
+                        caption=caption_str,
+                        parse_mode=ParseMode.HTML,
+                        reply_to_message_id=message.id
+                    )
             LOGGER.info("Bot 4GB Upload : Completed")
         else:
             sent_message = await bot.send_document(
@@ -559,7 +573,7 @@ async def upload_single_file(
                         # quote=True,
                     )
                 else:
-                    if str(message.chat.id) in str(EXCEP_CHATS):
+                    if str(message.chat.id) in str(EXCEP_CHATS) and not prm_atv:
                         sent_message = await message.reply_video(
                             video=local_file_name,
                             caption=caption_str,
@@ -576,6 +590,56 @@ async def upload_single_file(
                                 start_time,
                             ),
                          )
+                    elif str(message.chat.id) in str(EXCEP_CHATS) and prm_atv:
+                        with userBot:
+                            LOGGER.info("UserBot Upload : Started [VIDEO]")
+                            sent_msg = await userBot.send_video(
+                                chat_id=int(PRM_LOG),
+                                video=local_file_name,
+                                thumb=thumb,
+                                duration=duration,
+                                width=width,
+                                height=height,
+                                supports_streaming=True,
+                                caption=caption_str,
+                                parse_mode=enums.ParseMode.HTML,
+                                disable_notification=True,
+                                progress=prog.progress_for_pyrogram,
+                                progress_args=(
+                                    f"◆━━━━━━◆ ❃ ◆━━━━━━◆\n\n┏━━━━━━━━━━━━━━━━╻\n┣⚡️ 𝐅𝐢𝐥𝐞𝐧𝐚𝐦𝐞 : `{os.path.basename(local_file_name)}`",
+                                    start_time,
+                                ),
+                            )
+                            LOGGER.info("UserBot Upload : Completed")
+                        try:
+                            sent_message = await bot.send_video(
+                                chat_id=message.chat.id,
+                                video=sent_msg.document.file_id,
+                                thumb=thumb,
+                                duration=duration,
+                                width=width,
+                                height=height,
+                                supports_streaming=True,
+                                caption=caption_str,
+                                parse_mode=ParseMode.HTML,
+                                disable_notification=True,
+                                reply_to_message_id=message.id
+                            )
+                        except Exception as e:
+                            LOGGER.info(f"[4GB UPLOAD] : {e}")
+                            try:
+                                sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
+                            except Exception as er:
+                                LOGGER.info(f"[4GB UPLOAD USER] : {er}")
+                                sent_message = bot.copy_message(
+                                    chat_id=message.chat.id,
+                                    from_chat_id=int(PRM_LOG),
+                                    message_id=sent_msg.id,
+                                    caption=caption_str,
+                                    parse_mode=ParseMode.HTML,
+                                    reply_to_message_id=message.id
+                                )
+                        LOGGER.info("Bot 4GB Upload : Completed")
                     else:
                         sent_message = await message.sent_video(
                             chat_id=LEECH_LOG,
