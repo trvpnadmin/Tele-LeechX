@@ -240,6 +240,11 @@ FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "") #Do Not Put this Now
 
 BOT_START_TIME = time.time()
 
+# Install uvloop for 2-4x Fast Asyncio 
+uvloop.install()
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+LOGGER.info("[INIT] uvloop Started")
+
 gDict = defaultdict(lambda: [])
 user_settings = defaultdict(lambda: {})
 gid_dict = defaultdict(lambda: [])
@@ -264,9 +269,6 @@ if not os.path.exists("rclone_bak.conf"):  # Remake and BackUp rclone.conf file
         with open("rclone.conf", "r") as f:
             fole.write(f.read())
     LOGGER.info("[SUCCESS] rclone.conf BackUped to rclone_bak.conf!")
-
-# Install uvloop for 2-4x Fast Asyncio 
-uvloop.install()
 
 # Pyrogram Client Intialization >>>>>>>>>>>
 app = Client("LeechBot", bot_token=TG_BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, workers=343)
