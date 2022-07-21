@@ -107,10 +107,11 @@ async def upload_to_tg(
     else:
         caption_str = DEF_CAPTION_MSG
     
-    global TG_PRM_FILE_SIZE
+    #global TG_PRM_FILE_SIZE
+    IS_RETRT = False
     if PRM_USERS:
         if str(from_user) not in str(PRM_USERS):
-            TG_PRM_FILE_SIZE = TG_MAX_FILE_SIZE
+            IS_RETRT = True
 
     if os.path.isdir(local_file_name):
         directory_contents = os.listdir(local_file_name)
@@ -134,7 +135,7 @@ async def upload_to_tg(
             )
     else:
         sizze = os.path.getsize(local_file_name)
-        if sizze < TG_PRM_FILE_SIZE and sizze > TG_MAX_FILE_SIZE and isUserPremium:
+        if sizze > TG_MAX_FILE_SIZE and sizze < TG_PRM_FILE_SIZE and isUserPremium and (not IS_RETRT):
             LOGGER.info(f"User Type : Premium ({from_user})")
             sent_message = await upload_single_file(
                 message,
