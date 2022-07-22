@@ -44,7 +44,7 @@ try:
 except:
     pass
 
-UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "@FuZionX")
+UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "")
 LOG_FILE_NAME = f"{UPDATES_CHANNEL}Logs.txt"
 
 if os.path.exists(LOG_FILE_NAME):
@@ -110,7 +110,7 @@ FREE_USER_MAX_FILE_SIZE = 50000000
 
 # chunk size that should be used with requests
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", "128"))
-DEF_THUMB_NAIL_VID_S = os.environ.get("DEF_THUMB_NAIL_VID_S", "https://telegra.ph/file/3a7f09b89943b51cdba38.jpg")
+DEF_THUMB_NAIL_VID_S = os.environ.get("DEF_THUMB_NAIL_VID_S", "")
 MAX_MESSAGE_LENGTH = 4096
 
 # Timeout for Subprocess >>>>>>>>
@@ -147,8 +147,8 @@ GPYTDL_COMMAND = os.environ.get("GPYTDL_COMMAND", "gpytdl")
 
 #Bot Command [RClone]  >>>>>>>>>>>
 RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
-DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "FuZionXBot")
-INDEX_LINK = os.environ.get("INDEX_LINK", "https://covid.demonn.workers.dev/0:/FuZionXBot https://infyplexultra.mysterydemon.workers.dev/0:/FuZionXBot")
+DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "Tele-LeechX")
+INDEX_LINK = os.environ.get("INDEX_LINK", "")
 VIEW_LINK = os.environ.get("VIEW_LINK", True)
 GET_SIZE_G = os.environ.get("GET_SIZE_G", "getsize")
 CLONE_COMMAND_G = os.environ.get("CLONE_COMMAND_G", "gclone")
@@ -176,52 +176,38 @@ SPEEDTEST = os.environ.get("SPEEDTEST", "speedtest")
 TSEARCH_COMMAND = os.environ.get("TSEARCH_COMMAND", "tshelp")
 MEDIAINFO_CMD = os.environ.get("MEDIAINFO_CMD", "mediainfo")
 CAP_STYLE = os.environ.get("CAP_STYLE", "code")
-BOT_NO = os.environ.get("BOT_NO", "")
+BOT_NO = os.environ.get("BOT_NO", "") #Dont Use Now Bug
 
 #Bot Command [Token Utils]  >>>>>>>>>>>
 UPTOBOX_TOKEN = os.environ.get("UPTOBOX_TOKEN", "")
-EMAIL = os.environ.get("EMAIL", "mysterysd.sd@gmail.com")
-PWSSD = os.environ.get("PWSSD", "S#D#97531")
-GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", "0AN3LeVWuYvwEUk9PVA")
-CRYPT = os.environ.get("CRYPT", "S3htTzl3aDdHUWdJWDhLZVV2MlpSVGlkZ0RVYU0xc29oQlNKSENGakRaOD0%3D")
-#PHPSESSID = os.environ.get("PHPSESSID", "dslvec02r5mo3co40vsq6154eh")
-HUB_CRYPT = os.environ.get("HUB_CRYPT", "dVAwSkpDU0FWVnNYV3hSZU40RkhrRU53RzVmdjVBbFd3RThPeFllMmhSND0%3D")
-DRIVEFIRE_CRYPT = os.environ.get("DRIVEFIRE_CRYPT", "dVAwSkpDU0FWVnNYV3hSZU40RkhrRU53RzVmdjVBbFd3RThPeFllMmhSND0%3D")
-KATDRIVE_CRYPT = os.environ.get("KATDRIVE_CRYPT", "WlFKUldtYWJzNmJlWkEvajRscmVrSjhJRm8yNXdDZklqYXpxd1AxQ0Zwcz0%3D; __gads=ID=d116cbcd46cd789b:T=1653563306:S=ALNI_Mb-QZgpbYcINdk3rhsqxydUNpVLeQ")
-KOLOP_CRYPT = os.environ.get("KOLOP_CRYPT", "WlFKUldtYWJzNmJlWkEvajRscmVrSjhJRm8yNXdDZklqYXpxd1AxQ0Zwcz0%3D")
-DRIVEBUZZ_CRYPT = os.environ.get("DRIVEBUZZ_CRYPT", "dVAwSkpDU0FWVnNYV3hSZU40RkhrRU53RzVmdjVBbFd3RThPeFllMmhSND0%3D")
-GADRIVE_CRYPT = os.environ.get("GADRIVE_CRYPT", "dVAwSkpDU0FWVnNYV3hSZU40RkhrRU53RzVmdjVBbFd3RThPeFllMmhSND0%3D")
+EMAIL = os.environ.get("EMAIL", "")
+PWSSD = os.environ.get("PWSSD", "")
+GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", "")
+CRYPT = os.environ.get("CRYPT", "")
+#PHPSESSID = os.environ.get("PHPSESSID", "")
+HUB_CRYPT = os.environ.get("HUB_CRYPT", "")
+DRIVEFIRE_CRYPT = os.environ.get("DRIVEFIRE_CRYPT", "")
+KATDRIVE_CRYPT = os.environ.get("KATDRIVE_CRYPT", "")
+KOLOP_CRYPT = os.environ.get("KOLOP_CRYPT", "")
+DRIVEBUZZ_CRYPT = os.environ.get("DRIVEBUZZ_CRYPT", "")
+GADRIVE_CRYPT = os.environ.get("GADRIVE_CRYPT", "")
 STRING_SESSION = os.environ.get("STRING_SESSION", "")
 
 #Bot Command [IMDB]  >>>>>>>>>>>
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", "")
 MAX_LIST_ELM = os.environ.get("MAX_LIST_ELM", None)
-DEF_IMDB_TEMPLATE = os.environ.get("IMDB_TEMPLATE", """<i><b>⚡𝐓𝐢𝐭𝐥𝐞: </b> {title}
-<b>⚡𝐈𝐌𝐃𝐁 𝐑𝐚𝐭𝐢𝐧𝐠 :</b> <code>{rating} </code>
-<b>⚡𝐐𝐮𝐚𝐥𝐢𝐭𝐲:  </b>
-<b>⚡𝐑𝐞𝐥𝐞𝐚𝐬𝐞 𝐃𝐚𝐭𝐞: </b> {release_date}
-<b>⚡𝐆𝐞𝐧𝐫𝐞: </b>{genres}
-<b>⚡️𝐈𝐌𝐃𝐁: </b>{url}
-<b>⚡𝐋𝐚𝐧𝐠𝐮𝐚𝐠𝐞:  </b>{languages}
-<b>⚡𝐂𝐨𝐮𝐧𝐭𝐫𝐲: </b> {countries}
-<b>⚡𝐒𝐮𝐛𝐭𝐢𝐭𝐥𝐞𝐬: </b>
-
-<b>⚡𝐒𝐭𝐨𝐫𝐲 𝐋𝐢𝐧𝐞: </b><code>{plot}</code>
-
-⚡️𝐉𝐨𝐢𝐧 𝐍𝐨𝐰 :  @FuZionX </i>
-
-⚡️✅ 𝑪𝒍𝒊𝒄𝒌 𝑫𝒐𝒘𝒏 𝒂𝒏𝒅 𝑺𝒕𝒂𝒓𝒕 𝒕𝒉𝒆 𝑩𝒐𝒕 𝒕𝒐 𝑮𝒆𝒕 𝒕𝒉𝒆 𝑭𝒊𝒍𝒆 ✅ !! ⬇️ ⬇️""")
+DEF_IMDB_TEMPLATE = os.environ.get("IMDB_TEMPLATE", "")
 
 #Bot Command [Bot PM & Log Channel]  >>>>>>>>>>>
-LEECH_LOG = os.environ.get("LEECH_LOG", "-1001569981856")
+LEECH_LOG = os.environ.get("LEECH_LOG", "")
 EX_LEECH_LOG = os.environ.get("EX_LEECH_LOG", "")
 EXCEP_CHATS = os.environ.get("EXCEP_CHATS", "")
-BOT_PM = os.environ.get("BOT_PM", "True")
+BOT_PM = os.environ.get("BOT_PM", False)
 SERVER_HOST = os.environ.get("SERVER_HOST", "Heroku")
 
 # 4 GB Upload Utils >>>>>>>>>>>
-PRM_USERS = os.environ.get("PRM_USERS", "1242011540 503170505") #Optional 
-PRM_LOG = os.environ.get("PRM_LOG", "-1001620169370") #Optional 
+PRM_USERS = os.environ.get("PRM_USERS", "") #Optional 
+PRM_LOG = os.environ.get("PRM_LOG", "") #Optional 
 
 # Bot Theme [ UI & Customization ] >>>>>>>>
 BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
