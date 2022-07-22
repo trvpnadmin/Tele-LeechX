@@ -44,9 +44,6 @@ try:
 except:
     pass
 
-def getConfig(name: str):
-    return os.environ[name]
-
 UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "@FuZionX")
 LOG_FILE_NAME = f"{UPDATES_CHANNEL}Logs.txt"
 
@@ -75,15 +72,6 @@ LOGGER = logging.getLogger(__name__)
 user_specific_config=dict()
 __version__ = "2.5.15"
 
-try:
-    HEROKU_API_KEY = getConfig('HEROKU_API_KEY')
-    HEROKU_APP_NAME = getConfig('HEROKU_APP_NAME')
-    if len(HEROKU_API_KEY) == 0 or len(HEROKU_APP_NAME) == 0:
-        raise KeyError
-except:
-    HEROKU_APP_NAME = None
-    HEROKU_API_KEY = None
-
 dotenv.load_dotenv("config.env")
 
 # Compulsory Variables >>>>>>>>
@@ -98,9 +86,13 @@ for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
 
 # The Telegram API things >>>>>>>>>>>
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
-APP_ID = os.environ.get("APP_ID", "")
+APP_ID = int(os.environ.get("APP_ID", ""))
 API_HASH = os.environ.get("API_HASH", "")
 OWNER_ID = int(os.environ.get("OWNER_ID", ""))
+
+# Heroku & Restart Utils >>>>>>>>>>>
+HEROKU_API_KEY = os.environ.get('HEROKU_API_KEY', None)
+HEROKU_APP_NAME = os.environ.get('HEROKU_APP_NAME', None)
 
 # Authorised Chat Functions >>>>>>>>>>>
 AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "").split()]
@@ -110,7 +102,7 @@ AUTH_CHANNEL += SUDO_USERS
 # Download Directory >>>>>>>>>>>
 DOWNLOAD_LOCATION = "./Downloads"
 
-# Telegram maximum file upload size
+# Telegram Max File Upload Size >>>>>>>>>>
 MAX_FILE_SIZE = 50000000
 TG_MAX_FILE_SIZE = 2097152000
 TG_PRM_FILE_SIZE = 4194304000
@@ -157,6 +149,7 @@ GPYTDL_COMMAND = os.environ.get("GPYTDL_COMMAND", "gpytdl")
 RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
 DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "FuZionXBot")
 INDEX_LINK = os.environ.get("INDEX_LINK", "https://covid.demonn.workers.dev/0:/FuZionXBot https://infyplexultra.mysterydemon.workers.dev/0:/FuZionXBot")
+VIEW_LINK = os.environ.get("VIEW_LINK", True)
 GET_SIZE_G = os.environ.get("GET_SIZE_G", "getsize")
 CLONE_COMMAND_G = os.environ.get("CLONE_COMMAND_G", "gclone")
 TELEGRAM_LEECH_COMMAND = os.environ.get("TELEGRAM_LEECH_COMMAND", "tleech")
@@ -227,8 +220,8 @@ BOT_PM = os.environ.get("BOT_PM", "True")
 SERVER_HOST = os.environ.get("SERVER_HOST", "Heroku")
 
 # 4 GB Upload Utils >>>>>>>>>>>
-PRM_USERS = os.environ.get("PRM_USERS", "1242011540 503170505")
-PRM_LOG = os.environ.get("PRM_LOG", "-1001620169370")
+PRM_USERS = os.environ.get("PRM_USERS", "1242011540 503170505") #Optional 
+PRM_LOG = os.environ.get("PRM_LOG", "-1001620169370") #Optional 
 
 # Bot Theme [ UI & Customization ] >>>>>>>>
 BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
@@ -278,7 +271,6 @@ if len(STRING_SESSION) > 10:
             LOGGER.info("[SUCCESS] Initiated UserBot : Non-Premium Mode. Add Premium Account StringSession to Use 4GB Upload. ")
     else: LOGGER.warning("[FAILED] Userbot Not Started. ReCheck Your STRING_SESSION, and Other Vars")
 else: LOGGER.info("ReGenerate Your STRING_SESSION Var.")
-
 
 updater = tg.Updater(token=TG_BOT_TOKEN)
 bot = updater.bot
