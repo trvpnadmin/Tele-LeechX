@@ -4,8 +4,23 @@
 
 A `Telegram Leech Bot` Upto 4GB Uploading With Premium Telegram Account and Modern Easy-To-Use Interface &amp; Custom UI and Some Modded and Kang By `MysterySD`.
 
-![GitHub repo size](https://img.shields.io/github/repo-size/5MysterySD/Tele-LeechX?color=red&style=plastic)
-![GitHub Commits](https://img.shields.io/github/commit-activity/m/5MysterySD/Tele-LeechX?style=plastic)
+<div align=center>
+
+----
+
+[![](https://img.shields.io/github/workflow/status/5MysterySD/Tele-LeechX/CodeQL/h-code?logo=github&color=success&label=Github%20CodeQL&labelColor=292c3b)](#)
+[![](https://img.shields.io/github/repo-size/5MysterySD/Tele-LeechX?color=green&label=Repo%20Size&labelColor=292c3b)](#)
+[![](https://img.shields.io/github/commit-activity/m/5MysterySD/Tele-LeechX?logo=github&labelColor=292c3b&label=Github%20Commits)](#)
+[![](https://img.shields.io/github/license/5MysterySD/Tele-LeechX?style=flat&label=License&labelColor=292c3b)](#)[![](https://img.shields.io/github/issues-raw/5MysterySD/Tele-LeechX?style=flat&label=Open%20Issues&labelColor=292c3b)](#)
+[![](https://img.shields.io/github/issues-closed-raw/5MysterySD/Tele-LeechX?style=flat&label=Closed%20Issues&labelColor=292c3b)](#)
+[![](https://img.shields.io/github/issues-pr-raw/5MysterySD/Tele-LeechX?style=flat&label=Open%20Pull%20Requests&labelColor=292c3b)](#)
+[![](https://img.shields.io/github/issues-pr-closed-raw/5MysterySD/Tele-LeechX?style=flat&label=Closed%20Pull%20Requests&labelColor=292c3b)](#)
+[![](https://img.shields.io/github/languages/count/5MysterySD/Tele-LeechX?style=flat&label=Languages&labelColor=292c3b&color=blueviolet)](#)
+[![](https://img.shields.io/github/languages/top/5MysterySD/Tele-LeechX?style=flat&logo=python&labelColor=292c3b)](#)
+[![](https://img.shields.io/github/last-commit/5MysterySD/Tele-LeechX?style=flat&label=Last%20Commit&labelColor=292c3b&color=important)](#)
+[![](https://img.shields.io/github/forks/5MysterySD/Tele-LeechX?style=flat&logo=github&label=Forks&labelColor=292c3b&color=critical)](#)
+[![](https://img.shields.io/github/stars/5MysterySD/Tele-LeechX?style=flat&logo=github&label=Stars&labelColor=292c3b&color=red)](#)
+</div>
 
 ----
 
@@ -18,7 +33,7 @@ Check [`Heroku Branch`](https://github.com/5MysterySD/Tele-LeechX/tree/heroku) .
 
 ## Documentation 🗂
 
-Check Full Documentation and README.md [Here](https://5mysterysd.github.io).
+Check Full Documentation and README.md [Here](https://5mysterysd.github.io/categories/tele-leechx/).
 Documentation Not Ready yet !! JOIN Support Group and Ask Doubts
 
 ---
@@ -27,7 +42,7 @@ Documentation Not Ready yet !! JOIN Support Group and Ask Doubts
 
 Join [@FXTorrentz](https://t.me/FXTorrentz) and Join Group for Bug Check and Deploy Guide !!
 
-<a href="https://t.me/FXTorrentz"><img src="https://img.shields.io/badge/FX Leech Bot-2cb6e0?style=for-the-badge&logo=telegram&logoColor=black"></a>
+<a href="https://t.me/FXTorrentz"><img src="https://img.shields.io/badge/FX Leech Bot-2cb6e0?style=for-the-badge&logo=telegram&logoColor=black&color=1b705e"></a>
 
 ---
 
