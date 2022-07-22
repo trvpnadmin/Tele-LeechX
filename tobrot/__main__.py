@@ -14,7 +14,8 @@ import os
 import sys
 import shutil
 import traceback
-import datetime 
+import datetime
+import requests
 import heroku3
 
 from telegram import ParseMode
@@ -64,7 +65,8 @@ from tobrot import (
     UPDATES_CHANNEL,
     SERVER_HOST,
     STRING_SESSION,
-    SET_BOT_COMMANDS
+    SET_BOT_COMMANDS,
+    RDM_QUOTE
 )
 if STRING_SESSION:
     from tobrot import userBot
@@ -215,7 +217,7 @@ if __name__ == "__main__":
     # Bot Restart & Restart Message >>>>>>>>
     utc_now = datetime.datetime.utcnow()
     ist_now = utc_now + datetime.timedelta(minutes=30, hours=5)
-    ist = ist_now.strftime("<b>📆 𝘿𝙖𝙩𝙚 :</b> <code>%d/%m/%Y</code> \n<b>⏰ 𝙏𝙞𝙢𝙚 :</b> <code>%I:%M:%S %p %d %B, %Y (GMT+05:30)</code>") #Will Fix to Time Zone Format
+    ist = ist_now.strftime("<b>📆 𝘿𝙖𝙩𝙚 :</b> <code>%d %B, %Y</code> \n<b>⏰ 𝙏𝙞𝙢𝙚 :</b> <code>%I:%M:%S %p (GMT+05:30)</code>") #Will Fix to Time Zone Format
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
@@ -224,6 +226,17 @@ if __name__ == "__main__":
     elif OWNER_ID:
         try:
             text = f"<b>Bᴏᴛ Rᴇsᴛᴀʀᴛᴇᴅ !!</b>\n\n<b>📊 𝙃𝙤𝙨𝙩 :</b> <code>{SERVER_HOST}</code>\n{ist}\n\n<b>ℹ️ 𝙑𝙚𝙧𝙨𝙞𝙤𝙣 :</b> <code>{__version__}</code>"
+            if RDM_QUOTE:
+                try:
+                    qResponse = requests.get("https://quote-garden.herokuapp.com/api/v3/quotes/random")
+                    if qResponse.status_code == 200:
+                        qData = qResponse.json() 
+                        qText = qData['data'][0]['quoteText']
+                        qAuthor = qData['data'][0]['quoteAuthor']
+                        #qGenre = qData['data'][0]['quoteGenre']
+                        text += f"\n\n📬 𝙌𝙪𝙤𝙩𝙚 :\n\n<b>{qText}</b>\n\n🏷 <i>By {qAuthor}</i>"        
+                except Exception as q:
+                    LOGGER.info("Quote API Error : {q}")
             if AUTH_CHANNEL:
                 for i in AUTH_CHANNEL:
                     bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
