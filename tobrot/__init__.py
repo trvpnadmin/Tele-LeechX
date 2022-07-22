@@ -229,6 +229,9 @@ BOT_THEME = os.environ.get("BOT_THEME", "fx-optimised")
 # ForceSubscribe [ Channel ] >>>>>>>>
 FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "") #Do Not Put this Now
 
+# Quotes in Restart Message >>>>>>>>
+RDM_QUOTE = os.environ.get("RDM_QUOTE", True)
+
 BOT_START_TIME = time.time()
 
 gDict = defaultdict(lambda: [])
