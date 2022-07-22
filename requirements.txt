@@ -1,9 +1,10 @@
 aiohttp
 aria2p==0.9.1
 beautifulsoup4
+bencode
 bs4
 cfscrape
-cloudscraper 
+cloudscraper
 feedparser
 hachoir
 heroku3
@@ -25,6 +26,7 @@ python-telegram-bot
 pybase64
 requests
 speedtest-cli
+telegraph
 tgcrypto
 urllib3
 yt-dlp
