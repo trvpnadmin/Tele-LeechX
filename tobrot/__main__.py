@@ -201,7 +201,7 @@ async def restart(client, message:Message):
         try:
             await clean_all()
         except Exception as err:
-            LOGGER.info(f"Restart Clean Error : {err}"}
+            LOGGER.info(f"Restart Clean Error : {err}")
             pass
         srun(["python3", "update.py"])
         with open(".restartmsg", "w") as f:
