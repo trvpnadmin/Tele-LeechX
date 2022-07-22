@@ -24,6 +24,7 @@ from tobrot import (
     RCLONE_CONFIG,
     TG_MAX_FILE_SIZE,
     UPLOAD_AS_DOC,
+    VIEW_LINK
 )
 from tobrot.plugins import is_appdrive_link, is_gdtot_link
 from tobrot.helper_funcs.direct_link_generator import gdtot, appdrive_dl, url_link_generate
@@ -180,14 +181,19 @@ class CloneHelper:
                     else:
                         indexurl = f"{indexes}/{self.name}/"
                     tam_link = requests.utils.requote_uri(indexurl)
-                    LOGGER.info(tam_link)
-                    button.append(
-                        [
-                            pyrogram.InlineKeyboardButton(
+                    LOGGER.info(f"Index Link: {tam_link}, ID No. : {_idno}")
+                    if VIEW_LINK and (not indexurl.endswith('/')):
+                        view_link_ = f"{tam_link}?a=view"
+                        button.append([pyrogram.InlineKeyboardButton(
                                 text=f"⚡️ Index Link #{_idno}⚡️", url=f"{tam_link}"
-                            )
-                        ]
-                    )
+                                text=f"🌐 View Link #{_idno}", url=f"{view_link_}"
+                            )]
+                        )
+                    else:
+                        button.append([pyrogram.InlineKeyboardButton(
+                                text=f"⚡️ Index Link #{_idno}⚡️", url=f"{tam_link}"
+                            )]
+                        )
                     _idno = _idno + 1
             button_markup = pyrogram.InlineKeyboardMarkup(button)
             msg = await self.lsg.edit_text(
@@ -251,8 +257,7 @@ class CloneHelper:
         except IndexError:
             await asyncio.sleep(3)
             await self.lsg.delete()
-            await gcl(self)
+            await gcl()
         except Exception as err:
             LOGGER.info(err)
             await self.lsg.edit_text(f"‼️ **ERROR** ‼️\n\n`{err}`")
-            
