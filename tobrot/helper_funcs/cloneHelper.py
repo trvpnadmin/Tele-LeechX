@@ -185,7 +185,7 @@ class CloneHelper:
                     if VIEW_LINK and (not indexurl.endswith('/')):
                         view_link_ = f"{tam_link}?a=view"
                         button.append([pyrogram.InlineKeyboardButton(
-                                text=f"⚡️ Index Link #{_idno}⚡️", url=f"{tam_link}"
+                                text=f"⚡️ Index Link #{_idno}⚡️", url=f"{tam_link}",
                                 text=f"🌐 View Link #{_idno}", url=f"{view_link_}"
                             )]
                         )
