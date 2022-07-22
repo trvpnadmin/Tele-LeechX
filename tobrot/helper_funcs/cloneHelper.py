@@ -184,13 +184,14 @@ class CloneHelper:
                     LOGGER.info(f"Index Link: {tam_link}, ID No. : {_idno}")
                     if VIEW_LINK and (not indexurl.endswith('/')):
                         view_link_ = f"{tam_link}?a=view"
-                        button.append([pyrogram.InlineKeyboardButton(
-                                text=f"⚡️ Index Link #{_idno}⚡️", url=f"{tam_link}",
-                                text=f"🌐 View Link #{_idno}", url=f"{view_link_}"
-                            )]
+                        button.append([
+                            pyrogram.InlineKeyboardButton(text=f"⚡️ Index Link #{_idno}⚡️", url=f"{tam_link}"),
+                            pyrogram.InlineKeyboardButton(text=f"🌐 View Link #{_idno}", url=f"{view_link_}")
+                            ]
                         )
                     else:
-                        button.append([pyrogram.InlineKeyboardButton(
+                        button.append([
+                            pyrogram.InlineKeyboardButton(
                                 text=f"⚡️ Index Link #{_idno}⚡️", url=f"{tam_link}"
                             )]
                         )
