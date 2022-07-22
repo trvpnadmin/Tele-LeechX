@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # (c) @MysterySD (https://github.com/code-rgb/USERGE-X/issues/9)
 # Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
-# Taken From Slam-mirrorbot, I thereby Take No Extra Credit on Code !!
+# Taken From Slam-mirrorbot !! Added Direct Link Code by 5MysterySD
 #
 # Copyright 2022 - TeamTele-LeechX
 # 
@@ -13,6 +13,7 @@ import asyncio
 import os
 import datetime
 
+from urllib.parse import unquote
 from html_telegraph_poster import TelegraphPoster
 from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -46,12 +47,15 @@ def safe_filename(path_):
 
 
 async def mediainfo(client, message):
-    reply = message.reply_to_message
-    if not reply:
-        await message.reply_text("`Reply to Telegram Media to Generate MediaInfo !!`", parse_mode=enums.ParseMode.MARKDOWN)
-        return
-    process = await message.reply_text("`Gᴇɴᴇʀᴀᴛɪɴɢ ...`")
+    # Generate MediaInfo of Direct Links or Media Type 
+    # ToDo : Add File to Direct Link, Getting MediaInfo without download File
+
+    reply_to = message.reply_to_message
+    link_send = message.text.split(" ")
     x_media = None
+    TG_MEDIA = False
+    DIRECT_LINK = False
+    link = ""
     available_media = (
         "audio",
         "document",
@@ -63,27 +67,55 @@ async def mediainfo(client, message):
         "video_note",
         "new_chat_photo",
     )
-    for kind in available_media:
-        x_media = getattr(reply, kind, None)
-        if x_media is not None:
-            break
-    if x_media is None:
-       await process.edit_text("<b>⚠️Opps⚠️ \n\n<i>⊠ Reply To a Valid Media Format to process.</i></b>")
-       return
-    media_type = str(type(x_media)).split("'")[1]
-    file_path = safe_filename(await reply.download())
-    output_ = await runcmd(f'mediainfo "{file_path}"')
+
+    if len(link_send) > 1:
+        link = link_send[1]
+        DIRECT_LINK = True
+    elif reply_to is not None:
+        if reply_to.media:
+            for kind in available_media:
+                x_media = getattr(reply_to, kind, None)
+                if x_media is not None:
+                    TG_MEDIA = True
+                    break
+            if x_media is None:
+                await process.edit_text("<b>⚠️Opps⚠️ \n\n<i>⊠ Reply To a Valid Media Format to process.</i></b>")
+                return
+        else:
+            link = reply_to.text
+            DIRECT_LINK = True
+    else:
+        await message.reply_text("`Reply to Telegram Media or Direct Link to Generate MediaInfo !!`", parse_mode=enums.ParseMode.MARKDOWN)
+        return
+    if link.endswith("/"):
+        await message.reply_text("`Send Direct Download Links only to Generate MediaInfo !!`", parse_mode=enums.ParseMode.MARKDOWN)
+
+    process = await message.reply_text("`Gᴇɴᴇʀᴀᴛɪɴɢ ...`")
+
+    if TG_MEDIA:
+        media_type = str(type(x_media)).split("'")[1]
+        file_path = safe_filename(await reply.download())
+        output_ = await runcmd(f'mediainfo "{file_path}"')
+    elif DIRECT_LINK:
+        output_ = await runcmd(f'mediainfo "{link}" --Ssl_IgnoreSecurity')
     out = None
     if len(output_) != 0:
-         out = output_[0]
+        out = output_[0]
+    if DIRECT_LINK:
+        out = out.replace("\n", "<br>")
     body_text = f"""
 <h2>DETAILS</h2>
 <pre>{out or 'Not Supported'}</pre>
 """
-    title = "FuZionX Mediainfo"
-    text_ = media_type.split(".")[-1]
-    link = post_to_telegraph(title, body_text)
-    textup = f"""
+    if DIRECT_LINK:
+        title = unquote(link.split('/')[-1])
+    else:
+        title = "FX Mediainfo"
+    tgh_link = post_to_telegraph(title, body_text)
+
+    if TG_MEDIA:
+        text_ = media_type.split(".")[-1]
+        textup = f"""
 ℹ️ <code>MEDIA INFO</code> ℹ
 ┃
 ┃• <b>File Name :</b> <code>{x_media['file_name']}</code>
@@ -95,7 +127,15 @@ async def mediainfo(client, message):
 ┃
 ┗━♦️ℙ𝕠𝕨𝕖𝕣𝕖𝕕 𝔹𝕪 {UPDATES_CHANNEL}♦️━╹
 """
-    markup = InlineKeyboardMarkup([[InlineKeyboardButton(text="Mᴇᴅɪᴀ Iɴғᴏ", url=link)]])
-    await process.edit_text(text=textup, reply_markup=markup)
-
-
+    elif DIRECT_LINK:
+        textup = f"""
+ℹ️ <code>DIRECT LINK INFO</code> ℹ
+┃
+┃• <b>File Name :</b> <code>{title}</code>
+┃• <b>Direct Link :</b> <code>{link}</code>
+┃
+┗━♦️ℙ𝕠𝕨𝕖𝕣𝕖𝕕 𝔹𝕪 {UPDATES_CHANNEL}♦️━╹
+"""
+    markup = InlineKeyboardMarkup([[InlineKeyboardButton(text="Mᴇᴅɪᴀ Iɴғᴏ", url=tgh_link)]])
+    await process.delete()
+    await message.reply_text(text=textup, reply_markup=markup)
