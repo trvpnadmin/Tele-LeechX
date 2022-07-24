@@ -381,7 +381,7 @@ if __name__ == "__main__":
     app.add_handler(clear_thumb_nail_handler)
     ##############################################################################
     rclone_config_handler = MessageHandler(
-        rclone_command_f, filters=filters.command([f"{RCLONE_COMMAND}"])
+        rclone_command_f, filters=filters.command([f"{RCLONE_COMMAND}", f"{RCLONE_COMMAND}@{bot.username}"])
     )
     app.add_handler(rclone_config_handler)
     ##############################################################################

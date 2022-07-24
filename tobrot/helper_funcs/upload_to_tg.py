@@ -37,7 +37,6 @@ from tobrot import (
     EDIT_SLEEP_TIME_OUT,
     INDEX_LINK,
     LOGGER,
-    RCLONE_CONFIG,
     TG_MAX_FILE_SIZE,
     UPLOAD_AS_DOC,
     CAP_STYLE,
@@ -210,9 +209,6 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
     del_it = await message.edit_text(
         f"<a href='tg://user?id={g_id}'>🔊</a> Now Uploading to ☁️ Cloud!!!"
     )
-    if not os.path.exists("rclone.conf"):
-        with open("rclone.conf", "w+", newline="\n", encoding="utf-8") as fole:
-            fole.write(f"{RCLONE_CONFIG}")
     if os.path.exists("rclone.conf"):
         with open("rclone.conf", "r+") as file:
             con = file.read()
