@@ -161,6 +161,7 @@ SAVE_THUMBNAIL = os.environ.get("SAVE_THUMBNAIL", "savethumb")
 CLEAR_THUMBNAIL = os.environ.get("CLEAR_THUMBNAIL", "clearthumb")
 UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
 LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
+STATS_COMMAND = os.environ.get("STATS_COMMAND", "stats")
 
 #Bot Command [Custom Bot Cmd Name]  >>>>>>>>>>>
 SET_BOT_COMMANDS = os.environ.get("SET_BOT_COMMANDS", True)

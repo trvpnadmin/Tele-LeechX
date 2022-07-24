@@ -18,5 +18,8 @@ class _BotCommands:
         self.LogCommand = f'{LOG_COMMAND}{BOT_NO}'
         self.MediaInfoCommand = f'{MEDIAINFO_CMD}{BOT_NO}'
         self.TsHelpCommand = f'{TSEARCH_COMMAND}{BOT_NO}'
+        self.GCloneCommand = f'{CLONE_COMMAND_G}{BOT_NO}'
+        self.StatsCommand = f'{STATS_COMMAND}{BOT_NO}'
+        self.CancelCommand = f'{CANCEL_COMMAND_G}{BOT_NO}'
 
 BotCommands = _BotCommands()
