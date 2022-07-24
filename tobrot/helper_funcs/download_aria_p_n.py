@@ -20,7 +20,7 @@ import math
 import aria2p
 
 from re import search
-from subprocess import run
+from subprocess import run, check_output
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from tobrot import (

@@ -1,22 +1,4 @@
-from tobrot import (
-    LEECH_COMMAND,
-    LEECH_UNZIP_COMMAND,
-    LEECH_ZIP_COMMAND,
-    YTDL_COMMAND, 
-    STATUS_COMMAND,
-    SAVE_THUMBNAIL,
-    CLEAR_THUMBNAIL,
-    LOG_COMMAND,
-    RENAME_COMMAND,
-    TOGGLE_VID,
-    TOGGLE_DOC,
-    HELP_COMMAND,
-    SPEEDTEST,
-    TSEARCH_COMMAND,
-    PYTDL_COMMAND,
-    MEDIAINFO_CMD,
-    BOT_NO
-    )
+from tobrot import *
 
 class _BotCommands:
     def __init__(self):
