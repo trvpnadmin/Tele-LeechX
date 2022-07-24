@@ -52,7 +52,8 @@ from tobrot import (
     PRM_USERS,
     PRM_LOG,
     isUserPremium, 
-    app
+    app,
+    AUTH_CHANNEL
 )
 if isUserPremium:
     from tobrot import userBot
