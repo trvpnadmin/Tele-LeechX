@@ -373,13 +373,19 @@ async def upload_single_file(
         if key == from_user:
             dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
             LOGGER.info(f'Found Dyanamic Config for User : {from_user}')
+    
     global PRM_LOG
-    if (not PRM_LOG) and LEECH_LOG:
+    if isUserPremium and (not PRM_LOG) and LEECH_LOG:
         PRM_LOG = LEECH_LOG
         LOGGER.info("[IDLE] Switching PRM_LOG to LEECH_LOG")
-    elif (not PRM_LOG) and (not LEECH_LOG):
+    elif isUserPremium and (not PRM_LOG) and (not LEECH_LOG):
         LOGGER.warning("[ERROR] Provide PRM_LOG or LEECH_LOG Var to Upload 4GB Contents")
         prm_atv = False
+
+    global EXCEP_CHATS
+    if (not EXCEP_CHATS):
+        EXCEP_CHATS = AUTH_CHANNEL
+        LOGGER.info("[IDLE] Switching AUTH_CHANNEL to EXCEP_CHATS")
 
     if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc:
         thumb = None
