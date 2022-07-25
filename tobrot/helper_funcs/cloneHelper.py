@@ -254,7 +254,7 @@ class CloneHelper:
         except IndexError:
             await asyncio.sleep(3)
             await self.lsg.delete()
-            await gcl()
+            await CloneHelper.gcl()
         except Exception as err:
             LOGGER.info(err)
             await self.lsg.edit_text(f"‼️ **ERROR** ‼️\n\n`{err}`")
