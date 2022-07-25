@@ -13,7 +13,7 @@ import re
 from configparser import ConfigParser
 
 from pyrogram import enums
-from pyrogram.types import CallbackQuery, InlineKeyboardButton
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
 from tobrot import LOGGER, OWNER_ID
 
