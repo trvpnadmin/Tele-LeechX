@@ -364,8 +364,8 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             # await check_progress_for_dl(aria2, gid, event, previous_message)
             return
         except FloodWait as e:
-            LOGGER.info(e)
-            time.sleep(e.x)
+            LOGGER.info(f"FloodWait : Sleeping {e.value}s")
+            time.sleep(e.value)
         except Exception as e:
             LOGGER.info(str(e))
             if "not found" in str(e) or "'file'" in str(e):
