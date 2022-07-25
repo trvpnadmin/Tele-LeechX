@@ -238,6 +238,7 @@ if __name__ == "__main__":
                         text += f"\n\n📬 𝙌𝙪𝙤𝙩𝙚 :\n\n<b>{qText}</b>\n\n🏷 <i>By {qAuthor}</i>"        
                 except Exception as q:
                     LOGGER.info("Quote API Error : {q}")
+                    pass
             if AUTH_CHANNEL:
                 for i in AUTH_CHANNEL:
                     bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
