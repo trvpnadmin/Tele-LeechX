@@ -41,6 +41,7 @@ from tobrot import (
 )
 from tobrot import bot
 from tobrot.helper_funcs.display_progress import humanbytes
+from tobrot.helper_funcs.bot_commands import BotCommands
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.cloneHelper import CloneHelper
 from tobrot.helper_funcs.download import download_tg
@@ -179,7 +180,7 @@ async def incoming_message_f(client, message):
             LOGGER.info(dl_url)
             LOGGER.info(cf_name)
         else:
-            if user_command == LEECH_COMMAND.lower():
+            if user_command == BotCommands.LeechCommand.lower():
                 u_men = message.from_user.mention
                 await i_m_sefg.edit(f"<i> Hey {u_men}, \n\n ⚠️ Check and Send a Valid Download Source to Start Me Up !! ⚠️</i>")
                 return
@@ -216,15 +217,15 @@ async def incoming_message_f(client, message):
         is_zip = False
         is_cloud = False
         is_unzip = False
-        bot_unzip = f"{LEECH_UNZIP_COMMAND}@{bot.username}"
-        bot_zip = f"{LEECH_ZIP_COMMAND}@{bot.username}"
+        bot_unzip = f"{BotCommands.ExtractCommand}@{bot.username}"
+        bot_zip = f"{BotCommands.ArchiveCommand}@{bot.username}"
         cloud = f"{GLEECH_COMMAND}@{bot.username}"
         cloud_zip = f"{GLEECH_ZIP_COMMAND}@{bot.username}"
         cloud_unzip = f"{GLEECH_UNZIP_COMMAND}@{bot.username}"
 
-        if user_command == LEECH_UNZIP_COMMAND.lower() or user_command == bot_unzip.lower():
+        if user_command == BotCommands.ExtractCommand.lower() or user_command == bot_unzip.lower():
             is_unzip = True
-        elif user_command == LEECH_ZIP_COMMAND.lower() or user_command == bot_zip.lower():
+        elif user_command == BotCommands.ArchiveCommand.lower() or user_command == bot_zip.lower():
             is_zip = True
 
         if user_command == GLEECH_COMMAND.lower() or user_command == cloud.lower():
@@ -377,7 +378,7 @@ async def g_clonee(client, message):
 /{CLONE_COMMAND_G}(BotName) to Link
 
 **SUPPORTED SITES :**
-__Google Drive, GDToT, AppDrive__"""
+__Google Drive, GDToT, AppDrive, Kolop, HubDrive, DriveLinks__"""
         )
 
 
