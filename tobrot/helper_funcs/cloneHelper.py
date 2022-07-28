@@ -43,7 +43,7 @@ class CloneHelper:
         if os.path.exists("rclone.conf"):
             with open("rclone.conf", "r+") as file:
                 con = file.read()
-                self.dname = re.findall("\[(.*)\]", con)[0]
+                self.dname = re.findall(r"\[(.*)\]", con)[0]
 
     async def get_id(self):
         mes = self.mess
@@ -165,7 +165,7 @@ class CloneHelper:
                 gautii = f"https://drive.google.com/file/d/{gautam}/view?usp=drivesdk"
 
             LOGGER.info(gautii)
-            gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
+            gau_link = re.search(r"(?P<url>https?://[^\s]+)", gautii).group("url")
             LOGGER.info(gau_link)
             button = []
             button.append(

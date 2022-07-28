@@ -489,7 +489,7 @@ if __name__ == "__main__":
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(ind_scrape_handler)
-    logging.info('''
+    logging.info(r'''
 ________    ______           ______                 ______ ____  __
 ___  __/_______  /____       ___  / ___________________  /___  |/ /
 __  /  _  _ \_  /_  _ \________  /  _  _ \  _ \  ___/_  __ \_    / 

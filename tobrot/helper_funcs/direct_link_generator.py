@@ -541,8 +541,8 @@ def gdtot(url: str) -> str:
     client = requests.Session()
     client.cookies.update({ 'crypt': CRYPT })
     res = client.get(url)
-    title = re.findall(">(.*?)<\/h5>", res.text)[0]
-    info = re.findall('<td\salign="right">(.*?)<\/td>', res.text)
+    title = re.findall(r">(.*?)<\/h5>", res.text)[0]
+    info = re.findall(r'<td\salign="right">(.*?)<\/td>', res.text)
     info = {
         'error': True,
         'message': 'Link Invalid.',
@@ -631,9 +631,9 @@ def appdrive_dl(url: str, is_direct) -> str:
     }
     client.post(f'https://{urlparse(url).netloc}/account', data=data)
     res = client.get(url)
-    key = re.findall('"key",\s+"(.*?)"', res.text)[0]
+    key = re.findall(r'"key",\s+"(.*?)"', res.text)[0]
     ddl_btn = etree.HTML(res.content).xpath("//button[@id='drc']")
-    info = re.findall('>(.*?)<\/li>', res.text)
+    info = re.findall(r'>(.*?)<\/li>', res.text)
     info_parsed = {}
     for item in info:
         kv = [s.strip() for s in item.split(':', maxsplit = 1)]
@@ -780,7 +780,7 @@ def RecaptchaV3(ANCHOR_URL):
     client.headers.update({
         'content-type': 'application/x-www-form-urlencoded'
     })
-    matches = re.findall('([api2|enterprise]+)\/anchor\?(.*)', ANCHOR_URL)[0]
+    matches = re.findall(r'([api2|enterprise]+)\/anchor\?(.*)', ANCHOR_URL)[0]
     url_base += matches[0]+'/'
     params = matches[1]
     res = client.get(url_base+'anchor', params=params)
@@ -867,8 +867,8 @@ def hubdrive(url: str) -> str:
     client.cookies.update({'crypt': HUB_CRYPT})
     res = client.get(url)
     info_parsed = {}
-    title = re.findall('>(.*?)<\/h4>', res.text)[0]
-    info_chunks = re.findall('>(.*?)<\/td>', res.text)
+    title = re.findall(r'>(.*?)<\/h4>', res.text)[0]
+    info_chunks = re.findall(r'>(.*?)<\/td>', res.text)
     info_parsed['title'] = title
     for i in range(0, len(info_chunks), 2):
         info_parsed[info_chunks[i]] = info_chunks[i+1]
@@ -897,7 +897,7 @@ def adfly(url: str) -> str:
     res = requests.get(url).text
     out = {'error': False, 'src_url': url}
     try:
-        ysmm = re.findall("ysmm\s+=\s+['|\"](.*?)['|\"]", res)[0]
+        ysmm = re.findall(r"ysmm\s+=\s+['|\"](.*?)['|\"]", res)[0]
     except:
         out['error'] = True
         return out
@@ -1097,7 +1097,7 @@ def shorte_st(url: str):
     client.headers.update({'referer': url})
     p = urlparse(url)
     res = client.get(url)
-    sess_id = re.findall('''sessionId(?:\s+)?:(?:\s+)?['|"](.*?)['|"]''', res.text)[0]
+    sess_id = re.findall(r'''sessionId(?:\s+)?:(?:\s+)?['|"](.*?)['|"]''', res.text)[0]
     final_url = f"{p.scheme}://{p.netloc}/shortest-url/end-adsession"
     params = {
         'adSessionId': sess_id,
@@ -1105,7 +1105,7 @@ def shorte_st(url: str):
     }
     time.sleep(5)
     res = client.get(final_url, params=params)
-    dest_url = re.findall('"(.*?)"', res.text)[1].replace('\/','/')
+    dest_url = re.findall('"(.*?)"', res.text)[1].replace(r'\/','/')
     return dest_url
 
 
@@ -1141,8 +1141,8 @@ def drivefire_dl(url: str):
     res = client.get(url)
 
     info_parsed = {}
-    title = re.findall('>(.*?)<\/h4>', res.text)[0]
-    info_chunks = re.findall('>(.*?)<\/td>', res.text)
+    title = re.findall(r'>(.*?)<\/h4>', res.text)[0]
+    info_chunks = re.findall(r'>(.*?)<\/td>', res.text)
     info_parsed['title'] = title
     for i in range(0, len(info_chunks), 2):
         info_parsed[info_chunks[i]] = info_chunks[i+1]
@@ -1179,8 +1179,8 @@ def katdrive_dl(url):
     res = client.get(url)
 
     info_parsed = {}
-    title = re.findall('>(.*?)<\/h4>', res.text)[0]
-    info_chunks = re.findall('>(.*?)<\/td>', res.text)
+    title = re.findall(r'>(.*?)<\/h4>', res.text)[0]
+    info_chunks = re.findall(r'>(.*?)<\/td>', res.text)
     info_parsed['title'] = title
     for i in range(0, len(info_chunks), 2):
         info_parsed[info_chunks[i]] = info_chunks[i+1]
@@ -1218,8 +1218,8 @@ def kolop_dl(url):
     
     res = client.get(url)
     info_parsed = {}
-    title = re.findall('>(.*?)<\/h4>', res.text)[0]
-    info_chunks = re.findall('>(.*?)<\/td>', res.text)
+    title = re.findall(r'>(.*?)<\/h4>', res.text)[0]
+    info_chunks = re.findall(r'>(.*?)<\/td>', res.text)
     info_parsed['title'] = title
     for i in range(0, len(info_chunks), 2):
         info_parsed[info_chunks[i]] = info_chunks[i+1]
@@ -1257,8 +1257,8 @@ def drivebuzz_dl(url):
     res = client.get(url)
 
     info_parsed = {}
-    title = re.findall('>(.*?)<\/h4>', res.text)[0]
-    info_chunks = re.findall('>(.*?)<\/td>', res.text)
+    title = re.findall(r'>(.*?)<\/h4>', res.text)[0]
+    info_chunks = re.findall(r'>(.*?)<\/td>', res.text)
     info_parsed['title'] = title
     for i in range(0, len(info_chunks), 2):
         info_parsed[info_chunks[i]] = info_chunks[i+1]
@@ -1297,8 +1297,8 @@ def gadrive_dl(url):
     res = client.get(url)
 
     info_parsed = {}
-    title = re.findall('>(.*?)<\/h4>', res.text)[0]
-    info_chunks = re.findall('>(.*?)<\/td>', res.text)
+    title = re.findall(r'>(.*?)<\/h4>', res.text)[0]
+    info_chunks = re.findall(r'>(.*?)<\/td>', res.text)
     info_parsed['title'] = title
     for i in range(0, len(info_chunks), 2):
         info_parsed[info_chunks[i]] = info_chunks[i+1]

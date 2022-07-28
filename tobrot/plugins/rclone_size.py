@@ -23,7 +23,7 @@ async def check_size_g(client, message):
     if os.path.exists("rclone.conf"):
         with open("rclone.conf", "r+") as file:
             con = file.read()
-            gUP = re.findall("\[(.*)\]", con)[0]
+            gUP = re.findall(r"\[(.*)\]", con)[0]
             LOGGER.info(gUP)
     destination = f"{DESTINATION_FOLDER}"
     cmd = ["rclone", "size", "--config=./rclone.conf", f"{gUP}:{destination}"]
