@@ -2,7 +2,7 @@ import asyncio
 
 from tobrot import FSUB_CHANNEL, LOGGER, bot
 from pyrogram import enums
-from pyrogram.errors import FloodWait, UserNotParticipant
+from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 

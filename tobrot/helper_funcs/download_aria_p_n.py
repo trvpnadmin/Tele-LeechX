@@ -8,26 +8,15 @@
 # All Right Reserved
 
 import asyncio
-import logging
 import os
 import sys
 import time
-import requests
-import re
-import subprocess
-import hashlib
-import math
 import aria2p
-
-from re import search
-from subprocess import run, check_output
+from subprocess import check_output
 from pyrogram.errors import FloodWait, MessageNotModified
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from tobrot import (
     ARIA_TWO_STARTED_PORT,
-    AUTH_CHANNEL,
     CUSTOM_FILE_NAME,
-    DOWNLOAD_LOCATION,
     EDIT_SLEEP_TIME_OUT,
     LOGGER,
     UPDATES_CHANNEL, 
@@ -39,7 +28,6 @@ from tobrot.helper_funcs.create_compressed_archive import (
     get_base_name,
     unzip_me,
 )
-from tobrot.helper_funcs.extract_link_from_message import extract_link
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 from tobrot.helper_funcs.download import download_tg
 

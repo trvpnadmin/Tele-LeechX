@@ -7,9 +7,6 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
 
-import logging
-import os
-import re
 from configparser import ConfigParser
 
 from pyrogram import enums

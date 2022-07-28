@@ -9,7 +9,6 @@
 
 
 import json
-import math
 import re
 import urllib.parse
 import lk21
@@ -24,7 +23,6 @@ from random import choice
 from urllib.parse import urlparse, unquote, parse_qs
 from lxml import etree
 from js2py import EvalJs
-from lk21.extractors.bypasser import Bypass
 from bs4 import BeautifulSoup
 from base64 import standard_b64encode
 

@@ -7,9 +7,6 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
 
-import asyncio
-import logging
-import os
 
 import aiohttp
 from tobrot import REAL_DEBRID_KEY, LOGGER

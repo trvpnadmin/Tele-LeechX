@@ -7,7 +7,6 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
 
-import re
 import datetime 
 
 from tobrot import LOGGER

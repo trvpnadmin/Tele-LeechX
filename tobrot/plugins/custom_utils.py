@@ -7,9 +7,7 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
 
-import string
 from pyrogram import enums
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 PRE_DICT = {}
 CAP_DICT = {}

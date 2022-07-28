@@ -10,7 +10,6 @@
 
 import asyncio
 import io
-import logging
 import os
 import shutil
 import sys
@@ -38,8 +37,8 @@ from tobrot import (
     LOG_FILE_NAME
     )
 # the logging things
-from tobrot.helper_funcs.display_progress import TimeFormatter, humanbytes
-from tobrot.helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
+from tobrot.helper_funcs.display_progress import humanbytes
+from tobrot.helper_funcs.download_aria_p_n import aria_start
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 from tobrot.UserDynaConfig import UserDynaConfig
 

@@ -7,8 +7,6 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
 
-import logging
-import pyrogram
 import os
 
 from tobrot import *

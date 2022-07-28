@@ -8,12 +8,9 @@
 # All Right Reserved
 
 
-import io
 import logging
 import os
-import sys
 import shutil
-import traceback
 import datetime
 import requests
 import heroku3
@@ -21,65 +18,44 @@ import heroku3
 from telegram import ParseMode
 from pyrogram import enums
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram import Client, filters, idle
-from pyrogram.raw import functions, types
+from pyrogram import filters, idle
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from sys import executable
-from subprocess import run as srun, check_output
+from subprocess import run as srun
 
-from tobrot import HEROKU_API_KEY, HEROKU_APP_NAME, app, bot, dispatcher, __version__
+from tobrot import HEROKU_API_KEY, HEROKU_APP_NAME, app, bot, __version__
 from tobrot import (
     OWNER_ID,
     AUTH_CHANNEL,
-    CANCEL_COMMAND_G,
-    CLEAR_THUMBNAIL,
-    CLONE_COMMAND_G,
     DOWNLOAD_LOCATION,
     GET_SIZE_G,
     GLEECH_COMMAND,
     GLEECH_UNZIP_COMMAND,
     GLEECH_ZIP_COMMAND,
-    LEECH_COMMAND,
-    LEECH_UNZIP_COMMAND,
-    LEECH_ZIP_COMMAND,
-    LOG_COMMAND,
     LOGGER,
-    PYTDL_COMMAND,
     RENEWME_COMMAND,
-    RENAME_COMMAND,
-    SAVE_THUMBNAIL,
-    STATUS_COMMAND,
     TELEGRAM_LEECH_UNZIP_COMMAND,
     TELEGRAM_LEECH_COMMAND,
     UPLOAD_COMMAND,
-    YTDL_COMMAND,
     GYTDL_COMMAND,
     GPYTDL_COMMAND,
-    TOGGLE_VID,
     RCLONE_COMMAND,
-    TOGGLE_DOC,
-    HELP_COMMAND,
-    SPEEDTEST,
-    TSEARCH_COMMAND,
-    MEDIAINFO_CMD,
     UPDATES_CHANNEL,
     SERVER_HOST,
     STRING_SESSION,
     SET_BOT_COMMANDS,
     RDM_QUOTE,
-    STATS_COMMAND,
     INDEX_SCRAPE
 )
 if STRING_SESSION:
     from tobrot import userBot
 from tobrot.helper_funcs.download import down_load_media_f
-from tobrot.helper_funcs.direct_link_generator import url_link_generate
 from tobrot.helper_funcs.download_aria_p_n import aria_start
 from tobrot.plugins import *
 from tobrot.plugins.index_scrape import index_scrape
 from tobrot.plugins.call_back_button_handler import button
-from tobrot.plugins.imdb import imdb_search, imdb_callback
-from tobrot.plugins.torrent_search import searchhelp, sendMessage
+from tobrot.plugins.imdb import imdb_search
+from tobrot.plugins.torrent_search import searchhelp
 from tobrot.plugins.custom_utils import prefix_set, caption_set, template_set
 from tobrot.plugins.url_parser import url_parser
 from tobrot.helper_funcs.bot_commands import BotCommands

@@ -9,16 +9,9 @@
 
 import asyncio
 import json
-import logging
-import math
 import os
 import shutil
-import subprocess
-import time
-from datetime import datetime
-
-import pyrogram
-from tobrot import AUTH_CHANNEL, DOWNLOAD_LOCATION, LOGGER, GYTDL_COMMAND
+from tobrot import DOWNLOAD_LOCATION, LOGGER, GYTDL_COMMAND
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 
 

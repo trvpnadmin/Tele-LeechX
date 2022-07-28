@@ -9,8 +9,6 @@
 
 import asyncio
 import json
-import logging
-import os
 
 import pyrogram.types as pyrogram
 from tobrot import DEF_THUMB_NAIL_VID_S, LOGGER

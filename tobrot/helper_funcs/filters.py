@@ -1,5 +1,4 @@
 from telegram.ext import MessageFilter
-from telegram import Message
 from tobrot import AUTH_CHANNEL, OWNER_ID
 
 

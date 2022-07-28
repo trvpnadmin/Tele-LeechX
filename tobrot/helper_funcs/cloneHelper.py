@@ -8,21 +8,16 @@
 # All Right Reserved
 
 import asyncio
-import logging
 import os
 import re
-import subprocess
 
 import pyrogram.types as pyrogram
 import requests
 from tobrot import (
     DESTINATION_FOLDER,
-    DOWNLOAD_LOCATION,
     EDIT_SLEEP_TIME_OUT,
     INDEX_LINK,
     LOGGER,
-    TG_MAX_FILE_SIZE,
-    UPLOAD_AS_DOC,
     VIEW_LINK,
     USER_DTS
 )

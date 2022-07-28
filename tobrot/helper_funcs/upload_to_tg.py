@@ -9,11 +9,9 @@
 
 
 import asyncio
-import logging
 import os
 import re
 import shutil
-import subprocess
 import time
 from functools import partial
 from pathlib import Path
@@ -28,9 +26,7 @@ from hachoir.parser import createParser
 from hurry.filesize import size
 from PIL import Image
 from pyrogram.errors import FloodWait, MessageNotModified
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.types import InputMediaAudio, InputMediaDocument, InputMediaVideo
-from requests.utils import requote_uri
 from tobrot import (
     DESTINATION_FOLDER,
     DOWNLOAD_LOCATION,
@@ -41,7 +37,6 @@ from tobrot import (
     UPLOAD_AS_DOC,
     CAP_STYLE,
     CUSTOM_CAPTION,
-    gDict,
     user_specific_config,
     bot,
     LEECH_LOG,
@@ -52,7 +47,6 @@ from tobrot import (
     PRM_USERS,
     PRM_LOG,
     isUserPremium, 
-    app,
     AUTH_CHANNEL
 )
 if isUserPremium:

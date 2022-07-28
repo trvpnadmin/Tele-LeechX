@@ -1,12 +1,9 @@
 import asyncio
-import os
 import shlex 
 import shutil
-import aria2p
 import re
 
-from tobrot import LOGGER, DOWNLOAD_LOCATION, ARIA_TWO_STARTED_PORT
-from pyrogram import Client
+from tobrot import DOWNLOAD_LOCATION
 from typing import Tuple
 
 async def runcmd(cmd: str) -> Tuple[str, str, int, int]:

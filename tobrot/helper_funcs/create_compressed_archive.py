@@ -8,10 +8,8 @@
 # All Right Reserved
 
 import asyncio
-import logging
 import os
 import shutil
-import subprocess
 
 from tobrot import LOGGER
 

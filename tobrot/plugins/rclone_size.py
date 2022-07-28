@@ -8,13 +8,11 @@
 # All Right Reserved
 
 import asyncio
-import logging
 import os
 import re
-import subprocess
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from tobrot import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, LOGGER, UPDATES_CHANNEL 
+from tobrot import DESTINATION_FOLDER, LOGGER, UPDATES_CHANNEL 
 
 
 async def check_size_g(client, message):

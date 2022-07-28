@@ -12,7 +12,7 @@ from imdb import IMDb
 
 from tobrot import app, MAX_LIST_ELM, DEF_IMDB_TEMPLATE,  LOGGER
 from tobrot.plugins.custom_utils import *
-from pyrogram import Client, filters, enums
+from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery 
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 

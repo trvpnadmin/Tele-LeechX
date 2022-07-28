@@ -8,12 +8,10 @@
 # All Right Reserved
 
 import asyncio
-import logging
 import os
 import time
 
 from shutil import copyfile
-from tobrot import LOGGER
 
 async def copy_file(input_file, output_dir): #Ref :https://stackoverflow.com/a/123212/4723940
     output_file = os.path.join(output_dir, str(time.time()) + ".jpg")
