@@ -15,16 +15,17 @@ import datetime
 
 from urllib.parse import unquote
 from html_telegraph_poster import TelegraphPoster
+from telegraph import Telegraph
 from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from tobrot import app, bot, UPDATES_CHANNEL, TGH_AUTHOR, TGH_AUTHOR_URL
+from tobrot import app, bot, UPDATES_CHANNEL, TGH_AUTHOR, TGH_AUTHOR_URL, LOGGER
 from tobrot.plugins import runcmd 
 from tobrot.helper_funcs.display_progress import humanbytes
 from tobrot.helper_funcs.bot_commands import BotCommands
 
 
-def post_to_telegraph(a_title: str, content: str) -> str:
+def post_to_telegraph_html(a_title: str, content: str) -> str:
     """ Create a Telegram Post using HTML Content """
     post_client = TelegraphPoster(use_api=True)
     post_client.create_api_token(TGH_AUTHOR)
@@ -35,6 +36,18 @@ def post_to_telegraph(a_title: str, content: str) -> str:
         text=content,
     )
     return post_page["url"]
+
+def post_to_telegraph(title_input: str, body_text: str) -> str:
+    """ Create a Telegram Post using Telegraph HTML Content """
+    telegraph = Telegraph()
+    telegraph.create_account(short_name=TGH_AUTHOR)
+    response = telegraph.create_page(
+        title=title_input,
+        html_content=body_text,
+        author_name=TGH_AUTHOR,
+        author_url=TGH_AUTHOR_URL
+    )
+    return response['url']
 
 def safe_filename(path_):
     if path_ is None:
@@ -97,24 +110,21 @@ async def mediainfo(client, message):
         output_ = await runcmd(f'mediainfo "{file_path}"')
     elif DIRECT_LINK:
         output_ = await runcmd(f'mediainfo "{link}" --Ssl_IgnoreSecurity')
-    out = None
-    if len(output_) != 0:
-        out = output_[0]
+    out = output_[0] if len(output_) != 0 else None
     if DIRECT_LINK:
         out = out.replace("\n", "<br>")
     body_text = f"""
 <h2>DETAILS</h2>
 <pre>{out or 'Not Supported'}</pre>
 """
-    if DIRECT_LINK:
-        title = unquote(link.split('/')[-1])
-    else:
-        title = "FX Mediainfo"
-    tgh_link = post_to_telegraph(title, body_text)
+    LOGGER.info(out)
+    title = unquote(link.split('/')[-1]) if DIRECT_LINK else "FX Mediainfo"
+    tgh_link = post_to_telegraph_html(title, body_text)
 
     if TG_MEDIA:
-        text_ = media_type.split(".")[-1]
-        textup = f"""
+        text_ = str(media_type.split(".")[-1])
+        LOGGER.info(text_)
+        textup = f'''
 ℹ️ <code>MEDIA INFO</code> ℹ
 ┃
 ┃• <b>File Name :</b> <code>{x_media['file_name']}</code>
@@ -125,7 +135,7 @@ async def mediainfo(client, message):
 ┃• <b>Media Type :</b> <code>{text_}</code>
 ┃
 ┗━♦️ℙ𝕠𝕨𝕖𝕣𝕖𝕕 𝔹𝕪 {UPDATES_CHANNEL}♦️━╹
-"""
+'''
     elif DIRECT_LINK:
         textup = f"""
 ℹ️ <code>DIRECT LINK INFO</code> ℹ

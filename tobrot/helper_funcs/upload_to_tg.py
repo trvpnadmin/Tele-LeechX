@@ -66,10 +66,8 @@ from tobrot.plugins.custom_utils import *
 def getFolderSize(p):
     prepend = partial(os.path.join, p)
     return sum(
-        [
-            (os.path.getsize(f) if os.path.isfile(f) else getFolderSize(f))
-            for f in map(prepend, os.listdir(p))
-        ]
+        os.path.getsize(f) if os.path.isfile(f) else getFolderSize(f)
+        for f in map(prepend, os.listdir(p))
     )
 
 async def upload_to_tg(
@@ -87,7 +85,7 @@ async def upload_to_tg(
     caption_str = ""
     DEF_CAPTION_MSG = f"<{CAP_STYLE}>{base_file_name}</{CAP_STYLE}>"
 
-    caption = CAP_DICT.get(from_user, "") 
+    caption = CAP_DICT.get(from_user, "")
     CUSTOM_CAPTION = caption 
 
     if CUSTOM_CAPTION != "":
@@ -106,12 +104,8 @@ async def upload_to_tg(
                     caption_str = caption_str.replace(args[0], args[1])
     else:
         caption_str = DEF_CAPTION_MSG
-    
-    IS_RETRT = False
-    if PRM_USERS:
-        if str(from_user) not in str(PRM_USERS):
-            IS_RETRT = True
 
+    IS_RETRT = bool(PRM_USERS and str(from_user) not in str(PRM_USERS))
     if os.path.isdir(local_file_name):
         directory_contents = os.listdir(local_file_name)
         directory_contents.sort()
@@ -136,7 +130,7 @@ async def upload_to_tg(
         sizze = os.path.getsize(local_file_name)
         if sizze > TG_MAX_FILE_SIZE and sizze < TG_PRM_FILE_SIZE and isUserPremium and (not IS_RETRT):
             LOGGER.info(f"User Type : Premium ({from_user})")
-            sent_message = await upload_single_file(
+            sent_message, idCheck = await upload_single_file(
                 message,
                 local_file_name,
                 caption_str,
@@ -146,12 +140,16 @@ async def upload_to_tg(
                 yt_thumb,
                 True
             )
-            if sent_message is not None:
+            if sent_message is None:
+                return
+            if idCheck:
+                dict_contatining_uploaded_files[
+                    os.path.basename(local_file_name)
+                ] = sent_message.message_id
+            else:
                 dict_contatining_uploaded_files[
                     os.path.basename(local_file_name)
                 ] = sent_message.id
-            else:
-                return
         elif os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
             LOGGER.info(f"User Type : Non Premium ({from_user})")
             i_m_s_g = await message.reply_text(
@@ -183,7 +181,7 @@ async def upload_to_tg(
         else:
             sizze = os.path.getsize(local_file_name)
             LOGGER.info("Files Less Than 2 GB")
-            sent_message = await upload_single_file(
+            sent_message, _ = await upload_single_file(
                 message,
                 local_file_name,
                 caption_str,
@@ -260,10 +258,14 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         # os.remove("filter.txt")
         gauti = f"https://drive.google.com/file/d/{gautam}/view?usp=drivesdk"
         gjay = size(os.path.getsize(file_upload))
-        button = []
-        button.append(
-            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gauti}")]
-        )
+        button = [
+            [
+                pyrogram.InlineKeyboardButton(
+                    text="☁️ CloudUrl ☁️", url=f"{gauti}"
+                )
+            ]
+        ]
+
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}"
             tam_link = requests.utils.requote_uri(indexurl)
@@ -282,7 +284,6 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             reply_markup=button_markup,
         )
         os.remove(file_upload)
-        await del_it.delete()
     else:
         tt = os.path.join(destination, os.path.basename(file_upload))
         LOGGER.info(tt)
@@ -328,10 +329,14 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gautii = f"https://drive.google.com/folderview?id={gautam}"
         gjay = size(getFolderSize(file_upload))
         LOGGER.info(gjay)
-        button = []
-        button.append(
-            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gautii}")]
-        )
+        button = [
+            [
+                pyrogram.InlineKeyboardButton(
+                    text="☁️ CloudUrl ☁️", url=f"{gautii}"
+                )
+            ]
+        ]
+
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}/"
             tam_link = requests.utils.requote_uri(indexurl)
@@ -350,7 +355,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             reply_markup=button_markup,
         )
         shutil.rmtree(file_upload)
-        await del_it.delete()
+
+    await del_it.delete()
 
 
 VIDEO_SUFFIXES = ("MKV", "MP4", "MOV", "WMV", "3GP", "MPG", "WEBM", "AVI", "FLV", "M4V", "GIF")
@@ -360,6 +366,7 @@ IMAGE_SUFFIXES = ("JPG", "JPX", "PNG", "WEBP", "CR2", "TIF", "BMP", "JXR", "PSD"
 async def upload_single_file(
     message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb, prm_atv: bool
 ):
+    idc = False
     base_file_name = os.path.basename(local_file_name)
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     local_file_name = str(Path(local_file_name).resolve())
@@ -457,6 +464,7 @@ async def upload_single_file(
                         parse_mode=ParseMode.HTML,
                         reply_to_message_id=message.id
                     )
+                    idc = True
             LOGGER.info("Bot 4GB Upload : Completed")
         else:
             sent_message = await bot.send_document(
@@ -646,6 +654,7 @@ async def upload_single_file(
                                     parse_mode=ParseMode.HTML,
                                     reply_to_message_id=message.id
                                 )
+                                idc = True
                         LOGGER.info("Bot 4GB Upload : Completed")
                     else:
                         sent_message = await message.sent_video(
@@ -866,4 +875,4 @@ async def upload_single_file(
                     LOGGER.warning(str(rr))
                     await asyncio.sleep(5)
         os.remove(local_file_name)
-    return sent_message
+    return sent_message, idc

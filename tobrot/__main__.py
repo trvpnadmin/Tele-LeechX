@@ -67,7 +67,8 @@ from tobrot import (
     STRING_SESSION,
     SET_BOT_COMMANDS,
     RDM_QUOTE,
-    STATS_COMMAND
+    STATS_COMMAND,
+    INDEX_SCRAPE
 )
 if STRING_SESSION:
     from tobrot import userBot
@@ -75,9 +76,10 @@ from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.helper_funcs.direct_link_generator import url_link_generate
 from tobrot.helper_funcs.download_aria_p_n import aria_start
 from tobrot.plugins import *
+from tobrot.plugins.index_scrape import index_scrape
 from tobrot.plugins.call_back_button_handler import button
-from tobrot.plugins.imdb import imdb_search, imdb_callback 
-from tobrot.plugins.torrent_search import searchhelp, sendMessage 
+from tobrot.plugins.imdb import imdb_search, imdb_callback
+from tobrot.plugins.torrent_search import searchhelp, sendMessage
 from tobrot.plugins.custom_utils import prefix_set, caption_set, template_set
 from tobrot.plugins.url_parser import url_parser
 from tobrot.helper_funcs.bot_commands import BotCommands
@@ -105,29 +107,56 @@ from tobrot.plugins.status_message_fn import (
 
 if SET_BOT_COMMANDS:
     botcmds = [
-        (f'{BotCommands.LeechCommand}','📨 [Reply] Leech any Torrent/ Magnet/ Direct Link '),
+        (
+            f'{BotCommands.LeechCommand}',
+            '📨 [Reply] Leech any Torrent/ Magnet/ Direct Link ',
+        ),
         (f'{BotCommands.ExtractCommand}', '🔐 Unarchive items . .'),
-        (f'{BotCommands.ArchiveCommand}','🗜 Archive as .tar.gz acrhive... '),
-        (f'{BotCommands.ToggleDocCommand}','📂 Toggle to Document Upload '),
-        (f'{BotCommands.ToggleVidCommand}','🎞 Toggle to Streamable Upload '),
-        (f'{BotCommands.SaveCommand}','🖼 Save Thumbnail For Uploads'),
-        (f'{BotCommands.ClearCommand}','🕹 Clear Thumbnail '),
-        (f'{BotCommands.RenameCommand}','📧 [Reply] Rename Telegram File '),
-        (f'{BotCommands.StatusCommand}','🖲 Show Bot stats and concurrent Downloads'),
-        (f'{BotCommands.SpeedCommand}','📡 Get Current Server Speed of Your Bot'),
-        (f'{BotCommands.YtdlCommand}','🧲 [Reply] YT-DL Links for Uploading...'),
-        (f'{BotCommands.PytdlCommand}','🧧 [Reply] YT-DL Playlists Links for Uploading...'),
-        (f'{BotCommands.GCloneCommand}','♻️ [G-Drive] Clone Different Supported Sites !!'),
-        (f'{BotCommands.StatsCommand}','📊 Show Bot Internal Statistics'),
-        (f'{BotCommands.MediaInfoCommand}','🆔️ [Reply] Get Telegram Files Media Info'),
-        (f'setpre','🔠 <Text> Save Custom Prefix for Uploads'),
-        (f'setcap','🔣 <Text> Save Custom Caption for Uploads'),
-        (f'parser','🧮 <URL> Get Bypassed Link After Parsing !!'),
-        (f'imdb','🎬 [Title] Get IMDb Details About It !!'),
-        (f'set_template','📋 [HTML] Set IMDb Custom Template for Usage!!'),
-        (f'{BotCommands.HelpCommand}','🆘 Get Help, How to Use and What to Do. . .'),
-        (f'{BotCommands.LogCommand}','🔀 Get the Bot Log [Owner Only]'),
-        (f'{BotCommands.TsHelpCommand}','🌐 Get help for Torrent Search Module'),
+        (f'{BotCommands.ArchiveCommand}', '🗜 Archive as .tar.gz acrhive... '),
+        (f'{BotCommands.ToggleDocCommand}', '📂 Toggle to Document Upload '),
+        (f'{BotCommands.ToggleVidCommand}', '🎞 Toggle to Streamable Upload '),
+        (f'{BotCommands.SaveCommand}', '🖼 Save Thumbnail For Uploads'),
+        (f'{BotCommands.ClearCommand}', '🕹 Clear Thumbnail '),
+        (f'{BotCommands.RenameCommand}', '📧 [Reply] Rename Telegram File '),
+        (
+            f'{BotCommands.StatusCommand}',
+            '🖲 Show Bot stats and concurrent Downloads',
+        ),
+        (
+            f'{BotCommands.SpeedCommand}',
+            '📡 Get Current Server Speed of Your Bot',
+        ),
+        (
+            f'{BotCommands.YtdlCommand}',
+            '🧲 [Reply] YT-DL Links for Uploading...',
+        ),
+        (
+            f'{BotCommands.PytdlCommand}',
+            '🧧 [Reply] YT-DL Playlists Links for Uploading...',
+        ),
+        (
+            f'{BotCommands.GCloneCommand}',
+            '♻️ [G-Drive] Clone Different Supported Sites !!',
+        ),
+        (f'{BotCommands.StatsCommand}', '📊 Show Bot Internal Statistics'),
+        (
+            f'{BotCommands.MediaInfoCommand}',
+            '🆔️ [Reply] Get Telegram Files Media Info',
+        ),
+        ('setpre', '🔠 <Text> Save Custom Prefix for Uploads'),
+        ('setcap', '🔣 <Text> Save Custom Caption for Uploads'),
+        ('parser', '🧮 <URL> Get Bypassed Link After Parsing !!'),
+        ('imdb', '🎬 [Title] Get IMDb Details About It !!'),
+        ('set_template', '📋 [HTML] Set IMDb Custom Template for Usage!!'),
+        (
+            f'{BotCommands.HelpCommand}',
+            '🆘 Get Help, How to Use and What to Do. . .',
+        ),
+        (f'{BotCommands.LogCommand}', '🔀 Get the Bot Log [Owner Only]'),
+        (
+            f'{BotCommands.TsHelpCommand}',
+            '🌐 Get help for Torrent Search Module',
+        ),
     ]
 
 async def start(client, message):
@@ -139,7 +168,7 @@ async def start(client, message):
             ]
             ]
     reply_markup=InlineKeyboardMarkup(buttons)
-    u_men = message.from_user.mention 
+    u_men = message.from_user.mention
     start_string = f'''
 ┏ <i>Dear {u_men}</i>,
 ┃
@@ -157,7 +186,10 @@ async def start(client, message):
            quote=True
         )
     else:
-        await message.reply_text(f"**I Am Alive and Working, Send /help to Know How to Use Me !** ✨", parse_mode=enums.ParseMode.MARKDOWN)
+        await message.reply_text(
+            "**I Am Alive and Working, Send /help to Know How to Use Me !** ✨",
+            parse_mode=enums.ParseMode.MARKDOWN,
+        )
 
 async def clean_all():
     aria2 = await aria_start()
@@ -203,7 +235,6 @@ async def restart(client, message:Message):
             await clean_all()
         except Exception as err:
             LOGGER.info(f"Restart Clean Error : {err}")
-            pass
         srun(["python3", "update.py"])
         with open(".restartmsg", "w") as f:
             f.truncate(0)
@@ -235,10 +266,9 @@ if __name__ == "__main__":
                         qText = qData['data'][0]['quoteText']
                         qAuthor = qData['data'][0]['quoteAuthor']
                         #qGenre = qData['data'][0]['quoteGenre']
-                        text += f"\n\n📬 𝙌𝙪𝙤𝙩𝙚 :\n\n<b>{qText}</b>\n\n🏷 <i>By {qAuthor}</i>"        
+                        text += f"\n\n📬 𝙌𝙪𝙤𝙩𝙚 :\n\n<b>{qText}</b>\n\n🏷 <i>By {qAuthor}</i>"
                 except Exception as q:
                     LOGGER.info("Quote API Error : {q}")
-                    pass
             if AUTH_CHANNEL:
                 for i in AUTH_CHANNEL:
                     bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
@@ -249,7 +279,7 @@ if __name__ == "__main__":
 
     # Start The Bot >>>>>>>
     app.start()
-    
+
     ##############################################################################
     incoming_message_handler = MessageHandler(
         incoming_message_f,
@@ -477,22 +507,12 @@ if __name__ == "__main__":
     )
     app.add_handler(template_handler)
     ##############################################################################
-
-        #$$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\   
-        #\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|  
-        #
-        #$$$$$$$$\        $$\                   $$\                                    $$\       $$\   $$\ 
-        #\__$$  __|       $$ |                  $$ |                                   $$ |      $$ |  $$ |
-        #   $$ | $$$$$$\  $$ | $$$$$$\          $$ |      $$$$$$\   $$$$$$\   $$$$$$$\ $$$$$$$\  \$$\ $$  |
-        #   $$ |$$  __$$\ $$ |$$  __$$\ $$$$$$\ $$ |     $$  __$$\ $$  __$$\ $$  _____|$$  __$$\  \$$$$  / 
-        #   $$ |$$$$$$$$ |$$ |$$$$$$$$ |\______|$$ |     $$$$$$$$ |$$$$$$$$ |$$ /      $$ |  $$ | $$  $$
-        #   $$ |$$   ____|$$ |$$   ____|        $$ |     $$   ____|$$   ____|$$ |      $$ |  $$ |$$  /\$$\ 
-        #   $$ |\$$$$$$$\ $$ |\$$$$$$$\         $$$$$$$$\\$$$$$$$\ \$$$$$$$\ \$$$$$$$\ $$ |  $$ |$$ /  $$ |
-        #   \__| \_______|\__| \_______|        \________|\_______| \_______| \_______|\__|  \__|\__|  \__|
-        #
-        #$$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\ $$$$$$\   
-        #\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|\______|
-
+    ind_scrape_handler = MessageHandler(
+        index_scrape,
+        filters=filters.command([f"{INDEX_SCRAPE}", f"{INDEX_SCRAPE}@{bot.username}"])
+        & filters.chat(chats=AUTH_CHANNEL),
+    )
+    app.add_handler(ind_scrape_handler)
     logging.info('''
 ________    ______           ______                 ______ ____  __
 ___  __/_______  /____       ___  / ___________________  /___  |/ /
@@ -505,7 +525,7 @@ _  /   /  __/  / /  __//_____/  /___/  __/  __/ /__ _  / / /    |
         logging.info(f"User : {(userBot.get_me()).first_name} Has Started Revolving...♾️⚡️")
 
     idle()
-    
+
     app.stop()
     if STRING_SESSION:
         userBot.stop()
