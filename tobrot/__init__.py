@@ -72,7 +72,7 @@ logging.getLogger("PIL").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 user_specific_config = {}
-__version__ = "2.6.0"
+__version__ = "2.6.36"
 
 # Compulsory Variables >>>>>>>>
 for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
