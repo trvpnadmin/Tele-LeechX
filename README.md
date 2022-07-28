@@ -13,7 +13,7 @@ A `Telegram Leech Bot` Upto 4GB Uploading With Premium Telegram Account and Mode
 
 ----
 
-[![](https://img.shields.io/github/workflow/status/5MysterySD/Tele-LeechX/CodeQL/h-code?logo=github&color=success&label=Github%20CodeQL&labelColor=292c3b)](#)
+[![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/5MysterySD/Tele-LeechX)
 [![](https://img.shields.io/github/repo-size/5MysterySD/Tele-LeechX?color=green&label=Repo%20Size&labelColor=292c3b)](#)
 [![](https://img.shields.io/github/commit-activity/m/5MysterySD/Tele-LeechX?logo=github&labelColor=292c3b&label=Github%20Commits)](#)
 [![](https://img.shields.io/github/license/5MysterySD/Tele-LeechX?style=flat&label=License&labelColor=292c3b)](#)[![](https://img.shields.io/github/issues-raw/5MysterySD/Tele-LeechX?style=flat&label=Open%20Issues&labelColor=292c3b)](#)
