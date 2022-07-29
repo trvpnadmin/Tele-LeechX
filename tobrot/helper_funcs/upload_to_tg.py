@@ -848,14 +848,14 @@ async def upload_single_file(
         except MessageNotModified as oY:
             LOGGER.info(oY)
         except FloodWait as g:
-            LOGGER.info(f"FloodWait : Sleeping {e.value}s")
+            LOGGER.info(f"FloodWait : Sleeping {g.value}s")
             time.sleep(g.value)
         except Exception as e:
             LOGGER.info(f"[ERROR] : {e}")
             try:
                 await message_for_progress_display.edit_text("**FAILED**\n" + str(e))
             except FloodWait as g:
-                LOGGER.info(f"FloodWait : Sleeping {e.value}s")
+                LOGGER.info(f"FloodWait : Sleeping {g.value}s")
                 time.sleep(g.value)
         else:
             if message.id != message_for_progress_display.id:
