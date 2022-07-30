@@ -25,7 +25,7 @@ async def handle_force_sub(client, cmd: Message):
         return 200
     try:
         user = bot.get_chat_member(chat_id=channel_chat_id, user_id=cmd.from_user.id)
-        if user.status == enums.ChatMemberStatus.BANNED or user.status == enums.ChatMemberStatus.RESTRICTED:
+        if user.status in (enums.ChatMemberStatus.BANNED, enums.ChatMemberStatus.RESTRICTED):
             bot.reply_text(
                 text="**Sorry, You are Banned to Use me.**",
                 disable_web_page_preview=True
