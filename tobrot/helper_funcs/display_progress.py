@@ -121,8 +121,22 @@ class Progress:
                 logger.info(ou)
 
 
-def humanbytes(size_wf) -> str:
-    size = int(size_wf)
+def humanbytes(size) -> str:
+    if not size:
+        return ""
+    power = 2 ** 10
+    ind = 0
+    SIZE_UNITS = {0: "", 1: "K", 2: "M", 3: "G", 4: "T", 5: "P", 6: "E", 7: "Z", 8: "Y"}
+    while size > power:
+        size /= power
+        ind += 1
+    try:
+        return f"{str(round(size, 2))} {SIZE_UNITS[ind]}B"
+    except IndexError:
+        return 'File too large'
+
+def humanbytes_int(size_str) -> str:
+    size = int(size_str)
     if not size:
         return ""
     power = 2 ** 10
