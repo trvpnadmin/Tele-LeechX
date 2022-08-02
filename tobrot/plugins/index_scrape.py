@@ -6,7 +6,7 @@ from urllib.parse import quote as q
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from tobrot import LOGGER, UPDATES_CHANNEL
-from tobrot.helper_funcs.display_progress import humanbytes
+from tobrot.helper_funcs.display_progress import humanbytes_int
 from tobrot.plugins.mediainfo import post_to_telegraph
 
 nexPage = False #ToDo
@@ -62,7 +62,7 @@ def scrapeURL(payload_input, url, username, password):
             scpText += f"📄 <strong>{no}. {files_name}</strong> : <br><br><pre>🔖 Index Link :<a href='{direct_download_link}'> Index Link </a> <br>"
             try:
                 files_size = deResp["data"]["files"][i]["size"]
-                scpText += f"<br>📂 Size : {humanbytes(files_size)} | 📋 Type : {files_type} "
+                scpText += f"<br>📂 Size : {humanbytes_int(files_size)} | 📋 Type : {files_type} "
             except:
                 pass
             try:
