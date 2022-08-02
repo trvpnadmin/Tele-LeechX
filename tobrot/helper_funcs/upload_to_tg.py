@@ -435,7 +435,7 @@ async def upload_single_file(
                 )
                 LOGGER.info("UserBot Upload : Completed")
             try:
-                sent_message = await bot.send_document(
+                sent_message = bot.send_document(
                     chat_id=message.chat.id,
                     document=sent_msg.document.file_id,
                     thumb=thumb,
@@ -621,7 +621,7 @@ async def upload_single_file(
                             )
                             LOGGER.info("UserBot Upload : Completed")
                         try:
-                            sent_message = await bot.send_video(
+                            sent_message = bot.send_video(
                                 chat_id=message.chat.id,
                                 video=sent_msg.video.file_id,
                                 thumb=thumb,
