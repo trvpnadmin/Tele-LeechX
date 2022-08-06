@@ -74,7 +74,7 @@ logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 logging.getLogger("PIL").setLevel(logging.WARNING)
 
-LOGGER = getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 user_specific_config = {}
 __version__ = "2.6.36"
