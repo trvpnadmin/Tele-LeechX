@@ -216,7 +216,7 @@ BOT_PM = bool(getVar("BOT_PM", False))
 SERVER_HOST = getVar("SERVER_HOST", "Heroku")
 
 # 4 GB Upload Utils >>>>>>>>>>>
-PRM_USERS = int(getVar("PRM_USERS", "")) #Optional 
+PRM_USERS = getVar("PRM_USERS", "") #Optional 
 PRM_LOG = getVar("PRM_LOG", "") #Optional 
 
 # Bot Theme [ UI & Customization ] >>>>>>>>
