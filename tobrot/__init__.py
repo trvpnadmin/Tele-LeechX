@@ -11,7 +11,6 @@ import logging
 
 from time import time
 from requests import get as rget
-from logging import basicConfig, INFO, ERROR, WARNING, StreamHandler, getLogger, info
 from os import environ, path as opath
 from subprocess import run
 from asyncio import Lock
@@ -34,7 +33,7 @@ def getVar(var: str, val):
     return environ.get(var, val)
 
 CONFIG_FILE_URL = getVar('CONFIG_FILE_URL', '')
-info(CONFIG_FILE_URL)
+
 try:
     if len(CONFIG_FILE_URL) == 0:
         raise TypeError
@@ -71,9 +70,9 @@ logging.basicConfig(
         logging.StreamHandler(),
     ],
 )
-getLogger("pyrogram").setLevel(ERROR)
-getLogger("urllib3").setLevel(WARNING)
-getLogger("PIL").setLevel(WARNING)
+logging.getLogger("pyrogram").setLevel(logging.ERROR)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+logging.getLogger("PIL").setLevel(logging.WARNING)
 
 LOGGER = getLogger(__name__)
 
