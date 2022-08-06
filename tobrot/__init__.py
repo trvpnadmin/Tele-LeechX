@@ -153,7 +153,7 @@ GPYTDL_COMMAND = getVar("GPYTDL_COMMAND", "gpytdl")
 #Bot Command [RClone]  >>>>>>>>>>>
 DESTINATION_FOLDER = getVar("DESTINATION_FOLDER", "Tele-LeechX")
 INDEX_LINK = getVar("INDEX_LINK", "")
-VIEW_LINK = bool(getVar("VIEW_LINK", True))
+VIEW_LINK = getVar("VIEW_LINK", True)
 GET_SIZE_G = getVar("GET_SIZE_G", "getsize")
 CLONE_COMMAND_G = getVar("CLONE_COMMAND_G", "gclone")
 TELEGRAM_LEECH_COMMAND = getVar("TELEGRAM_LEECH_COMMAND", "tleech")
@@ -164,12 +164,12 @@ CANCEL_COMMAND_G = getVar("CANCEL_COMMAND_G", "cancel")
 STATUS_COMMAND = getVar("STATUS_COMMAND", "status")
 SAVE_THUMBNAIL = getVar("SAVE_THUMBNAIL", "savethumb")
 CLEAR_THUMBNAIL = getVar("CLEAR_THUMBNAIL", "clearthumb")
-UPLOAD_AS_DOC = bool(getVar("UPLOAD_AS_DOC", False))
+UPLOAD_AS_DOC = getVar("UPLOAD_AS_DOC", False)
 LOG_COMMAND = getVar("LOG_COMMAND", "log")
 STATS_COMMAND = getVar("STATS_COMMAND", "stats")
 
 #Bot Command [Custom Bot Cmd Name]  >>>>>>>>>>>
-SET_BOT_COMMANDS = bool(getVar("SET_BOT_COMMANDS", True))
+SET_BOT_COMMANDS = getVar("SET_BOT_COMMANDS", True)
 UPLOAD_COMMAND = getVar("UPLOAD_COMMAND", "upload")
 RENEWME_COMMAND = getVar("RENEWME_COMMAND", "renewme")
 RENAME_COMMAND = getVar("RENAME_COMMAND", "rename")
@@ -182,7 +182,7 @@ TSEARCH_COMMAND = getVar("TSEARCH_COMMAND", "tshelp")
 MEDIAINFO_CMD = getVar("MEDIAINFO_CMD", "mediainfo")
 CAP_STYLE = getVar("CAP_STYLE", "code")
 BOT_NO = getVar("BOT_NO", "")
-USER_DTS = bool(getVar("USER_DTS", True))
+USER_DTS = getVar("USER_DTS", True)
 INDEX_SCRAPE = getVar("INDEX_SCRAPE", "indexscrape")
 
 #Bot Command [Token Utils]  >>>>>>>>>>>
@@ -212,7 +212,7 @@ TGH_AUTHOR_URL = getVar("TGH_AUTHOR_URL", "https://t.me/FXTorrentz")
 LEECH_LOG = getVar("LEECH_LOG", "")
 EX_LEECH_LOG = getVar("EX_LEECH_LOG", "")
 EXCEP_CHATS = getVar("EXCEP_CHATS", "")
-BOT_PM = bool(getVar("BOT_PM", False))
+BOT_PM = getVar("BOT_PM", False)
 SERVER_HOST = getVar("SERVER_HOST", "Heroku")
 
 # 4 GB Upload Utils >>>>>>>>>>>
@@ -226,7 +226,7 @@ BOT_THEME = getVar("BOT_THEME", "fx-optimised")
 FSUB_CHANNEL = getVar("FSUB_CHANNEL", "") #Do Not Put this Now
 
 # Quotes in Restart Message >>>>>>>>
-RDM_QUOTE = bool(getVar("RDM_QUOTE", True))
+RDM_QUOTE = getVar("RDM_QUOTE", True)
 
 BOT_START_TIME = time()
 
