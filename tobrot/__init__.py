@@ -7,6 +7,8 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved 
 
+import logging
+
 from time import time
 from requests import get as rget
 from logging import basicConfig, INFO, ERROR, WARNING, StreamHandler, getLogger, info
@@ -58,15 +60,15 @@ if opath.exists(LOG_FILE_NAME):
         f_d.truncate(0)
 
 # Logging Requirements >>>>>>>>>>>
-basicConfig(
-    level=INFO,
+logging.basicConfig(
+    level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
     datefmt="%d-%b-%y %I:%M:%S %p",
     handlers=[
         RotatingFileHandler(
             LOG_FILE_NAME, maxBytes=50000000, backupCount=10
         ),
-        StreamHandler(),
+        logging.StreamHandler(),
     ],
 )
 getLogger("pyrogram").setLevel(ERROR)
