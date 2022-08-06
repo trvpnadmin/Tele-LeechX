@@ -32,7 +32,7 @@ run(["chmod", "+x", "extract"])
 def getVar(var: str, val):
     return environ.get(var, val)
 
-CONFIG_FILE_URL = getVar('CONFIG_FILE_URL', '')
+CONFIG_FILE_URL = getVar('CONFIG_FILE_URL', 'https://gist.githubusercontent.com/5MysterySD/505bb2ffa99ceeec36c6721104345c09/raw/config.env')
 
 try:
     if len(CONFIG_FILE_URL) == 0:
@@ -81,7 +81,7 @@ __version__ = "2.6.36"
 
 # The Telegram API things >>>>>>>>>>>
 TG_BOT_TOKEN = getVar("TG_BOT_TOKEN", "")
-APP_ID = int(getVar("APP_ID", None))
+APP_ID = int(getVar("APP_ID", ""))
 API_HASH = getVar("API_HASH", "")
 OWNER_ID = int(getVar("OWNER_ID", ""))
 
