@@ -32,7 +32,7 @@ run(["chmod", "+x", "extract"])
 def getVar(var: str, val):
     return environ.get(var, val)
 
-CONFIG_FILE_URL = getVar('CONFIG_FILE_URL', 'https://gist.githubusercontent.com/5MysterySD/505bb2ffa99ceeec36c6721104345c09/raw/config.env')
+CONFIG_FILE_URL = getVar('CONFIG_FILE_URL', '')
 
 try:
     if len(CONFIG_FILE_URL) == 0:
