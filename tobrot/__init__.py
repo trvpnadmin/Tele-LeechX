@@ -80,7 +80,7 @@ user_specific_config = {}
 PRE_DICT = {}
 CAP_DICT = {}
 IMDB_TEMPLATE = {}
-__version__ = "2.6.36"
+__version__ = "2.7.0"
 
 # The Telegram API things >>>>>>>>>>>
 TG_BOT_TOKEN = getVar("TG_BOT_TOKEN", "")
