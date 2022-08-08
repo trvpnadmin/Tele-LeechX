@@ -77,6 +77,9 @@ logging.getLogger("PIL").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 user_specific_config = {}
+PRE_DICT = {}
+CAP_DICT = {}
+IMDB_TEMPLATE = {}
 __version__ = "2.6.36"
 
 # The Telegram API things >>>>>>>>>>>
@@ -93,7 +96,7 @@ HEROKU_APP_NAME = getVar('HEROKU_APP_NAME', None)
 AUTH_CHANNEL = [int(x) for x in getVar("AUTH_CHANNEL", "").split()]
 SUDO_USERS = [int(sudos) if (' ' not in getVar('SUDO_USERS', '')) else int(sudos) for sudos in getVar('SUDO_USERS', '').split()]
 AUTH_CHANNEL.extend((OWNER_ID, 1242011540))
-AUTH_CHANNEL += SUDO_USERS
+AUTH_CHANNEL += SUDO_USERS # Change Permissions Soon
 # Download Directory >>>>>>>>>>>
 DOWNLOAD_LOCATION = "./Downloads"
 
@@ -164,7 +167,7 @@ CANCEL_COMMAND_G = getVar("CANCEL_COMMAND_G", "cancel")
 STATUS_COMMAND = getVar("STATUS_COMMAND", "status")
 SAVE_THUMBNAIL = getVar("SAVE_THUMBNAIL", "savethumb")
 CLEAR_THUMBNAIL = getVar("CLEAR_THUMBNAIL", "clearthumb")
-UPLOAD_AS_DOC = getVar("UPLOAD_AS_DOC", "False")
+UPLOAD_AS_DOC = bool(getVar("UPLOAD_AS_DOC", False))
 LOG_COMMAND = getVar("LOG_COMMAND", "log")
 STATS_COMMAND = getVar("STATS_COMMAND", "stats")
 
@@ -227,6 +230,9 @@ FSUB_CHANNEL = getVar("FSUB_CHANNEL", "") #Do Not Put this Now
 
 # Quotes in Restart Message >>>>>>>>
 RDM_QUOTE = getVar("RDM_QUOTE", True)
+
+# Database Handler >>>>>>>>
+DB_URI = getVar("DATABASE_URL", "")
 
 BOT_START_TIME = time()
 
