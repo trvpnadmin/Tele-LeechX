@@ -14,7 +14,7 @@ import shutil
 import datetime
 import requests
 import heroku3
-
+import random
 from telegram import ParseMode
 from pyrogram import enums
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
@@ -209,10 +209,18 @@ if __name__ == "__main__":
     utc_now = datetime.datetime.utcnow()
     ist_now = utc_now + datetime.timedelta(minutes=30, hours=5)
     ist = ist_now.strftime("<b>📆 𝘿𝙖𝙩𝙚 :</b> <code>%d %B, %Y</code> \n<b>⏰ 𝙏𝙞𝙢𝙚 :</b> <code>%I:%M:%S %p (GMT+05:30)</code>") #Will Fix to Time Zone Format
+    ch = random.randint(0, 1330)
+    url = f'https://api-thirukkural.vercel.app/api?num={ch}'
+    a = requests.post(url)
+    l= a.json()['line1']
+    e= a.json()['line2']
+    a= a.json()['tam_exp']
+
+    r = f'<b>{l}\n{e}\n\nMeaning\n\n{a}</b>'
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("Restarted & Updated Successfully!", chat_id, msg_id) #Telegram Sucks ???
+        bot.edit_message_text(f"{r}", chat_id, msg_id) #Telegram Sucks ???
         os.remove(".restartmsg")
     elif OWNER_ID:
         try:
