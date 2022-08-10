@@ -216,16 +216,19 @@ if __name__ == "__main__":
         os.remove(".restartmsg")
     elif OWNER_ID:
         try:
-            text = f"<b>Bᴏᴛ Rᴇsᴛᴀʀᴛᴇᴅ !!</b>\n\n<b>📊 𝙃𝙤𝙨𝙩 :</b> <code>{SERVER_HOST}</code>\n{ist}\n\n<b>ℹ️ 𝙑𝙚𝙧𝙨𝙞𝙤𝙣 :</b> <code>{__version__}</code>"
+            text = f"<b>𝘽ᴏᴛ 𝙍ᴇ𝙨ᴛᴀʀᴛᴇᴅ !!</b>"
             if RDM_QUOTE:
                 try:
-                    qResponse = requests.get("https://quote-garden.herokuapp.com/api/v3/quotes/random")
-                    if qResponse.status_code == 200:
-                        qData = qResponse.json() 
-                        qText = qData['data'][0]['quoteText']
-                        qAuthor = qData['data'][0]['quoteAuthor']
-                        #qGenre = qData['data'][0]['quoteGenre']
-                        text += f"\n\n📬 𝙌𝙪𝙤𝙩𝙚 :\n\n<b>{qText}</b>\n\n🏷 <i>By {qAuthor}</i>"
+                    ch = random.randint(0, 1330)
+                    url = f'https://api-thirukkural.vercel.app/api?num={ch}'
+                    a = requests.post(url)
+                    l= a.json()['line1']
+                    e= a.json()['line2']
+                    a= a.json()['tam_exp']
+
+                    r = f'<b>{l}\n{e}\n\nMeaning\n\n{a}</b>'
+                    
+                    text += f"\n\n📬{r}\n\n#𝙇𝙤𝙫𝙚𝙏𝙤𝙍𝙞𝙙𝙚"
                 except Exception as q:
                     LOGGER.info("Quote API Error : {q}")
             if AUTH_CHANNEL:
